@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:test_application/login.dart';
 import 'package:test_application/register.dart';
 
 void main() {
@@ -12,7 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Tischtennis Minispiele',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
@@ -32,16 +33,12 @@ class Homescreen extends StatefulWidget {
 
 class _HomescreenState extends State<Homescreen> {
   void _navigateToRegister() {
-    setState(() {
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => const Register()));
-    });
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => Register()));
   }
 
   void _navigateToLogin() {
-    // You can implement navigation to the Login screen here
-    // For now, let's just print a message
-    print('Navigate to Login');
+    Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
   }
 
   @override
@@ -52,30 +49,32 @@ class _HomescreenState extends State<Homescreen> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: Center(
-        // Center is a layout widget. takes a single child
-        child: Column(
-          // Column is a layout widget. takes a list of children
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Image(image: AssetImage('assets/homescreen.jpg')),
-            // SizedBox(height: 20),
-            Row(
+      body: Stack(
+        children: <Widget>[
+          Image.asset('assets/homescreen.jpg',
+              fit: BoxFit.cover,
+              width: double.infinity,
+              height: double.infinity),
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 ElevatedButton(
-                  onPressed: _navigateToRegister,
+                  onPressed: _navigateToLogin,
                   child: const Text('Login'),
                 ),
                 const SizedBox(width: 20),
                 ElevatedButton(
                   onPressed: _navigateToRegister,
-                  child: const Text('Register'),
+                  child: const Text('Registrieren'),
                 ),
               ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:test_application/start.dart';
 
-class Register extends StatelessWidget {
+class Login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Register'),
+        title: const Text('Login'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -24,19 +25,11 @@ class Register extends StatelessWidget {
                 labelText: 'Passwort',
               ),
             ),
-            const SizedBox(height: 16),
-            TextFormField(
-              obscureText: true,
-              decoration: const InputDecoration(
-                labelText: 'Passwort wiederholen',
-              ),
-            ),
             const SizedBox(height: 32),
             ElevatedButton(
-              onPressed: () {
-                // Implement your registration logic here
-              },
-              child: const Text('Registrieren'),
+              onPressed: () => Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => Start())),
+              child: const Text('Login'),
             ),
           ],
         ),
