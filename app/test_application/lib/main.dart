@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:test_application/customPageRouteBuilder.dart';
 import 'package:test_application/login.dart';
 import 'package:test_application/register.dart';
 
@@ -34,11 +35,16 @@ class Homescreen extends StatefulWidget {
 class _HomescreenState extends State<Homescreen> {
   void _navigateToRegister() {
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => Register()));
+      context,
+      CustomPageRouteBuilder.slideInFromBottom(Register()),
+    );
   }
 
   void _navigateToLogin() {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
+    Navigator.push(
+      context,
+      CustomPageRouteBuilder.slideInFromBottom(Login()),
+    );
   }
 
   @override
