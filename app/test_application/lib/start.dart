@@ -1,52 +1,90 @@
 import 'package:flutter/material.dart';
+import 'package:test_application/bottomNavigationBar.dart';
+import 'package:test_application/customPageRouteBuilder.dart';
+import 'package:test_application/profile.dart';
 
 class Start extends StatelessWidget {
+  const Start({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Start'),
+      appBar: AppBar(
+        automaticallyImplyLeading: false, // Remove the back button
+        title: const Text(
+          'Start',
+          style: TextStyle(fontSize: 24), // Adjust the font size here
         ),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            ElevatedButton(
-              onPressed: () {
-                // Navigate to the mini-game page
-              },
-              child: const Text('Minispiele starten'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                // Navigate to the general stats page
-              },
-              child: const Text('Statistiken anschauen'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                // Navigate to the edit players page
-              },
-              child: const Text('Spieler verwalten'),
-            ),
-          ],
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: '', // Empty string for no label
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              label: '', // Empty string for no label
-            ),
-          ],
-          currentIndex: 0, // Index of the current tab (Start in this case)
-          onTap: (int index) {
-            // Handle tab changes here (e.g., navigate to the profile page)
-          },
-          showSelectedLabels: false, // Hide labels for selected tab
-          showUnselectedLabels: false, // Hide labels for unselected tabs
-        ));
+      ),
+      body: Stack(
+        children: [
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Row(
+                children: <Widget>[
+                  Expanded(
+                    child: ElevatedButton(
+                      style: ButtonStyle(
+                        minimumSize: MaterialStateProperty.all(
+                            const Size(0, 50)), // Set the button's height
+                      ),
+                      onPressed: () {
+                        // Navigate to the mini-game page
+                      },
+                      child: const Text('Minispiele starten'),
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: <Widget>[
+                  Expanded(
+                    child: ElevatedButton(
+                      style: ButtonStyle(
+                        minimumSize: MaterialStateProperty.all(
+                            const Size(0, 50)), // Set the button's height
+                      ),
+                      onPressed: () {
+                        // Navigate to the general stats page
+                      },
+                      child: const Text('Statistiken anschauen'),
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: <Widget>[
+                  Expanded(
+                    child: ElevatedButton(
+                      style: ButtonStyle(
+                        minimumSize: MaterialStateProperty.all(
+                            const Size(0, 50)), // Set the button's height
+                      ),
+                      onPressed: () {
+                        // Navigate to the edit players page
+                      },
+                      child: const Text('Spieler verwalten'),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ],
+      ),
+      bottomNavigationBar: CustomBottomNavigationBar(
+        currentIndex: 0,
+        onTap: (int index) {
+          if (index == 1) {
+            // Use PageRouteBuilder for custom page transition to the Profile page
+            Navigator.push(
+              context,
+              CustomPageRouteBuilder.slideInFromRight(const Profile()),
+            );
+          }
+        },
+      ),
+    );
   }
 }
