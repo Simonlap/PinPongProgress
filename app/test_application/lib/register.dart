@@ -48,7 +48,7 @@ class _RegisterState extends State<Register> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Register'),
+        title: const Text('Register', style: TextStyle(fontSize: 32)),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

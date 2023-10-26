@@ -1,7 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:test_application/bottomNavigationBar.dart';
 import 'package:test_application/customPageRouteBuilder.dart';
+import 'package:test_application/globalVariables.dart';
+import 'package:test_application/main.dart';
 import 'package:test_application/start.dart';
+import 'package:http/http.dart' as http;
 
 class Profile extends StatelessWidget {
   const Profile({super.key});
@@ -10,7 +15,7 @@ class Profile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Profile'),
+        title: const Text('Profile', style: TextStyle(fontSize: 32)),
         automaticallyImplyLeading: false, // Remove the back button
       ),
       body: Stack(
@@ -22,14 +27,14 @@ class Profile extends StatelessWidget {
               crossAxisAlignment:
                   CrossAxisAlignment.stretch, // Stretch horizontally
               children: <Widget>[
-                const Text(
-                  'Herzlich Willkommen, janvau',
+                Text(
+                  'Herzlich Willkommen, $username',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 10),
                 // Display Email Address
-                const Text(
-                  'Email: test@test.de', // Replace with actual email
+                Text(
+                  'Email: $useremail',
                   style: TextStyle(fontSize: 16),
                 ),
                 const SizedBox(height: 20),
@@ -40,7 +45,23 @@ class Profile extends StatelessWidget {
                   },
                   child: const Text('Passwort zurücksetzen'),
                 ),
-                // You can add more elements as needed for user-related functionality.
+                ElevatedButton(
+                  onPressed: () async {
+                    final url = Uri.parse('$apiUrl/api/auth/signout');
+                    final response = await http.post(
+                      url,
+                      headers: {'Content-Type': 'application/json'},
+                    );
+                    print(response.body);
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        CustomPageRouteBuilder.slideInFromRight(Homescreen(
+                          title: 'Tischtennis Minispiele',
+                        )),
+                        (route) => false);
+                  },
+                  child: const Text('Ausloggen'),
+                ),
               ],
             ),
           ),
@@ -53,7 +74,7 @@ class Profile extends StatelessWidget {
               onTap: (int index) {
                 if (index == 0) {
                   // Use custom transition for navigating to the Start page
-                  Navigator.push(
+                  Navigator.pushReplacement(
                     context,
                     CustomPageRouteBuilder.slideInFromLeft(const Start()),
                   );

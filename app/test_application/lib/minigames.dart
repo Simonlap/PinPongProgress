@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:test_application/bottomNavigationBar.dart';
 import 'package:test_application/customPageRouteBuilder.dart';
-import 'package:test_application/minigames.dart';
+import 'package:test_application/playersSelection.dart';
 import 'package:test_application/profile.dart';
 
-class Start extends StatelessWidget {
-  const Start({super.key});
+class Minigames extends StatelessWidget {
+  const Minigames({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +13,7 @@ class Start extends StatelessWidget {
       appBar: AppBar(
         automaticallyImplyLeading: false, // Remove the back button
         title: const Text(
-          'Start',
+          'Minispiele',
           style: TextStyle(fontSize: 32), // Adjust the font size here
         ),
       ),
@@ -34,10 +34,10 @@ class Start extends StatelessWidget {
                         Navigator.push(
                           context,
                           CustomPageRouteBuilder.slideInFromRight(
-                              const Minigames()),
+                              PlayersSelection("Alle gegen alle")),
                         );
                       },
-                      child: const Text('Minispiele starten',
+                      child: const Text('Alle gegen alle',
                           style: TextStyle(fontSize: 24)),
                     ),
                   ),
@@ -52,9 +52,13 @@ class Start extends StatelessWidget {
                             const Size(0, 100)), // Set the button's height
                       ),
                       onPressed: () {
-                        // Navigate to the general stats page
+                        Navigator.push(
+                          context,
+                          CustomPageRouteBuilder.slideInFromRight(
+                              PlayersSelection("7er Tunier")),
+                        );
                       },
-                      child: const Text('Statistiken anschauen',
+                      child: const Text('7er Tunier',
                           style: TextStyle(fontSize: 24)),
                     ),
                   ),
@@ -69,9 +73,13 @@ class Start extends StatelessWidget {
                             const Size(0, 100)), // Set the button's height
                       ),
                       onPressed: () {
-                        // Navigate to the edit players page
+                        Navigator.push(
+                          context,
+                          CustomPageRouteBuilder.slideInFromRight(
+                              PlayersSelection("Kaisertisch")),
+                        );
                       },
-                      child: const Text('Spieler verwalten',
+                      child: const Text('Kaisertisch',
                           style: TextStyle(fontSize: 24)),
                     ),
                   ),
