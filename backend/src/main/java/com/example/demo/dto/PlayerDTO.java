@@ -10,6 +10,30 @@ import lombok.NoArgsConstructor;
 public class PlayerDTO {
 
     private Long id;
-    private String player_name;
+    private String playerName;
     private int elo;
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setPlayerName(String playerName) {
+        this.playerName = playerName;
+    }
+
+    public String getPlayerName() {
+        return playerName;
+    }
+
+    public void setElo(int elo) {
+        this.elo = elo;
+    }
+
+    public int getElo() {
+        return elo;
+    }
 }

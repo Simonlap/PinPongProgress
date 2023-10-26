@@ -1,11 +1,10 @@
 package com.example.demo.controllers;
 
 import com.example.demo.dto.PlayerDTO;
-import com.example.demo.repository.PlayerRepository;
 import com.example.demo.security.services.UserDetailsImpl;
 import com.example.demo.services.UserdataService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -33,5 +32,16 @@ public class UserdataController {
         List<PlayerDTO> players = userdataService.getPlayersForUserId(userDetails.getId());
 
         return new ResponseEntity<>(players, HttpStatus.OK);
+    }
+
+    @PostMapping("/players")
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+    public ResponseEntity<PlayerDTO> createPlayer(@Valid @RequestBody PlayerDTO playerDTO) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+
+        PlayerDTO createdPlayer = userdataService.createPlayer(playerDTO, userDetails.getId());
+
+        return new ResponseEntity<>(createdPlayer, HttpStatus.CREATED);
     }
 }

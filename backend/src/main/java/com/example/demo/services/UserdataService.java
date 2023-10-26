@@ -29,4 +29,11 @@ public class UserdataService {
                 .map(player -> modelMapper.map(player, PlayerDTO.class))
                 .collect(Collectors.toList());
     }
+
+    public PlayerDTO createPlayer(PlayerDTO playerDTO, Long userId) {
+        Player player = modelMapper.map(playerDTO, Player.class);
+        player.setUserId(userId);
+        Player savedPlayer = playerRepository.save(player);
+        return modelMapper.map(savedPlayer, PlayerDTO.class);
+    }
 }
