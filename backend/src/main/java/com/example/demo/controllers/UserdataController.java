@@ -27,7 +27,6 @@ public class UserdataController {
     public ResponseEntity<List<PlayerDTO>> getPlayersForUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        System.out.println(userDetails.getId());
 
         List<PlayerDTO> players = userdataService.getPlayersForUserId(userDetails.getId());
 

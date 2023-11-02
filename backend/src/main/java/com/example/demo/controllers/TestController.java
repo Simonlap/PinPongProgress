@@ -23,7 +23,6 @@ public class TestController {
     public String userAccess() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        System.out.println(userDetails.getId());
         return "User Content.";
     }
 
