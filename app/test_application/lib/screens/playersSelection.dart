@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:test_application/alleGegenAlle.dart';
+import 'package:test_application/customPageRouteBuilder.dart';
+import 'package:test_application/gameExplanation.dart';
 
 class PlayersSelection extends StatelessWidget {
   final String pageTitle;
@@ -12,23 +15,33 @@ class PlayersSelection extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(pageTitle), // Dynamic title
+        title: Text(pageTitle),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.help_outline),
+            onPressed: () {
+              // Open a new page for game explanation
+              Navigator.push(
+                context,
+                CustomPageRouteBuilder.slideInFromRight(
+                  GameExplanation('Alle gegen alle'),
+                ),
+              );
+            },
+          ),
+        ],
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Icon(
-            Icons.help_outline, // Question mark icon
-            size: 32.0,
-          ),
-          Text('Was ist '), // Clickable text
-          SizedBox(height: 20),
-          SelectablePlayers(players,
-              selectedPlayers), // A widget to display selectable players
+          SelectablePlayers(players, selectedPlayers),
           SizedBox(height: 20),
           ElevatedButton(
             onPressed: () {
-              // Add logic to start the minigame
+              Navigator.push(
+                context,
+                CustomPageRouteBuilder.slideInFromRight(AlleGegenAlle()),
+              );
             },
             child: Text('Los gehts'),
           ),
@@ -55,7 +68,7 @@ class _SelectablePlayersState extends State<SelectablePlayers> {
       children: <Widget>[
         Text(
           'Wer soll mitspielen?',
-          style: TextStyle(fontWeight: FontWeight.bold),
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
         ),
         for (int i = 0; i < widget.players.length; i++)
           ListTile(
