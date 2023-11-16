@@ -38,7 +38,6 @@ class _LoginState extends State<Login> {
 
     RegExp regExp = RegExp(r'testjwt=([^;]+)');
     Match? match = regExp.firstMatch(response.headers['set-cookie']!);
-    globalVariables.jwtToken = response.headers['set-cookie'];
 
   if (match != null) {
     String testjwtValue = match.group(0)!;
