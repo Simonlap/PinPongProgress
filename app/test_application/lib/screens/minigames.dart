@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:test_application/bottomNavigationBar.dart';
-import 'package:test_application/customPageRouteBuilder.dart';
-import 'package:test_application/playersSelection.dart';
-import 'package:test_application/profile.dart';
+import 'package:test_application/elements/bottomNavigationBar.dart';
+import 'package:test_application/elements/customPageRouteBuilder.dart';
+import 'package:test_application/screens/playersSelection.dart';
+import 'package:test_application/screens/profile.dart';
 
 class Minigames extends StatelessWidget {
   const Minigames({super.key});
