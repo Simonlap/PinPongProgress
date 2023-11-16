@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:test_application/bottomNavigationBar.dart';
 import 'package:test_application/customPageRouteBuilder.dart';
+import 'package:test_application/managePlayers.dart';
 import 'package:test_application/minigames.dart';
 import 'package:test_application/profile.dart';
 
@@ -69,7 +70,11 @@ class Start extends StatelessWidget {
                             const Size(0, 100)), // Set the button's height
                       ),
                       onPressed: () {
-                        // Navigate to the edit players page
+                        Navigator.push(
+                          context,
+                          CustomPageRouteBuilder.slideInFromRight(
+                              const ManagePlayers()),
+                        );
                       },
                       child: const Text('Spieler verwalten',
                           style: TextStyle(fontSize: 24)),
