@@ -11,7 +11,7 @@ class ManagePlayers extends StatefulWidget {
 }
 
 class _ManagePlayersState extends State<ManagePlayers> {
-  List<String> userNames = [];
+  List<String> players = [];
 
   @override
   void initState() {
@@ -32,9 +32,9 @@ class _ManagePlayersState extends State<ManagePlayers> {
     if (response.statusCode == 200) {
       final List<dynamic> data = json.decode(response.body);
       setState(() {
-        userNames = data.map((user) => user['playerName'].toString()).toList();
+        players = data.map((user) => user['playerName'].toString()).toList();
         print('hier');
-        print(userNames);
+        print(players);
       });
     } else {
       throw Exception('Failed to load user data');
@@ -54,7 +54,7 @@ class _ManagePlayersState extends State<ManagePlayers> {
         children: <Widget>[
           Expanded(
             child: ListView.builder(
-              itemCount: userNames.length,
+              itemCount: players.length,
               itemBuilder: (context, index) {
                 return Row(
                   children: <Widget>[
@@ -70,7 +70,7 @@ class _ManagePlayersState extends State<ManagePlayers> {
                           // Example: Navigator.push(context, MaterialPageRoute(builder: (context) => UserProfile(userNames[index]));
                         },
                         child: Text(
-                          userNames[index],
+                          players[index],
                           style: TextStyle(fontSize: 24),
                         ),
                       ),
