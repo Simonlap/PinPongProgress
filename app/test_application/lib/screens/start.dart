@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:test_application/bottomNavigationBar.dart';
-import 'package:test_application/customPageRouteBuilder.dart';
-import 'package:test_application/playersSelection.dart';
-import 'package:test_application/profile.dart';
+import 'package:test_application/elements/bottomNavigationBar.dart';
+import 'package:test_application/elements/customPageRouteBuilder.dart';
+import 'package:test_application/screens/managePlayers.dart';
+import 'package:test_application/screens/minigames.dart';
+import 'package:test_application/screens/profile.dart';
 
-class Minigames extends StatelessWidget {
-  const Minigames({super.key});
+class Start extends StatelessWidget {
+  const Start({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +14,7 @@ class Minigames extends StatelessWidget {
       appBar: AppBar(
         automaticallyImplyLeading: false, // Remove the back button
         title: const Text(
-          'Minispiele',
+          'Start',
           style: TextStyle(fontSize: 32), // Adjust the font size here
         ),
       ),
@@ -34,10 +35,27 @@ class Minigames extends StatelessWidget {
                         Navigator.push(
                           context,
                           CustomPageRouteBuilder.slideInFromRight(
-                              PlayersSelection("Alle gegen alle")),
+                              const Minigames()),
                         );
                       },
-                      child: const Text('Alle gegen alle',
+                      child: const Text('Minispiele starten',
+                          style: TextStyle(fontSize: 24)),
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: <Widget>[
+                  Expanded(
+                    child: ElevatedButton(
+                      style: ButtonStyle(
+                        minimumSize: MaterialStateProperty.all(
+                            const Size(0, 100)), // Set the button's height
+                      ),
+                      onPressed: () {
+                        // Navigate to the general stats page
+                      },
+                      child: const Text('Statistiken anschauen',
                           style: TextStyle(fontSize: 24)),
                     ),
                   ),
@@ -55,31 +73,10 @@ class Minigames extends StatelessWidget {
                         Navigator.push(
                           context,
                           CustomPageRouteBuilder.slideInFromRight(
-                              PlayersSelection("7er Tunier")),
+                              const ManagePlayers()),
                         );
                       },
-                      child: const Text('7er Tunier',
-                          style: TextStyle(fontSize: 24)),
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                children: <Widget>[
-                  Expanded(
-                    child: ElevatedButton(
-                      style: ButtonStyle(
-                        minimumSize: MaterialStateProperty.all(
-                            const Size(0, 100)), // Set the button's height
-                      ),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          CustomPageRouteBuilder.slideInFromRight(
-                              PlayersSelection("Kaisertisch")),
-                        );
-                      },
-                      child: const Text('Kaisertisch',
+                      child: const Text('Spieler verwalten',
                           style: TextStyle(fontSize: 24)),
                     ),
                   ),

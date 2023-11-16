@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:test_application/customPageRouteBuilder.dart';
+import 'package:test_application/elements/customPageRouteBuilder.dart';
 import 'package:test_application/globalVariables.dart' as globalVariables;
-import 'package:test_application/start.dart';
+import 'package:test_application/screens/start.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-import 'globalVariables.dart';
+import '../globalVariables.dart';
 
 class Login extends StatefulWidget {
   @override

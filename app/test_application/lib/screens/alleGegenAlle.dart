@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:test_application/addResult.dart';
-import 'package:test_application/customPageRouteBuilder.dart';
-import 'package:test_application/gameExplanation.dart';
+import 'package:test_application/screens/addResult.dart';
+import 'package:test_application/elements/customPageRouteBuilder.dart';
+import 'package:test_application/screens/gameExplanation.dart';
 
 class AlleGegenAlle extends StatelessWidget {
   @override
