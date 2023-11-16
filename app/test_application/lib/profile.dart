@@ -1,11 +1,11 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:test_application/elements/bottomNavigationBar.dart';
-import 'package:test_application/elements/customPageRouteBuilder.dart';
+import 'package:test_application/bottomNavigationBar.dart';
+import 'package:test_application/customPageRouteBuilder.dart';
 import 'package:test_application/globalVariables.dart';
-import 'package:test_application/screens/main.dart';
-import 'package:test_application/screens/start.dart';
+import 'package:test_application/main.dart';
+import 'package:test_application/start.dart';
 import 'package:http/http.dart' as http;
 
 class Profile extends StatelessWidget {
