@@ -30,12 +30,25 @@ class _LoginState extends State<Login> {
         'password': passwordController.text,
       }),
     );
-
     Map<String, dynamic> accessableResponse = json.decode(response.body);
     globalVariables.username = accessableResponse['username'];
     globalVariables.useremail = accessableResponse['email'];
     globalVariables.userid = accessableResponse['id'] as int;
     globalVariables.userroles = accessableResponse['roles'];
+
+    RegExp regExp = RegExp(r'testjwt=([^;]+)');
+    Match? match = regExp.firstMatch(response.headers['set-cookie']!);
+    globalVariables.jwtToken = response.headers['set-cookie'];
+
+  if (match != null) {
+    String testjwtValue = match.group(0)!;
+    globalVariables.jwtToken = testjwtValue;
+    print("testjwt value: $testjwtValue");
+  } else {
+    print("testjwt not found in the string");
+  }
+
+    
 
     print(response.headers['set-cookie']); //TODO:
 
