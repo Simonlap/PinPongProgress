@@ -45,6 +45,32 @@ class _ManagePlayersState extends State<ManagePlayers> {
     }
   }
 
+  Future<void> changePlayerName(newName, id) async {
+    print('hier');
+    final url = Uri.parse(apiUrl + '/api/userdata/player/' + id.toString() + '/changeName');
+    final response = await http.put(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Cookie': jwtToken!,
+      },
+      body: jsonEncode({
+        'newPlayerName': newName
+      }),
+    );
+    print('hier2 ' + response.statusCode.toString());
+    if (response.statusCode == 200) {
+
+      fetchUserNames();
+      // Player added successfully
+      print('Player added successfully');
+  
+    } else {
+      // Handle error
+      print('Failed to add player. Status code: ${response.statusCode}');
+    }
+  }
+
   void _navigateToAddPlayer() async {
     // Navigate to AddPlayer screen and wait for the callback function to be called
     await Navigator.push(
@@ -94,6 +120,7 @@ class _ManagePlayersState extends State<ManagePlayers> {
                                 player: player[index],
                                 onNameChanged: (newName) {
                                   // Handle name change here if needed
+                                  changePlayerName(newName, player[index].id);
                                   print('Name changed to: $newName');
                                 },
                               ),

@@ -26,6 +26,7 @@ class _PlayerDetailsState extends State<PlayerDetails> {
   }
 
   void _toggleEditing() {
+    widget.player.name = _nameController.text; 
     setState(() {
       _isEditing = !_isEditing;
     });
@@ -34,7 +35,9 @@ class _PlayerDetailsState extends State<PlayerDetails> {
   void _acceptChanges() {
     // Save changes and notify parent
     widget.onNameChanged(_nameController.text);
-    _toggleEditing();
+    if (_isEditing) {
+      _toggleEditing();
+    }
   }
 
   @override
