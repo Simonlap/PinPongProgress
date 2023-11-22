@@ -1,6 +1,7 @@
 package com.example.demo.controllers;
 
 import com.example.demo.dto.PlayerDTO;
+import com.example.demo.payload.request.UpdatePlayerNameRequest;
 import com.example.demo.security.services.UserDetailsImpl;
 import com.example.demo.services.UserdataService;
 import jakarta.validation.Valid;
@@ -43,4 +44,17 @@ public class UserdataController {
 
         return new ResponseEntity<>(createdPlayer, HttpStatus.CREATED);
     }
+
+    @PutMapping("/player/{playerId}/changeName")
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+    public ResponseEntity<PlayerDTO> updatePlayer(@PathVariable Long playerId, @Valid @RequestBody UpdatePlayerNameRequest updatePlayerNameRequest) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+
+        PlayerDTO updatedPlayer = userdataService.changePlayerName(playerId, updatePlayerNameRequest.getNewPlayerName());
+
+        return new ResponseEntity<>(updatedPlayer, HttpStatus.OK);
+    }
+
+
 }

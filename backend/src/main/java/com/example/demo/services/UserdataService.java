@@ -36,4 +36,18 @@ public class UserdataService {
         Player savedPlayer = playerRepository.save(player);
         return modelMapper.map(savedPlayer, PlayerDTO.class);
     }
+
+    public PlayerDTO updatePlayer(PlayerDTO playerDTO, Long userId) {
+        Player player = modelMapper.map(playerDTO, Player.class);
+        player.setUserId(userId);
+        Player savedPlayer = playerRepository.save(player);
+        return modelMapper.map(savedPlayer, PlayerDTO.class);
+    }
+
+    public PlayerDTO changePlayerName(Long playerId, String newPlayerName) {
+        Player player = playerRepository.findById(playerId).get();
+        player.setPlayerName(newPlayerName);
+        Player savedPlayer = playerRepository.save(player);
+        return modelMapper.map(savedPlayer, PlayerDTO.class);
+    }
 }

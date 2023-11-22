@@ -9,4 +9,5 @@ import java.util.Set;
 @Repository
 public interface PlayerRepository extends JpaRepository<Player, Long> {
     Set<Player> findByUserId(Long userId);
+
 }
