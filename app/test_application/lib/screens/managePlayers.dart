@@ -22,27 +22,6 @@ class _ManagePlayersState extends State<ManagePlayers> {
     super.initState();
   }
 
-  Future<void> fetchUserNames() async {
-    final url = Uri.parse(apiUrl + '/api/userdata/players');
-    final response = await http.get(
-      url,
-      headers: {
-        'Cookie': jwtToken!
-      },
-    );
-    print(jwtToken);
-
-    if (response.statusCode == 200) {
-      final List<dynamic> data = json.decode(response.body);
-      setState(() {
-        player = data.map((jsonPlayer) => Player.fromJson(jsonPlayer)).toList();
-      });
-    } else {
-      throw Exception('Failed to load user data');
-    }
-  }
-
-
   Future<void> changePlayerName(newName, id, index) async {
 
     final url = Uri.parse(apiUrl + '/api/userdata/player/' + id.toString() + '/changeName');
@@ -58,10 +37,8 @@ class _ManagePlayersState extends State<ManagePlayers> {
     );
 
     if (response.statusCode == 200) {
-      print(json.decode(response.body));
-      player[index] = Player.fromJson(json.decode(response.body));
       setState(() {
-        
+        player[index] = Player.fromJson(json.decode(response.body));
       });
       // Player added successfully
       print('Player name changed successfully');
