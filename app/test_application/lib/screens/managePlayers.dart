@@ -45,8 +45,9 @@ class _ManagePlayersState extends State<ManagePlayers> {
     }
   }
 
-  Future<void> changePlayerName(newName, id) async {
-    print('hier');
+
+  Future<void> changePlayerName(newName, id, index) async {
+
     final url = Uri.parse(apiUrl + '/api/userdata/player/' + id.toString() + '/changeName');
     final response = await http.put(
       url,
@@ -58,16 +59,19 @@ class _ManagePlayersState extends State<ManagePlayers> {
         'newPlayerName': newName
       }),
     );
-    print('hier2 ' + response.statusCode.toString());
-    if (response.statusCode == 200) {
 
-      fetchUserNames();
+    if (response.statusCode == 200) {
+      print(json.decode(response.body));
+      player[index] = Player.fromJson(json.decode(response.body));
+      setState(() {
+        player_names[index] = player[index].name;
+      });
       // Player added successfully
-      print('Player added successfully');
+      print('Player name changed successfully');
   
     } else {
       // Handle error
-      print('Failed to add player. Status code: ${response.statusCode}');
+      print('Failed to change player name. Status code: ${response.statusCode}');
     }
   }
 
@@ -120,15 +124,12 @@ class _ManagePlayersState extends State<ManagePlayers> {
                                 player: player[index],
                                 onNameChanged: (newName) {
                                   // Handle name change here if needed
-                                  changePlayerName(newName, player[index].id);
+                                  changePlayerName(newName, player[index].id, index);
                                   print('Name changed to: $newName');
                                 },
                               ),
                             ),
                           );
-                          print(player[index].name);
-                          print(player[index].id);
-                          print(index);
                         },
                         child: Text(
                           player_names[index],

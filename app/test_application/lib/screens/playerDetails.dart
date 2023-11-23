@@ -25,8 +25,7 @@ class _PlayerDetailsState extends State<PlayerDetails> {
     _nameController = TextEditingController(text: widget.player.name);
   }
 
-  void _toggleEditing() {
-    widget.player.name = _nameController.text; 
+  void _toggleEditing() { 
     setState(() {
       _isEditing = !_isEditing;
     });
@@ -34,10 +33,12 @@ class _PlayerDetailsState extends State<PlayerDetails> {
 
   void _acceptChanges() {
     // Save changes and notify parent
-    widget.onNameChanged(_nameController.text);
-    if (_isEditing) {
-      _toggleEditing();
+    if (widget.player.name != _nameController.text) {
+      widget.player.name = _nameController.text;
+      widget.onNameChanged(_nameController.text);
     }
+    _toggleEditing();
+    
   }
 
   @override
@@ -73,7 +74,7 @@ class _PlayerDetailsState extends State<PlayerDetails> {
                       ),
                 IconButton(
                   icon: Icon(_isEditing ? Icons.done : Icons.edit),
-                  onPressed: _toggleEditing,
+                  onPressed: _acceptChanges,
                 ),
               ],
             ),
@@ -83,10 +84,6 @@ class _PlayerDetailsState extends State<PlayerDetails> {
               style: TextStyle(fontSize: 18),
             ),
             SizedBox(height: 32),
-            ElevatedButton(
-              onPressed: _acceptChanges,
-              child: Text('Accept Changes'),
-            ),
           ],
         ),
       ),
