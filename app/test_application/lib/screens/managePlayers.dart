@@ -96,9 +96,9 @@ class _ManagePlayersState extends State<ManagePlayers> {
     }
   }
 
-  void _playerAdded(newPlayer) {
+  void _playerAdded() {
     setState(() {
-      player.add(newPlayer);  
+      
     });
   }
 
@@ -110,7 +110,7 @@ class _ManagePlayersState extends State<ManagePlayers> {
         builder: (context) => AddPlayer(
           onUserAdded: (newPlayer) {
             // Callback function to fetch user names when a user is added
-            _playerAdded(newPlayer);
+            _playerAdded();
           },
         ),
       ),

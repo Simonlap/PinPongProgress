@@ -7,7 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:test_application/entities/player.dart';
 
 class AddPlayer extends StatefulWidget {
-  final Function(Object)? onUserAdded;
+  final Function()? onUserAdded;
 
   const AddPlayer({Key? key, this.onUserAdded}) : super(key: key);
 
@@ -36,7 +36,8 @@ class _AddPlayerState extends State<AddPlayer> {
     if (response.statusCode == 201) {
       // Player added successfully
       print('Player added successfully');
-      widget.onUserAdded?.call(Player.fromJson(json.decode(response.body)));
+      widget.onUserAdded?.call();
+      player.add(Player.fromJson(json.decode(response.body)));
       Navigator.pop(context); // Close the screen after adding the player
     } else {
       // Handle error
