@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:test_application/elements/bottomNavigationBar.dart';
 import 'package:test_application/elements/customPageRouteBuilder.dart';
 import 'package:test_application/screens/playersSelection.dart';
-import 'package:test_application/screens/profile.dart';
 
 class Minigames extends StatelessWidget {
   const Minigames({super.key});
@@ -11,11 +10,11 @@ class Minigames extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false, // Remove the back button
         title: const Text(
           'Minispiele',
           style: TextStyle(fontSize: 32), // Adjust the font size here
         ),
+        automaticallyImplyLeading: true,
       ),
       body: Stack(
         children: [
@@ -91,15 +90,7 @@ class Minigames extends StatelessWidget {
       ),
       bottomNavigationBar: CustomBottomNavigationBar(
         currentIndex: 0,
-        onTap: (int index) {
-          if (index == 1) {
-            // Use PageRouteBuilder for custom page transition to the Profile page
-            Navigator.pushReplacement(
-              context,
-              CustomPageRouteBuilder.slideInFromRight(const Profile()),
-            );
-          }
-        },
+        context: context,
       ),
     );
   }
