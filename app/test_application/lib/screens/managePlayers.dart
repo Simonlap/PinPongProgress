@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:test_application/elements/customPageRouteBuilder.dart';
+import 'package:test_application/elements/customAlertDialog.dart';
 import 'package:test_application/entities/player.dart';
 import 'dart:convert';
 import 'package:test_application/globalVariables.dart';
@@ -15,13 +16,10 @@ class ManagePlayers extends StatefulWidget {
 }
 
 class _ManagePlayersState extends State<ManagePlayers> {
-  List<String> player_names = [];
-
 
   @override
   void initState() {
     super.initState();
-    fetchUserNames(); // Call the function to fetch user data when the widget initializes.
   }
 
   Future<void> fetchUserNames() async {
@@ -37,7 +35,6 @@ class _ManagePlayersState extends State<ManagePlayers> {
     if (response.statusCode == 200) {
       final List<dynamic> data = json.decode(response.body);
       setState(() {
-        player_names = data.map((user) => user['playerName'].toString()).toList();
         player = data.map((jsonPlayer) => Player.fromJson(jsonPlayer)).toList();
       });
     } else {
@@ -64,15 +61,45 @@ class _ManagePlayersState extends State<ManagePlayers> {
       print(json.decode(response.body));
       player[index] = Player.fromJson(json.decode(response.body));
       setState(() {
-        player_names[index] = player[index].name;
+        
       });
       // Player added successfully
       print('Player name changed successfully');
   
     } else {
-      // Handle error
       print('Failed to change player name. Status code: ${response.statusCode}');
     }
+  }
+
+  Future<void> deletePlayer(index) async {
+
+    final url = Uri.parse(apiUrl + '/api/userdata/player/' + player[index].id.toString());
+    final response = await http.delete(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Cookie': jwtToken!,
+      }
+    );
+
+    if (response.statusCode == 200) {
+      player.removeAt(index);
+      setState(() {
+      });
+      // Player added successfully
+      
+      print('Player deleted successfully');
+  
+    } else {
+
+      print('Failed to delete player. Status code: ${response.statusCode}');
+    }
+  }
+
+  void _playerAdded(newPlayer) {
+    setState(() {
+      player.add(newPlayer);  
+    });
   }
 
   void _navigateToAddPlayer() async {
@@ -81,9 +108,9 @@ class _ManagePlayersState extends State<ManagePlayers> {
       context,
       MaterialPageRoute(
         builder: (context) => AddPlayer(
-          onUserAdded: () {
+          onUserAdded: (newPlayer) {
             // Callback function to fetch user names when a user is added
-            fetchUserNames();
+            _playerAdded(newPlayer);
           },
         ),
       ),
@@ -103,7 +130,7 @@ class _ManagePlayersState extends State<ManagePlayers> {
         children: <Widget>[
           Expanded(
             child: ListView.builder(
-              itemCount: player_names.length,
+              itemCount: player.length,
               itemBuilder: (context, index) {
                 return Row(
                   children: <Widget>[
@@ -127,12 +154,15 @@ class _ManagePlayersState extends State<ManagePlayers> {
                                   changePlayerName(newName, player[index].id, index);
                                   print('Name changed to: $newName');
                                 },
+                                onDelete: () {
+                                  deletePlayer(index);
+                                },
                               ),
                             ),
                           );
                         },
                         child: Text(
-                          player_names[index],
+                          player[index].name,
                           style: TextStyle(fontSize: 24),
                         ),
                       ),

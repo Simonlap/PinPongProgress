@@ -3,9 +3,11 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:test_application/globalVariables.dart';
+import 'package:flutter/services.dart';
+import 'package:test_application/entities/player.dart';
 
 class AddPlayer extends StatefulWidget {
-  final Function()? onUserAdded;
+  final Function(Object)? onUserAdded;
 
   const AddPlayer({Key? key, this.onUserAdded}) : super(key: key);
 
@@ -34,7 +36,7 @@ class _AddPlayerState extends State<AddPlayer> {
     if (response.statusCode == 201) {
       // Player added successfully
       print('Player added successfully');
-      widget.onUserAdded?.call();
+      widget.onUserAdded?.call(Player.fromJson(json.decode(response.body)));
       Navigator.pop(context); // Close the screen after adding the player
     } else {
       // Handle error
@@ -61,6 +63,9 @@ class _AddPlayerState extends State<AddPlayer> {
               controller: _eloController,
               decoration: InputDecoration(labelText: 'Player Elo'),
               keyboardType: TextInputType.number,
+              inputFormatters: <TextInputFormatter>[
+                FilteringTextInputFormatter.digitsOnly,
+              ]
             ),
             SizedBox(height: 32),
             ElevatedButton(
