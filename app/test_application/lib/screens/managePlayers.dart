@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:test_application/elements/customPageRouteBuilder.dart';
+import 'package:test_application/entities/player.dart';
 import 'dart:convert';
 import 'package:test_application/globalVariables.dart';
+import 'package:test_application/screens/addPlayer.dart';
+import 'package:test_application/screens/playerDetails.dart';
 
 class ManagePlayers extends StatefulWidget {
   const ManagePlayers({Key? key});
@@ -11,7 +15,8 @@ class ManagePlayers extends StatefulWidget {
 }
 
 class _ManagePlayersState extends State<ManagePlayers> {
-  List<String> players = [];
+  List<String> player_names = [];
+
 
   @override
   void initState() {
@@ -32,13 +37,57 @@ class _ManagePlayersState extends State<ManagePlayers> {
     if (response.statusCode == 200) {
       final List<dynamic> data = json.decode(response.body);
       setState(() {
-        players = data.map((user) => user['playerName'].toString()).toList();
-        print('hier');
-        print(players);
+        player_names = data.map((user) => user['playerName'].toString()).toList();
+        player = data.map((jsonPlayer) => Player.fromJson(jsonPlayer)).toList();
       });
     } else {
       throw Exception('Failed to load user data');
     }
+  }
+
+
+  Future<void> changePlayerName(newName, id, index) async {
+
+    final url = Uri.parse(apiUrl + '/api/userdata/player/' + id.toString() + '/changeName');
+    final response = await http.put(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Cookie': jwtToken!,
+      },
+      body: jsonEncode({
+        'newPlayerName': newName
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      print(json.decode(response.body));
+      player[index] = Player.fromJson(json.decode(response.body));
+      setState(() {
+        player_names[index] = player[index].name;
+      });
+      // Player added successfully
+      print('Player name changed successfully');
+  
+    } else {
+      // Handle error
+      print('Failed to change player name. Status code: ${response.statusCode}');
+    }
+  }
+
+  void _navigateToAddPlayer() async {
+    // Navigate to AddPlayer screen and wait for the callback function to be called
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => AddPlayer(
+          onUserAdded: () {
+            // Callback function to fetch user names when a user is added
+            fetchUserNames();
+          },
+        ),
+      ),
+    );    
   }
 
   @override
@@ -54,7 +103,7 @@ class _ManagePlayersState extends State<ManagePlayers> {
         children: <Widget>[
           Expanded(
             child: ListView.builder(
-              itemCount: players.length,
+              itemCount: player_names.length,
               itemBuilder: (context, index) {
                 return Row(
                   children: <Widget>[
@@ -68,9 +117,22 @@ class _ManagePlayersState extends State<ManagePlayers> {
                         onPressed: () {
                           // Handle button tap for each user, e.g., navigate to their profile.
                           // Example: Navigator.push(context, MaterialPageRoute(builder: (context) => UserProfile(userNames[index]));
+                          Navigator.push(
+                            context,
+                            CustomPageRouteBuilder.slideInFromRight(
+                              PlayerDetails(
+                                player: player[index],
+                                onNameChanged: (newName) {
+                                  // Handle name change here if needed
+                                  changePlayerName(newName, player[index].id, index);
+                                  print('Name changed to: $newName');
+                                },
+                              ),
+                            ),
+                          );
                         },
                         child: Text(
-                          players[index],
+                          player_names[index],
                           style: TextStyle(fontSize: 24),
                         ),
                       ),
@@ -89,9 +151,8 @@ class _ManagePlayersState extends State<ManagePlayers> {
                       const Size(0, 100),
                     ),
                   ),
-                  onPressed: () {
-                    // Handle the "Add Player" button tap, e.g., navigate to a page for adding a new player.
-                    // Example: Navigator.push(context, MaterialPageRoute(builder: (context) => AddPlayerPage()));
+                  onPressed: () async{
+                   _navigateToAddPlayer();
                   },
                   child: const Text('Add Player', style: TextStyle(fontSize: 24)),
                 ),
