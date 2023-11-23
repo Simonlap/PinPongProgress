@@ -50,4 +50,8 @@ public class UserdataService {
         Player savedPlayer = playerRepository.save(player);
         return modelMapper.map(savedPlayer, PlayerDTO.class);
     }
+
+    public void deletePlayer(Long playerId) {
+        playerRepository.deleteById(playerId);
+    }
 }

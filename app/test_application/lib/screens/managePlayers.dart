@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:test_application/elements/customPageRouteBuilder.dart';
+import 'package:test_application/elements/customAlertDialog.dart';
 import 'package:test_application/entities/player.dart';
 import 'dart:convert';
 import 'package:test_application/globalVariables.dart';
@@ -36,7 +37,6 @@ class _ManagePlayersState extends State<ManagePlayers> {
     );
 
     if (response.statusCode == 200) {
-      print(json.decode(response.body));
       setState(() {
         player[index] = Player.fromJson(json.decode(response.body));
       });
@@ -44,8 +44,32 @@ class _ManagePlayersState extends State<ManagePlayers> {
       print('Player name changed successfully');
   
     } else {
-      // Handle error
       print('Failed to change player name. Status code: ${response.statusCode}');
+    }
+  }
+
+  Future<void> deletePlayer(index) async {
+
+    final url = Uri.parse(apiUrl + '/api/userdata/player/' + player[index].id.toString());
+    final response = await http.delete(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Cookie': jwtToken!,
+      }
+    );
+
+    if (response.statusCode == 200) {
+      player.removeAt(index);
+      setState(() {
+      });
+      // Player added successfully
+      
+      print('Player deleted successfully');
+  
+    } else {
+
+      print('Failed to delete player. Status code: ${response.statusCode}');
     }
   }
 
@@ -58,9 +82,9 @@ class _ManagePlayersState extends State<ManagePlayers> {
           onUserAdded: () {
             // Callback function to fetch user names when a user is added
             setState(() {
-              
+
             });
-          },
+         },
         ),
       ),
     );    
@@ -102,6 +126,9 @@ class _ManagePlayersState extends State<ManagePlayers> {
                                   // Handle name change here if needed
                                   changePlayerName(newName, player[index].id, index);
                                   print('Name changed to: $newName');
+                                },
+                                onDelete: () {
+                                  deletePlayer(index);
                                 },
                               ),
                             ),

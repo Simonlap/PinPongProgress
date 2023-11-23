@@ -56,5 +56,15 @@ public class UserdataController {
         return new ResponseEntity<>(updatedPlayer, HttpStatus.OK);
     }
 
+    //endpoint to delete player
+    @DeleteMapping("/player/{playerId}")
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+    public ResponseEntity<HttpStatus> deletePlayer(@PathVariable Long playerId) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
+        userdataService.deletePlayer(playerId);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

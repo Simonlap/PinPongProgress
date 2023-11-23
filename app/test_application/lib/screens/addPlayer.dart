@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:test_application/entities/player.dart';
 import 'package:test_application/globalVariables.dart';
+import 'package:flutter/services.dart';
+import 'package:test_application/entities/player.dart';
 
 class AddPlayer extends StatefulWidget {
   final Function()? onUserAdded;
@@ -63,6 +65,9 @@ class _AddPlayerState extends State<AddPlayer> {
               controller: _eloController,
               decoration: InputDecoration(labelText: 'Player Elo'),
               keyboardType: TextInputType.number,
+              inputFormatters: <TextInputFormatter>[
+                FilteringTextInputFormatter.digitsOnly,
+              ]
             ),
             SizedBox(height: 32),
             ElevatedButton(

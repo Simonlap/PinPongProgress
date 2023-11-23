@@ -4,11 +4,13 @@ import 'package:test_application/entities/player.dart';
 class PlayerDetails extends StatefulWidget {
   final Player player;
   final Function(String) onNameChanged;
+  final VoidCallback onDelete;
 
   const PlayerDetails({
     Key? key,
     required this.player,
     required this.onNameChanged,
+    required this.onDelete,
   }) : super(key: key);
 
   @override
@@ -25,7 +27,7 @@ class _PlayerDetailsState extends State<PlayerDetails> {
     _nameController = TextEditingController(text: widget.player.name);
   }
 
-  void _toggleEditing() { 
+  void _toggleEditing() {
     setState(() {
       _isEditing = !_isEditing;
     });
@@ -38,7 +40,38 @@ class _PlayerDetailsState extends State<PlayerDetails> {
       widget.onNameChanged(_nameController.text);
     }
     _toggleEditing();
-    
+  }
+
+  void _deletePlayer() {
+    widget.onDelete();
+    Navigator.pop(context);
+  }
+
+  void _showDeleteConfirmationDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Delete Player'),
+          content: Text('Are you sure you want to delete this player?'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              child: Text('No'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+                _deletePlayer();
+              },
+              child: Text('Yes'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -46,6 +79,12 @@ class _PlayerDetailsState extends State<PlayerDetails> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Player Details'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.delete),
+            onPressed: _showDeleteConfirmationDialog,
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
