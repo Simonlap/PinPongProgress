@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:test_application/elements/bottomNavigationBar.dart';
 import 'package:test_application/elements/customPageRouteBuilder.dart';
+import 'package:test_application/entities/minigamesEnum.dart';
 import 'package:test_application/screens/playersSelection.dart';
 
 class Minigames extends StatelessWidget {
@@ -33,10 +34,10 @@ class Minigames extends StatelessWidget {
                         Navigator.push(
                           context,
                           CustomPageRouteBuilder.slideInFromRight(
-                              PlayersSelection("Alle gegen alle")),
+                              PlayersSelection(selectedMinigame: Minigame.alleGegenAlle)),
                         );
                       },
-                      child: const Text('Alle gegen alle',
+                      child: Text(Minigame.alleGegenAlle.title,
                           style: TextStyle(fontSize: 24)),
                     ),
                   ),
@@ -54,10 +55,10 @@ class Minigames extends StatelessWidget {
                         Navigator.push(
                           context,
                           CustomPageRouteBuilder.slideInFromRight(
-                              PlayersSelection("7er Tunier")),
+                              PlayersSelection(selectedMinigame: Minigame.siebenerTisch)),
                         );
                       },
-                      child: const Text('7er Tunier',
+                      child: Text(Minigame.siebenerTisch.title,
                           style: TextStyle(fontSize: 24)),
                     ),
                   ),
@@ -75,10 +76,10 @@ class Minigames extends StatelessWidget {
                         Navigator.push(
                           context,
                           CustomPageRouteBuilder.slideInFromRight(
-                              PlayersSelection("Kaisertisch")),
+                              PlayersSelection(selectedMinigame: Minigame.kaisertisch)),
                         );
                       },
-                      child: const Text('Kaisertisch',
+                      child: Text(Minigame.kaisertisch.title,
                           style: TextStyle(fontSize: 24)),
                     ),
                   ),

@@ -1,21 +1,61 @@
 import 'package:flutter/material.dart';
+import 'package:test_application/elements/customAlertDialog.dart';
+import 'package:test_application/entities/minigamesEnum.dart';
+import 'package:test_application/screens/addPlayer.dart';
 import 'package:test_application/screens/alleGegenAlle.dart';
 import 'package:test_application/elements/customPageRouteBuilder.dart';
 import 'package:test_application/screens/gameExplanation.dart';
+import 'package:test_application/globalVariables.dart' as globalVariables;
 
-class PlayersSelection extends StatelessWidget {
-  final String pageTitle;
+class PlayersSelection extends StatefulWidget {
+  final Minigame selectedMinigame;
+  PlayersSelection({required this.selectedMinigame});
 
-  PlayersSelection(this.pageTitle);
+  @override
+  _PlayersSelectionState createState() => _PlayersSelectionState(selectedMinigame);
+}
+
+class _PlayersSelectionState extends State<PlayersSelection> {
+  
+  final Minigame selectedMiniGame;
+
+  _PlayersSelectionState(this.selectedMiniGame);
+
+  @override
+  void initState() {
+    super.initState();
+
+    if (globalVariables.player.length == 0) {
+      Future.delayed(Duration.zero, () {
+        Navigator.push(
+          context,
+          CustomPageRouteBuilder.slideInFromRight(
+            AddPlayer(
+              onUserAdded: () {
+                setState(() {
+                  
+                });
+              },
+            ),
+          ),
+        );
+        showAlert(
+          context,
+          "Noch keine Spieler",
+          "Bitte füge zunächst Spieler hinzu!",
+        );
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    List<String> players = ['Player 1', 'Player 2', 'Player 3', 'Player 4'];
-    List<bool> selectedPlayers = List.generate(players.length, (index) => true);
+    List<bool> selectedPlayers =
+        List.generate(globalVariables.player.length, (index) => true);
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(pageTitle),
+        title: Text(selectedMiniGame.title),
         actions: [
           IconButton(
             icon: Icon(Icons.help_outline),
@@ -24,7 +64,7 @@ class PlayersSelection extends StatelessWidget {
               Navigator.push(
                 context,
                 CustomPageRouteBuilder.slideInFromRight(
-                  GameExplanation('Alle gegen alle'),
+                  GameExplanation(selectedMiniGame),
                 ),
               );
             },
@@ -34,7 +74,8 @@ class PlayersSelection extends StatelessWidget {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          SelectablePlayers(players, selectedPlayers),
+          SelectablePlayers(globalVariables.player.map((p) => p.name).toList(),
+              selectedPlayers),
           SizedBox(height: 20),
           ElevatedButton(
             onPressed: () {

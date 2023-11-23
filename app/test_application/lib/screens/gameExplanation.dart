@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:test_application/entities/minigamesEnum.dart';
 
 class GameExplanation extends StatelessWidget {
-  final String pageTitle;
+  final Minigame selectedMinigame;
+  final String explanationTitle;
 
-  GameExplanation(this.pageTitle);
-
-  final String title = "Wie funktionierts?";
-  final String explanationText =
-      "Welcome to the Mini Game!\n\nThis game is designed to challenge your skills and have some fun. "
-      "Get ready for an exciting experience and enjoy the game.";
+  // Use a constructor initializer to initialize explanationTitle
+  GameExplanation(this.selectedMinigame) : explanationTitle = selectedMinigame.title;
 
   @override
   Widget build(BuildContext context) {
+    final String title = "Wie funktioniert $explanationTitle?";
+    final String explanationText =
+        "Welcome to the Mini Game!\n\nThis game is designed to challenge your skills and have some fun. "
+        "Get ready for an exciting experience and enjoy the game.";
+
     return Scaffold(
       appBar: AppBar(
         title: Text(title),

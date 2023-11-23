@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:test_application/entities/player.dart';
 import 'package:test_application/globalVariables.dart';
 
 class AddPlayer extends StatefulWidget {
@@ -35,6 +36,7 @@ class _AddPlayerState extends State<AddPlayer> {
       // Player added successfully
       print('Player added successfully');
       widget.onUserAdded?.call();
+      player.add(Player.fromJson(json.decode(response.body)));
       Navigator.pop(context); // Close the screen after adding the player
     } else {
       // Handle error
