@@ -96,22 +96,18 @@ class _ManagePlayersState extends State<ManagePlayers> {
     }
   }
 
-  void _playerAdded() {
-    setState(() {
-      
-    });
-  }
-
   void _navigateToAddPlayer() async {
     // Navigate to AddPlayer screen and wait for the callback function to be called
     await Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => AddPlayer(
-          onUserAdded: (newPlayer) {
+          onUserAdded: () {
             // Callback function to fetch user names when a user is added
-            _playerAdded();
-          },
+            setState(() {
+
+            });
+         },
         ),
       ),
     );    
