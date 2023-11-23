@@ -1,4 +1,6 @@
+
 import 'package:flutter/material.dart';
+import 'package:test_application/elements/bottomNavigationBar.dart';
 import 'package:test_application/screens/addResult.dart';
 import 'package:test_application/elements/customPageRouteBuilder.dart';
 import 'package:test_application/screens/gameExplanation.dart';
@@ -8,6 +10,7 @@ class AlleGegenAlle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false, // Remove the back button
         title: Text('Alle gegen alle'),
         actions: [
           IconButton(
@@ -25,6 +28,10 @@ class AlleGegenAlle extends StatelessWidget {
         ],
       ),
       body: MatchList(),
+      bottomNavigationBar: CustomBottomNavigationBar(
+        currentIndex: 0,
+        context: context,
+      ),
     );
   }
 }
@@ -50,7 +57,9 @@ class MatchList extends StatelessWidget {
               Navigator.push(
                 context,
                 CustomPageRouteBuilder.slideInFromRight(
-                  AddResult(matchName: matches[index],),
+                  AddResult(
+                    matchName: matches[index],
+                  ),
                 ),
               );
             },
