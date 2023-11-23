@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:test_application/elements/bottomNavigationBar.dart';
+import 'package:test_application/entities/minigamesEnum.dart';
 import 'package:test_application/screens/addResult.dart';
 import 'package:test_application/elements/customPageRouteBuilder.dart';
 import 'package:test_application/screens/gameExplanation.dart';
@@ -11,7 +12,7 @@ class AlleGegenAlle extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false, // Remove the back button
-        title: Text('Alle gegen alle'),
+        title: Text(Minigame.alleGegenAlle.title),
         actions: [
           IconButton(
             icon: Icon(Icons.help_outline),
@@ -20,7 +21,7 @@ class AlleGegenAlle extends StatelessWidget {
               Navigator.push(
                 context,
                 CustomPageRouteBuilder.slideInFromRight(
-                  GameExplanation('Alle gegen alle'),
+                  GameExplanation(Minigame.alleGegenAlle),
                 ),
               );
             },
