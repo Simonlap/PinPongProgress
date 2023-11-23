@@ -15,36 +15,11 @@ class ManagePlayers extends StatefulWidget {
 }
 
 class _ManagePlayersState extends State<ManagePlayers> {
-  List<String> player_names = [];
-
 
   @override
   void initState() {
     super.initState();
-    fetchUserNames(); // Call the function to fetch user data when the widget initializes.
   }
-
-  Future<void> fetchUserNames() async {
-    final url = Uri.parse(apiUrl + '/api/userdata/players');
-    final response = await http.get(
-      url,
-      headers: {
-        'Cookie': jwtToken!
-      },
-    );
-    print(jwtToken);
-
-    if (response.statusCode == 200) {
-      final List<dynamic> data = json.decode(response.body);
-      setState(() {
-        player_names = data.map((user) => user['playerName'].toString()).toList();
-        player = data.map((jsonPlayer) => Player.fromJson(jsonPlayer)).toList();
-      });
-    } else {
-      throw Exception('Failed to load user data');
-    }
-  }
-
 
   Future<void> changePlayerName(newName, id, index) async {
 
@@ -62,9 +37,8 @@ class _ManagePlayersState extends State<ManagePlayers> {
 
     if (response.statusCode == 200) {
       print(json.decode(response.body));
-      player[index] = Player.fromJson(json.decode(response.body));
       setState(() {
-        player_names[index] = player[index].name;
+        player[index] = Player.fromJson(json.decode(response.body));
       });
       // Player added successfully
       print('Player name changed successfully');
@@ -83,7 +57,9 @@ class _ManagePlayersState extends State<ManagePlayers> {
         builder: (context) => AddPlayer(
           onUserAdded: () {
             // Callback function to fetch user names when a user is added
-            fetchUserNames();
+            setState(() {
+              
+            });
           },
         ),
       ),
@@ -103,7 +79,7 @@ class _ManagePlayersState extends State<ManagePlayers> {
         children: <Widget>[
           Expanded(
             child: ListView.builder(
-              itemCount: player_names.length,
+              itemCount: player.length,
               itemBuilder: (context, index) {
                 return Row(
                   children: <Widget>[
@@ -132,7 +108,7 @@ class _ManagePlayersState extends State<ManagePlayers> {
                           );
                         },
                         child: Text(
-                          player_names[index],
+                          player[index].name,
                           style: TextStyle(fontSize: 24),
                         ),
                       ),

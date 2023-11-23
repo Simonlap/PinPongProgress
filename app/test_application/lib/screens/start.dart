@@ -1,11 +1,48 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:test_application/elements/bottomNavigationBar.dart';
 import 'package:test_application/elements/customPageRouteBuilder.dart';
+import 'package:test_application/entities/player.dart';
+import 'package:test_application/globalVariables.dart';
 import 'package:test_application/screens/managePlayers.dart';
 import 'package:test_application/screens/minigames.dart';
+import 'package:http/http.dart' as http;
 
-class Start extends StatelessWidget {
-  const Start({super.key});
+class Start extends StatefulWidget {
+  const Start({Key? key}) : super(key: key);
+
+  @override
+  _StartState createState() => _StartState();
+}
+
+
+class _StartState extends State<Start> {
+  @override
+  void initState() {
+    super.initState();
+
+    fetchPlayers(); // Call the function to fetch user data when the widget initializes.
+  }
+
+  Future<void> fetchPlayers() async {
+    final url = Uri.parse(apiUrl + '/api/userdata/players');
+    final response = await http.get(
+      url,
+      headers: {
+        'Cookie': jwtToken!
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final List<dynamic> data = json.decode(response.body);
+      setState(() {
+        player = data.map((jsonPlayer) => Player.fromJson(jsonPlayer)).toList();
+      });
+    } else {
+      throw Exception('Failed to load user data');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
