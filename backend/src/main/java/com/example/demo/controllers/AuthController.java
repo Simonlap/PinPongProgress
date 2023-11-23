@@ -1,6 +1,6 @@
 package com.example.demo.controllers;
 
-import org.springframework.web.bind.annotation.GetMapping;
+import com.example.demo.payload.response.Responses;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashSet;
@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.models.ERole;
 import com.example.demo.models.Role;
@@ -85,12 +84,12 @@ public class AuthController {
 
         //Username already taken
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
-            return ResponseEntity.badRequest().body(new MessageResponse("Error: 1"));
+            return ResponseEntity.badRequest().body(new MessageResponse("Username already exists", Responses.USERNAMEEXISTS));
         }
 
         //Email already taken
         if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-            return ResponseEntity.badRequest().body(new MessageResponse("Error: 2"));
+            return ResponseEntity.badRequest().body(new MessageResponse("Email already exists", Responses.EMAILEXISTS));
         }
 
         // Create new user's account
@@ -131,13 +130,13 @@ public class AuthController {
         user.setRoles(roles);
         userRepository.save(user);
 
-        return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+        return ResponseEntity.ok(new MessageResponse("User registered successfully!", Responses.SUCCESS));
     }
 
     @PostMapping("/signout")
     public ResponseEntity<?> logoutUser() {
         ResponseCookie cookie = jwtUtils.getCleanJwtCookie();
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString())
-                .body(new MessageResponse("You've been signed out!"));
+                .body(new MessageResponse("You've been signed out!", Responses.SUCCESS));
     }
 }

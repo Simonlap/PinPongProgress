@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 String? username = null;
 String? useremail = null;
 int? userid = null;
