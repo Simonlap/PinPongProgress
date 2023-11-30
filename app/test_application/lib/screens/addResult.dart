@@ -1,17 +1,26 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:numberpicker/numberpicker.dart';
-
+import 'package:test_application/elements/customAlertDialog.dart';
+import 'package:test_application/entities/match.dart';
+import 'package:http/http.dart' as http;
+import 'package:test_application/globalVariables.dart';
 
 class AddResult extends StatefulWidget {
-  final String matchName;
+  final Match match;
 
-  AddResult({required this.matchName});
+  AddResult({required this.match});
 
   @override
-  _AddResultState createState() => _AddResultState();
+  _AddResultState createState() => _AddResultState(match);
 }
 
 class _AddResultState extends State<AddResult> {
+  final Match match;
+
+  _AddResultState(this.match);
+
   int player1Points = 0;
   int player2Points = 0;
 
@@ -19,7 +28,7 @@ class _AddResultState extends State<AddResult> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.matchName),
+        title: Text(widget.match.matchName),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -27,7 +36,7 @@ class _AddResultState extends State<AddResult> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Text("Player 1"),
+              Text("Player 1: " + match.player1.name),
               NumberPicker(
                 value: player1Points,
                 minValue: 0,
@@ -38,14 +47,11 @@ class _AddResultState extends State<AddResult> {
                     // Ensure a 2-point difference when the selected value is higher than 11
                     if (player1Points > 11) {
                       player2Points = value - 2;
-                    }
-                    else if (player1Points == 10 && player2Points > 10) {
+                    } else if (player1Points == 10 && player2Points > 10) {
                       player2Points = 12;
-                    }
-                    else if (player1Points >= 10 && player2Points >= 10) {
+                    } else if (player1Points >= 10 && player2Points >= 10) {
                       player2Points = value - 2;
-                    }
-                    else if (player1Points < 10 && player2Points >= 10) {
+                    } else if (player1Points < 10 && player2Points >= 10) {
                       player2Points = 11;
                     }
                   });
@@ -56,7 +62,7 @@ class _AddResultState extends State<AddResult> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Text("Player 2"),
+              Text("Player 2: " + match.player2.name),
               NumberPicker(
                 value: player2Points,
                 minValue: 0,
@@ -67,14 +73,11 @@ class _AddResultState extends State<AddResult> {
                     // Ensure a 2-point difference when the selected value is higher than 11
                     if (player2Points > 11) {
                       player1Points = value - 2;
-                    } 
-                    else if (player2Points == 10 && player1Points > 10) {
+                    } else if (player2Points == 10 && player1Points > 10) {
                       player1Points = 12;
-                    }
-                    else if (player2Points >= 10 && player1Points >= 10) {
+                    } else if (player2Points >= 10 && player1Points >= 10) {
                       player1Points = value - 2;
-                    }
-                    else if (player2Points < 10 && player1Points >= 10) {
+                    } else if (player2Points < 10 && player1Points >= 10) {
                       player1Points = 11;
                     }
                   });
@@ -91,7 +94,44 @@ class _AddResultState extends State<AddResult> {
     );
   }
 
-  void _confirmResult() {
-    // Implement your logic to confirm and handle the result
+  Future<void> _confirmResult() async {
+    if (!(player1Points == match.pointsPlayer1 && player2Points == match.pointsPlayer2)) {
+      final url = Uri.parse(apiUrl + '/api/minigame/entry');
+      final response = await http.post(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Cookie': jwtToken!,
+        },
+        body: jsonEncode({
+          'player1_id': match.player1.id,
+          'player2_id': match.player2.id,
+          'points_player1': player1Points,
+          'points_player2': player2Points,
+          'roundId': match.minigameType.index
+        }),
+      );
+
+      if (response.statusCode == 201) {
+        // Player added successfully
+        print(json.decode(response.body));
+        print('Minigame entry created successfully');
+
+        match.pointsPlayer1 = player1Points;
+        match.pointsPlayer2 = player2Points;
+
+        //TODO: Gloable Minigames Variable?
+
+        Navigator.pop(context);
+      } else {
+        // Handle error
+        print(
+            'Failed to create minigame entry. Status code: ${response.statusCode}');
+        showAlert(context, "Minigame Ergebnis",
+            "Minigame Ergebnis konnte nicht hinzugefügt werden!");
+      }
+    } else {
+      Navigator.pop(context);
+    }
   }
 }

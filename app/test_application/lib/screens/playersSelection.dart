@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:test_application/elements/customAlertDialog.dart';
 import 'package:test_application/entities/minigamesEnum.dart';
+import 'package:test_application/entities/player.dart';
 import 'package:test_application/screens/addPlayer.dart';
 import 'package:test_application/screens/alleGegenAlle.dart';
 import 'package:test_application/elements/customPageRouteBuilder.dart';
@@ -74,17 +75,28 @@ class _PlayersSelectionState extends State<PlayersSelection> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          SelectablePlayers(globalVariables.player.map((p) => p.name).toList(),
-              selectedPlayers),
+          SelectablePlayers(globalVariables.player, selectedPlayers),
           SizedBox(height: 20),
           ElevatedButton(
             onPressed: () {
-              Navigator.push(
-                context,
-                CustomPageRouteBuilder.slideInFromRight(AlleGegenAlle()),
-              );
-            },
-            child: Text('Los gehts'),
+        // Here, you can access the selected players as a List<Player>
+        List<Player> selectedPlayersList = [];
+        for (int i = 0; i < globalVariables.player.length; i++) {
+          if (selectedPlayers[i]) {
+            selectedPlayersList.add(globalVariables.player[i]);
+          }
+        }
+
+        // Use the selectedPlayersList as needed
+        // For example, you can pass it to the AlleGegenAlle screen
+        Navigator.push(
+          context,
+          CustomPageRouteBuilder.slideInFromRight(
+            AlleGegenAlle(players: selectedPlayersList),
+          ),
+        );
+      },
+      child: Text('Los gehts'),
           ),
         ],
       ),
@@ -93,7 +105,7 @@ class _PlayersSelectionState extends State<PlayersSelection> {
 }
 
 class SelectablePlayers extends StatefulWidget {
-  final List<String> players;
+  final List<Player> players;
   final List<bool> selectedPlayers;
 
   SelectablePlayers(this.players, this.selectedPlayers);
@@ -113,7 +125,7 @@ class _SelectablePlayersState extends State<SelectablePlayers> {
         ),
         for (int i = 0; i < widget.players.length; i++)
           ListTile(
-            title: Text(widget.players[i]),
+            title: Text(widget.players[i].name),
             leading: Checkbox(
               value: widget.selectedPlayers[i],
               onChanged: (value) {
@@ -127,3 +139,4 @@ class _SelectablePlayersState extends State<SelectablePlayers> {
     );
   }
 }
+

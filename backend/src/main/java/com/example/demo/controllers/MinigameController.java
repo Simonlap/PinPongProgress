@@ -34,7 +34,7 @@ public class MinigameController {
     }
     @PostMapping("/entry")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-    public ResponseEntity<ResultDTO> createPlayer(@Valid @RequestBody ResultDTO resultDTO) {
+    public ResponseEntity<ResultDTO> createResult(@Valid @RequestBody ResultDTO resultDTO) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
