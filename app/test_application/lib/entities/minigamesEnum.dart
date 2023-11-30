@@ -15,4 +15,8 @@ extension MiniGameTitle on Minigame {
         return '7er Tisch';
     }
   }
+
+  int get id {
+    return this.index; // Using the index as the ID, starting from 0
+  }
 }
