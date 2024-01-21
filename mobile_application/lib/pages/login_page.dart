@@ -3,6 +3,7 @@ import 'package:mobile_application/globalVariables.dart' as globalVariables;
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:mobile_application/pages/navigation_page.dart';
 
 
 import '../globalVariables.dart';
@@ -65,7 +66,12 @@ class _LoginPageState extends State<LoginPage> {
         globalVariables.jwtToken = testjwtValue;
       }
       // Login was successful, you can navigate to the next page.
-      Navigator.popAndPushNamed(context, '/homepage');
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => NavigationPage()),
+        (Route<dynamic> route) => false, // This condition prevents any route from being retained.
+      );
+
       print("Success");
     } else {
       // Handle the error or show a message to the user.

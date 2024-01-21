@@ -6,8 +6,65 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Home Page"),
+      body: Stack(
+        children: [
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Row(
+                children: <Widget>[
+                  Expanded(
+                    child: ElevatedButton(
+                      style: ButtonStyle(
+                        minimumSize: MaterialStateProperty.all(
+                            const Size(0, 100)), // Set the button's height
+                      ),
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/allegegenallepage');
+                      },
+                      child: Text('Alle gegen Alle',
+                          style: TextStyle(fontSize: 24)),
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: <Widget>[
+                  Expanded(
+                    child: ElevatedButton(
+                      style: ButtonStyle(
+                        minimumSize: MaterialStateProperty.all(
+                            const Size(0, 100)), // Set the button's height
+                      ),
+                      onPressed: () {
+                        
+                      },
+                      child: Text('Siebener Tisch',
+                          style: TextStyle(fontSize: 24)),
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: <Widget>[
+                  Expanded(
+                    child: ElevatedButton(
+                      style: ButtonStyle(
+                        minimumSize: MaterialStateProperty.all(
+                            const Size(0, 100)), // Set the button's height
+                      ),
+                      onPressed: () {
+                        
+                      },
+                      child: Text('Kaisertisch',
+                          style: TextStyle(fontSize: 24)),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
