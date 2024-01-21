@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_application/pages/addPlayer_page.dart';
 import 'package:mobile_application/pages/alleGegenAlle_page.dart';
 import 'package:mobile_application/pages/home_page.dart';
 import 'package:mobile_application/pages/login_page.dart';
+import 'package:mobile_application/pages/managePlayers_page.dart';
+import 'package:mobile_application/pages/minispiele_page.dart';
 import 'package:mobile_application/pages/navigation_page.dart';
 import 'package:mobile_application/pages/profile_page.dart';
 import 'package:mobile_application/pages/register_page.dart';
@@ -26,7 +29,10 @@ class MyApp extends StatelessWidget {
         '/navigationpage' :(context) => NavigationPage(),
         '/homepage' :(context) => HomePage(),
         '/profilePage' :(context) => ProfilePage(),
+        '/minispielepage' :(context) => MinispielePage(),
         '/allegegenallepage' :(context) => AlleGegenAllePage(),
+        '/manageplayerspage' :(context) => ManagePlayersPage(),
+        '/addplayerpage' :(context) => AddPlayer(),
       }
     );
   }

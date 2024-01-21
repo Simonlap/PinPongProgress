@@ -30,7 +30,7 @@ class _NavigationPageState extends State<NavigationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Home Page"),
+        title: Text("Start"),
         automaticallyImplyLeading: false,
       ),
       body: _pages[_selectedIndex],

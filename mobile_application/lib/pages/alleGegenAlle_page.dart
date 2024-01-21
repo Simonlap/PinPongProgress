@@ -5,7 +5,10 @@ class AlleGegenAllePage extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Alle gegen Alle'),
+      ),
       	body: Center(child: Text('Profile Page')),
     );
   }
