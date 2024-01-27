@@ -30,9 +30,9 @@ class MyApp extends StatelessWidget {
         '/homepage' :(context) => HomePage(),
         '/profilePage' :(context) => ProfilePage(),
         '/minispielepage' :(context) => MinispielePage(),
-        '/allegegenallepage' :(context) => AlleGegenAllePage(),
+        //'/allegegenallepage' :(context) => AlleGegenAllePage(),
         '/manageplayerspage' :(context) => ManagePlayersPage(),
-        '/addplayerpage' :(context) => AddPlayer(),
+        '/addplayerpage' :(context) => AddPlayerPage(),
       }
     );
   }

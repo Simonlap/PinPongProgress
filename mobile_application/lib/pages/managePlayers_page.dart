@@ -77,7 +77,7 @@ class _ManagePlayersState extends State<ManagePlayersPage> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => AddPlayer(
+        builder: (context) => AddPlayerPage(
           onUserAdded: () {
             // Callback function to fetch user names when a user is added
             setState(() {
@@ -161,7 +161,7 @@ class _ManagePlayersState extends State<ManagePlayersPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => AddPlayer(
+                        builder: (context) => AddPlayerPage(
                           onUserAdded: () {
                             // Callback function to fetch user names when a user is added
                             setState(() {

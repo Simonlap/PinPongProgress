@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_application/entities/match.dart';
+import 'package:mobile_application/entities/minigamesEnum.dart';
+import 'package:mobile_application/pages/addResult_page.dart';
+import 'package:mobile_application/pages/gameExplanation_page.dart';
 
 class MatchListPage extends StatelessWidget {
   final List<Match> matches;
@@ -16,8 +20,9 @@ class MatchListPage extends StatelessWidget {
             onPressed: () async {
               await Navigator.push(
                 context,
-                CustomPageRouteBuilder.slideInFromRight(
-                  AddResult(match: matches[index]),
+                MaterialPageRoute(
+                  //hier add result
+                  builder: (context) => AddResultPage(match: matches[index]),
                 ),
               );
               onResultConfirmed();

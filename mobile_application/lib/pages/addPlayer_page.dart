@@ -6,16 +6,16 @@ import 'package:mobile_application/entities/player.dart';
 import 'package:mobile_application/globalVariables.dart';
 import 'package:flutter/services.dart';
 
-class AddPlayer extends StatefulWidget {
+class AddPlayerPage extends StatefulWidget {
   final Function()? onUserAdded;
 
-  const AddPlayer({Key? key, this.onUserAdded}) : super(key: key);
+  const AddPlayerPage({Key? key, this.onUserAdded}) : super(key: key);
 
   @override
   _AddPlayerState createState() => _AddPlayerState();
 }
 
-class _AddPlayerState extends State<AddPlayer> {
+class _AddPlayerState extends State<AddPlayerPage> {
   TextEditingController _nameController = TextEditingController();
   TextEditingController _eloController = TextEditingController();
 

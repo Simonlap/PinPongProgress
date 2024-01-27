@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_application/entities/minigamesEnum.dart';
+import 'package:mobile_application/pages/playerSelection_page.dart';
 
 class MinispielePage extends StatelessWidget {
   const MinispielePage({super.key});
@@ -23,7 +25,12 @@ class MinispielePage extends StatelessWidget {
                             const Size(0, 100)), // Set the button's height
                       ),
                       onPressed: () {
-                        Navigator.pushNamed(context, '/allegegenallepage');
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => PlayersSelectionPage(selectedMinigame: Minigame.alleGegenAlle),
+                          ),
+                        );                       
                       },
                       child: Text('Alle gegen Alle',
                           style: TextStyle(fontSize: 24)),

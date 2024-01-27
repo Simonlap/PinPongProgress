@@ -47,7 +47,6 @@ class _AlleGegenAlleState extends State<AlleGegenAllePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
         title: Text(Minigame.alleGegenAlle.title),
         actions: [
           IconButton(
@@ -63,11 +62,40 @@ class _AlleGegenAlleState extends State<AlleGegenAllePage> {
           ),
         ],
       ),
-      body: MatchListPage(
-        matches: matches,
-        onResultConfirmed: () {
-          setState(() { });
-        },
+      body: Stack(
+        children: [
+          MatchListPage(
+            matches: matches,
+            onResultConfirmed: () {
+              setState(() {});
+            },
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        // Logic for Next Round
+                      },
+                      child: Text('Nächste Runde'),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        // Logic for End Game
+                      },
+                      child: Text('Spiel beenden'),
+                    ),
+                  ],
+                )
+              ],
+            ),
+          )
+        ],
       ),
     );
   }

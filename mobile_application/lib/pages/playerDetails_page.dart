@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_application/elements/customAlertDialog.dart';
 import 'package:mobile_application/entities/player.dart';
 
 class PlayerDetailsPage extends StatefulWidget {
@@ -48,31 +49,18 @@ class _PlayerDetailsState extends State<PlayerDetailsPage> {
   }
 
   void _showDeleteConfirmationDialog() {
-    showDialog(
+    showConfirmationDialog(
       context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Delete Player'),
-          content: Text('Are you sure you want to delete this player?'),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(); // Close the dialog
-              },
-              child: Text('No'),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(); // Close the dialog
-                _deletePlayer();
-              },
-              child: Text('Yes'),
-            ),
-          ],
-        );
-      },
-    );
-  }
+      title: 'Spieler löschen',
+      message: 'Möchtest du diesen Spieler wirklich löschen?',
+      onConfirm: _deletePlayer,
+      onCancel: () {},
+    ).then((confirmed) {
+      if (confirmed) {
+        _deletePlayer();
+      }
+    });
+  } 
 
   @override
   Widget build(BuildContext context) {
