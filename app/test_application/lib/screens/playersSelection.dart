@@ -1,12 +1,16 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:test_application/elements/customAlertDialog.dart';
 import 'package:test_application/entities/minigamesEnum.dart';
 import 'package:test_application/entities/player.dart';
+import 'package:test_application/globalVariables.dart';
 import 'package:test_application/screens/addPlayer.dart';
 import 'package:test_application/screens/alleGegenAlle.dart';
 import 'package:test_application/elements/customPageRouteBuilder.dart';
 import 'package:test_application/screens/gameExplanation.dart';
 import 'package:test_application/globalVariables.dart' as globalVariables;
+import 'package:http/http.dart' as http;
 
 class PlayersSelection extends StatefulWidget {
   final Minigame selectedMinigame;
@@ -78,7 +82,7 @@ class _PlayersSelectionState extends State<PlayersSelection> {
           SelectablePlayers(globalVariables.player, selectedPlayers),
           SizedBox(height: 20),
           ElevatedButton(
-            onPressed: () {
+            onPressed: () async {
         // Here, you can access the selected players as a List<Player>
         List<Player> selectedPlayersList = [];
         for (int i = 0; i < globalVariables.player.length; i++) {
@@ -87,14 +91,27 @@ class _PlayersSelectionState extends State<PlayersSelection> {
           }
         }
 
-        // Use the selectedPlayersList as needed
-        // For example, you can pass it to the AlleGegenAlle screen
-        Navigator.push(
-          context,
-          CustomPageRouteBuilder.slideInFromRight(
-            AlleGegenAlle(players: selectedPlayersList),
-          ),
-        );
+              final url = Uri.parse('$apiUrl/api/uniqueGames/entry');
+              final response = await http.post(
+                url,
+                headers: {'Content-Type': 'application/json'},
+                body: jsonEncode({
+                  'highest_round': 0,
+                  'is_finished': false,
+                }),
+              );
+
+              if (response.statusCode != 200) {
+                showAlert(context, "Fehler", "Erstellung fehlgeschlagen! Bitte erneut versuchen.");
+              } else {
+                // Use the selectedPlayersList as needed, For example, you can pass it to the AlleGegenAlle screen
+                Navigator.push(
+                  context,
+                  CustomPageRouteBuilder.slideInFromRight(
+                    AlleGegenAlle(players: selectedPlayersList),
+                  ),
+                );
+              }
       },
       child: Text('Los gehts'),
           ),
