@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:mobile_application/globalVariables.dart' as globalVariables;
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mobile_application/pages/navigation_page.dart';
 
 
@@ -75,15 +74,15 @@ class _LoginPageState extends State<LoginPage> {
       print("Success");
     } else {
       // Handle the error or show a message to the user.
-      Fluttertoast.showToast(
-        msg: "Login failed. Please try again.",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.red,
-        textColor: Colors.white,
-        fontSize: 16.0
-    );
+    //   Fluttertoast.showToast(
+    //     msg: "Login failed. Please try again.",
+    //     toastLength: Toast.LENGTH_SHORT,
+    //     gravity: ToastGravity.BOTTOM,
+    //     timeInSecForIosWeb: 1,
+    //     backgroundColor: Colors.red,
+    //     textColor: Colors.white,
+    //     fontSize: 16.0
+    // );
     }
 
     setState(() {

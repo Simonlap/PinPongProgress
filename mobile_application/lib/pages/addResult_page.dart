@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:mobile_application/entities/match.dart';
 import 'package:http/http.dart' as http;
@@ -129,15 +128,15 @@ class _AddResultState extends State<AddResultPage> {
         // Handle error
         print('Failed to create minigame entry. Status code: ${response.statusCode}');
 
-        Fluttertoast.showToast(
-          msg: "Minigame Ergebnis konnte nicht hinzugefügt werden!",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.red,
-          textColor: Colors.white,
-          fontSize: 16.0
-        );
+        // Fluttertoast.showToast(
+        //   msg: "Minigame Ergebnis konnte nicht hinzugefügt werden!",
+        //   toastLength: Toast.LENGTH_SHORT,
+        //   gravity: ToastGravity.BOTTOM,
+        //   timeInSecForIosWeb: 1,
+        //   backgroundColor: Colors.red,
+        //   textColor: Colors.white,
+        //   fontSize: 16.0
+        // );
       }
     } else {
       Navigator.pop(context);

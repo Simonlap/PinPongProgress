@@ -11,4 +11,6 @@ import java.util.Set;
 public interface UniqueGamesRepository extends JpaRepository<UniqueGame, Long> {
 
     Set<UniqueGame> findByUserIdAndIsFinished(Long userId, boolean isFinished);
+
+    UniqueGame findByIdAndUserId(Long uniqueGameId, Long userId);
 }

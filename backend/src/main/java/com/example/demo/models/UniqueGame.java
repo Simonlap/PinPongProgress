@@ -1,12 +1,14 @@
 package com.example.demo.models;
 
+import java.util.Map;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "games")
-public class UniqueGame {
+public class UniqueGame<dynamic> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -14,10 +16,10 @@ public class UniqueGame {
     @NotNull
     private int highest_round;
 
-    @NotBlank
+    @NotNull
     private boolean isFinished;
 
-    @NotBlank
+    @NotNull
     private Long userId;
 
     public void setId(Long id) {

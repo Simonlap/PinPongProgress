@@ -1,6 +1,8 @@
 package com.example.demo.services;
 
+import com.example.demo.dto.PlayerDTO;
 import com.example.demo.dto.UniqueGameDTO;
+import com.example.demo.models.Player;
 import com.example.demo.models.UniqueGame;
 import com.example.demo.repository.UniqueGamesRepository;
 import jakarta.transaction.Transactional;
@@ -35,4 +37,17 @@ public class UniqueGamesService {
                 .collect(java.util.stream.Collectors.toList());
     }
 
+    public UniqueGameDTO increaseRound(Long uniqueGameId, Long userId) {
+        UniqueGame uniqueGame = uniqueGamesRepository.findById(uniqueGameId).get();
+        uniqueGame.setHighest_round(uniqueGame.getHighest_round() + 1);
+        UniqueGame savedGame = uniqueGamesRepository.save(uniqueGame);
+        return modelMapper.map(savedGame, UniqueGameDTO.class);
+    }
+
+    public UniqueGameDTO exitRound(Long uniqueGameId, Long userId) {
+        UniqueGame uniqueGame = uniqueGamesRepository.findById(uniqueGameId).get();
+        uniqueGame.setFinished(true);
+        UniqueGame savedGame = uniqueGamesRepository.save(uniqueGame);
+        return modelMapper.map(savedGame, UniqueGameDTO.class);
+    }
 }

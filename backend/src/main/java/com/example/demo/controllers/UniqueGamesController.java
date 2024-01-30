@@ -44,4 +44,26 @@ public class UniqueGamesController {
 
         return new ResponseEntity<>(createdResult, HttpStatus.CREATED);
     }
+
+    @PutMapping("/increaseRound")
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+    public ResponseEntity<UniqueGameDTO> increaseRound(@PathVariable Long uniqueGameId) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+
+        UniqueGameDTO createdResult = uniqueGamesService.increaseRound(uniqueGameId, userDetails.getId());
+
+        return new ResponseEntity<>(createdResult, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/exitGame")
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+    public ResponseEntity<UniqueGameDTO> exitRound(@PathVariable Long uniqueGameId) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+
+        UniqueGameDTO createdResult = uniqueGamesService.exitRound(uniqueGameId, userDetails.getId());
+
+        return new ResponseEntity<>(createdResult, HttpStatus.CREATED);
+    }
 }
