@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:mobile_application/entities/group.dart';
 import 'package:mobile_application/entities/player.dart';
 import 'package:mobile_application/globalVariables.dart';
 import 'package:http/http.dart' as http;
@@ -18,6 +19,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     fetchPlayers(); // Call the function to fetch user data when the widget initializes.
+    fetchGroups();
   }
 
   Future<void> fetchPlayers() async {
@@ -39,7 +41,24 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+    Future<void> fetchGroups() async {
+    final url = Uri.parse('$apiUrl/api/userdata/groups');
+    final response = await http.get(
+      url,
+      headers: {
+        'Cookie': jwtToken!
+      },
+    );
 
+    if (response.statusCode == 200) {
+      final List<dynamic> data = json.decode(response.body);
+      setState(() {
+        groups = data.map((jsonGroup) => Group.fromJson(jsonGroup)).toList();
+      });
+    } else {
+      throw Exception('Failed to load user data');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
