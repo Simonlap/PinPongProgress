@@ -1,5 +1,6 @@
 package com.example.demo.controllers;
 
+import com.example.demo.dto.GroupDTO;
 import com.example.demo.dto.PlayerDTO;
 import com.example.demo.payload.request.UpdatePlayerNameRequest;
 import com.example.demo.security.services.UserDetailsImpl;
@@ -66,5 +67,27 @@ public class UserdataController {
         userdataService.deletePlayer(playerId);
 
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/groups")
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+    public ResponseEntity<List<GroupDTO>> getGroupsForUserId() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+
+        List<GroupDTO> groups = userdataService.getGroupsForUserId(userDetails.getId());
+
+        return new ResponseEntity<>(groups, HttpStatus.OK);
+    }
+
+    @PostMapping("/groups")
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+    public ResponseEntity<GroupDTO> createGroup(@Valid @RequestBody GroupDTO groupDTO) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+
+        GroupDTO createdGroup = userdataService.createGroup(groupDTO, userDetails.getId());
+
+        return new ResponseEntity<>(createdGroup, HttpStatus.CREATED);
     }
 }
