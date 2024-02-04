@@ -11,9 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ResultDTO {
 
-    @JsonIgnore
     private Long id;
-
     private Long userId;
     private int minigameId;
     private Long player1Id;
@@ -21,6 +19,7 @@ public class ResultDTO {
     private int pointsPlayer1;
     private int pointsPlayer2;
     private int roundId;
+    private int uniqueGameId;
 
     public void setId(Long id) {
         this.id = id;
@@ -84,5 +83,12 @@ public class ResultDTO {
 
     public void setRoundId(int roundId) {
         this.roundId = roundId;
+    }
+
+    public int getUniqueGameId() {
+        return uniqueGameId;
+    }
+    public void setUniqueGameId(int uniqueGameId) {
+        this.uniqueGameId = uniqueGameId;
     }
 }

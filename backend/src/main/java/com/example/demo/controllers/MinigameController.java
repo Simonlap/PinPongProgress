@@ -10,6 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.dto.ResultDTO;
+import com.example.demo.payload.request.EditResultEntryRequest;
 import com.example.demo.security.services.UserDetailsImpl;
 import com.example.demo.services.MinigameService;
 
@@ -23,9 +24,9 @@ public class MinigameController {
     @Autowired
     MinigameService minigameService;
 
-    @GetMapping("/results")
+    @GetMapping("/results/{roundId}")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-    public ResponseEntity<List<ResultDTO>> getResultsForUserIdAndRoundId(@RequestParam int roundId) {
+    public ResponseEntity<List<ResultDTO>> getResultsForUserIdAndRoundId(@RequestParam Long roundId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
@@ -33,6 +34,7 @@ public class MinigameController {
 
         return new ResponseEntity<>(results, HttpStatus.OK);
     }
+
     @PostMapping("/entry")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public ResponseEntity<ResultDTO> createResult(@Valid @RequestBody ResultDTO resultDTO) {
@@ -42,5 +44,16 @@ public class MinigameController {
         ResultDTO createdResult = minigameService.createResultEntry(resultDTO, userDetails.getId());
 
         return new ResponseEntity<>(createdResult, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/editEntry")
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+    public ResponseEntity<ResultDTO> editResult(@Valid @RequestBody EditResultEntryRequest editResultEntryRequest) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+
+        ResultDTO createdResult = minigameService.editResultEntry(editResultEntryRequest, userDetails.getId());
+
+        return new ResponseEntity<>(createdResult, HttpStatus.OK);
     }
 }

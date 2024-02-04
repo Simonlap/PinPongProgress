@@ -55,7 +55,7 @@ public class UniqueGamesController {
 
         UniqueGameDTO createdResult = uniqueGamesService.increaseRound(updateRoundIdRequest, userDetails.getId());
 
-        return new ResponseEntity<>(createdResult, HttpStatus.CREATED);
+        return new ResponseEntity<>(createdResult, HttpStatus.OK);
     }
 
     @PutMapping("/exitGame")
@@ -66,6 +66,6 @@ public class UniqueGamesController {
 
         UniqueGameDTO createdResult = uniqueGamesService.exitRound(updateRoundIdRequest, userDetails.getId());
 
-        return new ResponseEntity<>(createdResult, HttpStatus.CREATED);
+        return new ResponseEntity<>(createdResult, HttpStatus.OK);
     }
 }

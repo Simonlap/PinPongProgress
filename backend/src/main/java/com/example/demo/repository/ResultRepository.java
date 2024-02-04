@@ -9,5 +9,5 @@ import java.util.Set;
 
 @Repository
 public interface ResultRepository extends JpaRepository<Result, Long> {
-    Set<Result> findByUserIdAndRoundId(Long userId, int roundId);
+    Set<Result> findByUserIdAndRoundId(Long userId, Long roundId);
 }
