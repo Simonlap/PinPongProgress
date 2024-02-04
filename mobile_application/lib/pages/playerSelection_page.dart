@@ -118,7 +118,7 @@ class _PlayersSelectionState extends State<PlayersSelectionPage> {
           },
           body: jsonEncode({
             "isFinished": false,
-		        "highest_round": 0
+		        "highestRound": 0
           }),
         );
         if (response.statusCode == 201) {

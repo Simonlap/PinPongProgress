@@ -1,8 +1,5 @@
 package com.example.demo.controllers;
 
-import com.example.demo.dto.ResultDTO;
-import com.example.demo.security.services.UserDetailsImpl;
-import com.example.demo.services.MinigameService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,6 +8,10 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import com.example.demo.dto.ResultDTO;
+import com.example.demo.security.services.UserDetailsImpl;
+import com.example.demo.services.MinigameService;
 
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class MinigameController {
 
     @GetMapping("/results")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-    public ResponseEntity<List<ResultDTO>> getResultsForUserIdAndRoundId(@RequestParam String roundId) {
+    public ResponseEntity<List<ResultDTO>> getResultsForUserIdAndRoundId(@RequestParam int roundId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 

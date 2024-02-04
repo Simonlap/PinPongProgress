@@ -103,13 +103,13 @@ class _AddResultState extends State<AddResultPage> {
           'Cookie': jwtToken!,
         },
         body: jsonEncode({
-          'player1_id': match.player1.id,
-          'player2_id': match.player2.id,
-          'points_player1': player1Points,
-          'points_player2': player2Points,
+          'player1Id': match.player1.id,
+          'player2Id': match.player2.id,
+          'pointsPlayer1': player1Points,
+          'pointsPlayer2': player2Points,
           'roundId': 0,
-          'unique_game_id': 0,
-          'minigame_id': match.minigameType.index
+          'uniqueGameId': 0,
+          'minigameId': match.minigameType.index
         }),
       );
 
