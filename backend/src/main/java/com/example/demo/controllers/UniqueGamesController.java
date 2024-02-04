@@ -1,8 +1,5 @@
 package com.example.demo.controllers;
 
-import com.example.demo.dto.UniqueGameDTO;
-import com.example.demo.security.services.UserDetailsImpl;
-import com.example.demo.services.UniqueGamesService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,6 +8,11 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import com.example.demo.dto.UniqueGameDTO;
+import com.example.demo.payload.request.UniqueGameIdRequest;
+import com.example.demo.security.services.UserDetailsImpl;
+import com.example.demo.services.UniqueGamesService;
 
 import java.util.List;
 
@@ -47,22 +49,22 @@ public class UniqueGamesController {
 
     @PutMapping("/increaseRound")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-    public ResponseEntity<UniqueGameDTO> increaseRound(@PathVariable Long uniqueGameId) {
+    public ResponseEntity<UniqueGameDTO> increaseRound(@Valid @RequestBody UniqueGameIdRequest updateRoundIdRequest) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
-        UniqueGameDTO createdResult = uniqueGamesService.increaseRound(uniqueGameId, userDetails.getId());
+        UniqueGameDTO createdResult = uniqueGamesService.increaseRound(updateRoundIdRequest, userDetails.getId());
 
         return new ResponseEntity<>(createdResult, HttpStatus.CREATED);
     }
 
     @PutMapping("/exitGame")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-    public ResponseEntity<UniqueGameDTO> exitRound(@PathVariable Long uniqueGameId) {
+    public ResponseEntity<UniqueGameDTO> exitRound(@Valid @RequestBody UniqueGameIdRequest updateRoundIdRequest) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
-        UniqueGameDTO createdResult = uniqueGamesService.exitRound(uniqueGameId, userDetails.getId());
+        UniqueGameDTO createdResult = uniqueGamesService.exitRound(updateRoundIdRequest, userDetails.getId());
 
         return new ResponseEntity<>(createdResult, HttpStatus.CREATED);
     }
