@@ -5,6 +5,7 @@ import 'package:mobile_application/globalVariables.dart';
 import 'dart:convert';
 
 import 'package:mobile_application/pages/addPlayer_page.dart';
+import 'package:mobile_application/pages/groupDetails_page.dart';
 import 'package:mobile_application/pages/playerDetails_page.dart';
 
 class ManageGroupsPage extends StatefulWidget {
@@ -124,14 +125,8 @@ class _ManageGroupsState extends State<ManageGroupsPage> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => PlayerDetailsPage(
-                                    player: player[index],
-                                    onDelete: () {
-                                      deletePlayer(index);
-                                    },
-                                    onNameChanged: (newName) {
-                                      changePlayerName(newName, player[index].id, index);
-                                    },
+                                  builder: (context) => GroupDetailsPage(
+                                    groupIndex: index,
                                   ),
                                 ),
                               );
