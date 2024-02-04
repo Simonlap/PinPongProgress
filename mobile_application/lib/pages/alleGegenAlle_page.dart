@@ -1,9 +1,15 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:mobile_application/entities/minigamesEnum.dart';
 import 'package:mobile_application/entities/player.dart';
 import 'package:mobile_application/entities/match.dart';
+import 'package:mobile_application/entities/result.dart';
+import 'package:mobile_application/entities/uniqueGame.dart';
+import 'package:mobile_application/globalVariables.dart';
 import 'package:mobile_application/pages/gameExplanation_page.dart';
 import 'package:mobile_application/pages/matchList_page.dart';
+import 'package:http/http.dart' as http;
 
 class AlleGegenAllePage extends StatefulWidget {
   final List<Player> players;
@@ -15,7 +21,7 @@ class AlleGegenAllePage extends StatefulWidget {
 }
 
 class _AlleGegenAlleState extends State<AlleGegenAllePage> {
-  List<Match> matches = [];
+  late Future<List<Match>> matches;
 
   @override
   void initState() {
@@ -23,7 +29,7 @@ class _AlleGegenAlleState extends State<AlleGegenAllePage> {
     matches = generateMatches();
   }
 
-  List<Match> generateMatches() {
+  Future<List<Match>> generateMatches() async {
     List<Match> matches = [];
     for (int i = 0; i < widget.players.length; i += 2) {
       if (i + 1 < widget.players.length) {
@@ -38,6 +44,33 @@ class _AlleGegenAlleState extends State<AlleGegenAllePage> {
           minigameType: Minigame.alleGegenAlle
         );
         matches.add(match);
+        final url = Uri.parse(apiUrl + '/api/minigame/entry');
+        final response = await http.post(
+          url,
+          headers: {
+            'Content-Type': 'application/json',
+            'Cookie': jwtToken!,
+          },
+          body: jsonEncode({
+            'player1Id': match.player1.id,
+            'player2Id': match.player2.id,
+            'pointsPlayer1': 0,
+            'pointsPlayer2': 0,
+            'roundId': currentUniqueGame?.highestRound,
+            'uniqueGameId': currentUniqueGame?.id,
+            'minigameId': match.minigameType.index
+          }),
+        );
+
+        if (response.statusCode == 201) {
+          // added successfully
+          match.id = Result.fromJson(json.decode(response.body)).id;
+          print('Minigame entry created successfully');
+          //TODO: Gloable Minigames Variable?
+        } else {
+          // Handle error
+          print('Failed to create minigame entry. Status code: ${response.statusCode}');
+        }
       }
     }
     return matches;
@@ -79,14 +112,50 @@ class _AlleGegenAlleState extends State<AlleGegenAllePage> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     ElevatedButton(
-                      onPressed: () {
-                        // Logic for Next Round
+                      onPressed: () async {
+                        final url = Uri.parse(apiUrl + '/api/uniqueGames/increaseRound');
+                        final response = await http.put(
+                          url,
+                          headers: {
+                            'Content-Type': 'application/json',
+                            'Cookie': jwtToken!,
+                          },
+                          body: jsonEncode({
+                            "uniqueGameId": currentUniqueGame?.id
+                          }),
+                        );
+                        if (response.statusCode == 200) {
+                          currentUniqueGame = UniqueGame.fromJson(json.decode(response.body));
+                          print('Game finished successfully');
+                        } else {
+                          // Handle error
+                          print('Failed to finish the game. Status code: ${response.statusCode}');
+                        }
+                        //TODO: result screen nach exitRound
                       },
                       child: Text('Nächste Runde'),
                     ),
                     ElevatedButton(
-                      onPressed: () {
-                        // Logic for End Game
+                      onPressed: () async {
+                        final url = Uri.parse(apiUrl + '/api/uniqueGames/exitGame');
+                        final response = await http.put(
+                          url,
+                          headers: {
+                            'Content-Type': 'application/json',
+                            'Cookie': jwtToken!,
+                          },
+                          body: jsonEncode({
+                            "uniqueGameId": currentUniqueGame?.id
+                          }),
+                        );
+                        if (response.statusCode == 200) {
+                          currentUniqueGame = UniqueGame.fromJson(json.decode(response.body));
+                          print('Game finished successfully');
+                        } else {
+                          // Handle error
+                          print('Failed to finish the game. Status code: ${response.statusCode}');
+                        }
+                        //TODO: result screen nach Spiel beenden
                       },
                       child: Text('Spiel beenden'),
                     ),

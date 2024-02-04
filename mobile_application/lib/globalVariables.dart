@@ -1,4 +1,5 @@
 import 'package:mobile_application/entities/player.dart';
+import 'package:mobile_application/entities/uniqueGame.dart';
 
 String? username = null;
 String? useremail = null;
@@ -7,5 +8,7 @@ List<dynamic>? userroles = null;
 String? jwtToken = null;
 
 List<Player> player = [];
+
+UniqueGame? currentUniqueGame = null;
 
 String apiUrl = 'http://10.0.2.2:8080';
