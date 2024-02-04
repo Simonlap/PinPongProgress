@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:mobile_application/entities/group.dart';
+import 'package:http/http.dart' as http;
 import 'package:mobile_application/globalVariables.dart' as globalVariables;
 import 'package:mobile_application/globalVariables.dart';
 
@@ -20,11 +23,31 @@ class _PlayersSelectionGroupState extends State<PlayersSelectionGroupPage> {
   void initState() {
     super.initState();
     }
+  
+  Future<void> saveGroup(String name, List<int> player) async {
+    final url = Uri.parse(apiUrl + '/api/userdata/groups');
+    final response = await http.post(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Cookie': jwtToken!,
+      },
+      body: jsonEncode({
+        'groupName': name,
+        'players': player,
+      }),
+    );
+    
+    if (response.statusCode == 201) {
 
-    void saveGroup(String name, List<int> player) {
-        groups.add(Group(id: 1, name: name, player: player));
-        Navigator.pushNamed(context, '/managegroupspage');
+      groups.add(Group.fromJson(json.decode(response.body)));
+      Navigator.pushNamed(context, '/managegroupspage');
+
+    } else {
+      // Handle error
+      print('Failed to add Group. Status code: ${response.statusCode}');
     }
+  }
   
   @override
   void dispose() {

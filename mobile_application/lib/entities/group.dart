@@ -36,4 +36,12 @@ class Group {
   set elo(List<int> value) {
     _player = value;
   }
+
+  factory Group.fromJson(Map<String, dynamic> json) {
+    return Group(
+      id: json['id'] ?? 0,
+      name: json['groupName'] ?? '',
+      player: json['players'] != null ? List<int>.from(json['players']) : [],
+    );
+  }
 }
