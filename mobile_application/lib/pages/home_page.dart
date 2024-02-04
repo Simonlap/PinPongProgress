@@ -121,6 +121,24 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ],
               ),
+              SizedBox(height: 20),
+              Row(
+                children: <Widget>[
+                  Expanded(
+                    child: ElevatedButton(
+                      style: ButtonStyle(
+                        minimumSize: MaterialStateProperty.all(
+                            const Size(0, 100)), // Set the button's height
+                      ),
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/toolspage');
+                      },
+                      child: Text('Tools',
+                          style: TextStyle(fontSize: 24)),
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
         ],
