@@ -6,13 +6,15 @@ import 'package:mobile_application/entities/player.dart';
 import 'package:mobile_application/entities/match.dart';
 import 'package:mobile_application/entities/result.dart';
 import 'package:mobile_application/entities/uniqueGame.dart';
+import 'package:mobile_application/entities/eloCalculator.dart';
 import 'package:mobile_application/globalVariables.dart';
+import 'package:mobile_application/pages/endGame_page.dart';
 import 'package:mobile_application/pages/gameExplanation_page.dart';
 import 'package:mobile_application/pages/matchList_page.dart';
 import 'package:http/http.dart' as http;
 
 class AlleGegenAllePage extends StatefulWidget {
-  final List<Player> players;
+  List<Player> players;
 
   AlleGegenAllePage({required this.players});
 
@@ -126,10 +128,18 @@ class _AlleGegenAlleState extends State<AlleGegenAllePage> {
                         );
                         if (response.statusCode == 200) {
                           currentUniqueGame = UniqueGame.fromJson(json.decode(response.body));
-                          print('Game finished successfully');
+                          print('Next round successfully');
+                          final List<Match> matchesList = await matches;
+                          widget.players = EloCalculator.calculateElos(matchesList, widget.players);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => EndGamePage(players: widget.players, terminateGame: false),
+                            ),
+                          );
                         } else {
                           // Handle error
-                          print('Failed to finish the game. Status code: ${response.statusCode}');
+                          print('Failed to next round. Status code: ${response.statusCode}');
                         }
                         //TODO: result screen nach exitRound
                       },
@@ -151,7 +161,16 @@ class _AlleGegenAlleState extends State<AlleGegenAllePage> {
                         if (response.statusCode == 200) {
                           currentUniqueGame = UniqueGame.fromJson(json.decode(response.body));
                           print('Game finished successfully');
-                        } else {
+                          final List<Match> matchesList = await matches;
+                          widget.players = EloCalculator.calculateElos(matchesList, widget.players);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => EndGamePage(players: widget.players, terminateGame: true),
+                            ),
+                          );
+                        }
+                        else {
                           // Handle error
                           print('Failed to finish the game. Status code: ${response.statusCode}');
                         }
