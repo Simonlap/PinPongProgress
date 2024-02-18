@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_application/entities/group.dart';
 import 'package:mobile_application/entities/player.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+import 'package:mobile_application/elements/customAlertDialog.dart';
 
 import 'package:mobile_application/globalVariables.dart';
 
@@ -12,8 +11,13 @@ List<Player> allPlayers = player; // Your list of all players
 
 class GroupDetailsPage extends StatefulWidget {
   final int groupIndex;
+  final VoidCallback onDelete;
 
-  GroupDetailsPage({Key? key, required this.groupIndex}) : super(key: key);
+  const GroupDetailsPage({
+    Key? key,
+    required this.onDelete,
+    required this.groupIndex,
+  }) : super(key: key);
 
   @override
   _GroupDetailsPageState createState() => _GroupDetailsPageState();
@@ -30,8 +34,23 @@ class _GroupDetailsPageState extends State<GroupDetailsPage> {
     _selectedPlayers = List.generate(_group.player.length, (_) => true);
   }
 
+  void _showDeleteConfirmationDialog() {
+    showConfirmationDialog(
+      context: context,
+      title: 'Gruppe Löschen',
+      message: 'Möchtest du diese Gruppe wirklich löschen?',
+      onConfirm: _deleteGroup,
+      onCancel: () {},
+    ).then((confirmed) {
+      if (confirmed) {
+        _deleteGroup();
+      }
+    });
+  } 
+
   void _deleteGroup() async {
-    // Implement your delete group HTTP request here
+    widget.onDelete();
+    Navigator.pop(context);
   }
 
   void _saveSelectedPlayers() async {
@@ -54,7 +73,7 @@ class _GroupDetailsPageState extends State<GroupDetailsPage> {
         actions: [
           IconButton(
             icon: Icon(Icons.delete),
-            onPressed: _deleteGroup,
+            onPressed: _showDeleteConfirmationDialog,
           ),
         ],
       ),

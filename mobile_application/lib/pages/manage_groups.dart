@@ -48,9 +48,10 @@ class _ManageGroupsState extends State<ManageGroupsPage> {
     }
   }
 
-  Future<void> deletePlayer(index) async {
+  Future<void> deleteGroup(index) async {
 
-    final url = Uri.parse(apiUrl + '/api/userdata/player/' + player[index].id.toString());
+    final url = Uri.parse(apiUrl + '/api/userdata/group/' + groups[index].id.toString());
+    print("Group Index" + groups[index].id.toString());
     final response = await http.delete(
       url,
       headers: {
@@ -60,35 +61,18 @@ class _ManageGroupsState extends State<ManageGroupsPage> {
     );
 
     if (response.statusCode == 200) {
-      player.removeAt(index);
+      groups.removeAt(index);
       setState(() {
       });
-      // Player added successfully
       
-      print('Player deleted successfully');
+      print('Group deleted successfully');
   
     } else {
 
-      print('Failed to delete player. Status code: ${response.statusCode}');
+      print('Failed to delete group. Status code: ${response.statusCode}');
     }
   }
 
-  void _navigateToAddPlayer() async {
-    // Navigate to AddPlayer screen and wait for the callback function to be called
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => AddPlayerPage(
-          onUserAdded: () {
-            // Callback function to fetch user names when a user is added
-            setState(() {
-
-            });
-         },
-        ),
-      ),
-    );    
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -127,6 +111,9 @@ class _ManageGroupsState extends State<ManageGroupsPage> {
                                 MaterialPageRoute(
                                   builder: (context) => GroupDetailsPage(
                                     groupIndex: index,
+                                    onDelete: () {
+                                      deleteGroup(index);
+                                    },
                                   ),
                                 ),
                               );
