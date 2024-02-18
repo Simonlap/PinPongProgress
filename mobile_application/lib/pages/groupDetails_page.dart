@@ -12,11 +12,13 @@ List<Player> allPlayers = player; // Your list of all players
 class GroupDetailsPage extends StatefulWidget {
   final int groupIndex;
   final VoidCallback onDelete;
+  final Function(List) onSave;
 
   const GroupDetailsPage({
     Key? key,
     required this.onDelete,
     required this.groupIndex,
+    required this.onSave,
   }) : super(key: key);
 
   @override
@@ -54,7 +56,6 @@ class _GroupDetailsPageState extends State<GroupDetailsPage> {
   }
 
   void _saveSelectedPlayers() async {
-    // Prepare your HTTP request with selected player IDs here
     List<int> selectedPlayerIds = _group.player
         .asMap()
         .entries
@@ -62,7 +63,8 @@ class _GroupDetailsPageState extends State<GroupDetailsPage> {
         .map((entry) => entry.value)
         .toList();
     
-    // Implement your save selected players HTTP request here
+    widget.onSave(selectedPlayerIds);
+    Navigator.pop(context);
   }
 
   @override

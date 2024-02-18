@@ -2,6 +2,7 @@ package com.example.demo.controllers;
 
 import com.example.demo.dto.GroupDTO;
 import com.example.demo.dto.PlayerDTO;
+import com.example.demo.payload.request.UpdateGroupPlayersRequest;
 import com.example.demo.payload.request.UpdatePlayerNameRequest;
 import com.example.demo.security.services.UserDetailsImpl;
 import com.example.demo.services.UserdataService;
@@ -100,5 +101,16 @@ public class UserdataController {
         userdataService.deleteGroup(groupId);
 
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping("/group/{groupId}/update")
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+    public ResponseEntity<GroupDTO> updateGroup(@PathVariable Long groupId, @Valid @RequestBody UpdateGroupPlayersRequest updateGroupPlayersRequest) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+
+        GroupDTO updatedGroup = userdataService.updateGroup(groupId, updateGroupPlayersRequest.getNewPlayers());
+
+        return new ResponseEntity<>(updatedGroup, HttpStatus.OK);
     }
 }

@@ -79,4 +79,12 @@ public class UserdataService {
     public void deleteGroup(Long groupId) {
         groupRepository.deleteById(groupId);
     }
+
+    public GroupDTO updateGroup(Long groupId, Long[] newPlayers) {
+        Group group = groupRepository.findById(groupId).get();
+        group.setPlayers(List.of(newPlayers));
+        Group savedGroup = groupRepository.save(group);
+
+        return modelMapper.map(savedGroup, GroupDTO.class);
+    }
 }

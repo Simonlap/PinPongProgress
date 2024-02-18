@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:mobile_application/entities/group.dart';
 import 'package:mobile_application/entities/player.dart';
 import 'package:mobile_application/globalVariables.dart';
 import 'dart:convert';
 
-import 'package:mobile_application/pages/addPlayer_page.dart';
 import 'package:mobile_application/pages/groupDetails_page.dart';
-import 'package:mobile_application/pages/playerDetails_page.dart';
 
 class ManageGroupsPage extends StatefulWidget {
   const ManageGroupsPage({Key? key});
@@ -20,32 +19,6 @@ class _ManageGroupsState extends State<ManageGroupsPage> {
   @override
   void initState() {
     super.initState();
-  }
-
-  Future<void> changePlayerName(newName, id, index) async {
-
-    final url = Uri.parse('$apiUrl/api/userdata/player/' + id.toString() + '/changeName');
-    final response = await http.put(
-      url,
-      headers: {
-        'Content-Type': 'application/json',
-        'Cookie': jwtToken!,
-      },
-      body: jsonEncode({
-        'newPlayerName': newName
-      }),
-    );
-
-    if (response.statusCode == 200) {
-      setState(() {
-        player[index] = Player.fromJson(json.decode(response.body));
-      });
-      // Player added successfully
-      print('Player name changed successfully');
-  
-    } else {
-      print('Failed to change player name. Status code: ${response.statusCode}');
-    }
   }
 
   Future<void> deleteGroup(index) async {
@@ -70,6 +43,33 @@ class _ManageGroupsState extends State<ManageGroupsPage> {
     } else {
 
       print('Failed to delete group. Status code: ${response.statusCode}');
+    }
+  }
+
+  Future<void> updateGroup(index, newPlayers) async {
+    final url = Uri.parse('$apiUrl/api/userdata/group/' + groups[index].id.toString() + '/update');
+    final response = await http.put(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Cookie': jwtToken!,
+      },
+      body: jsonEncode({
+        'newPlayers': newPlayers
+      }),
+    );
+
+    print(newPlayers);
+
+    if (response.statusCode == 200) {
+      setState(() {
+        groups[index] = Group.fromJson(json.decode(response.body));
+      });
+
+      print('Group updated successfully');
+  
+    } else {
+      print('Failed to update group. Status code: ${response.statusCode}');
     }
   }
 
@@ -113,6 +113,9 @@ class _ManageGroupsState extends State<ManageGroupsPage> {
                                     groupIndex: index,
                                     onDelete: () {
                                       deleteGroup(index);
+                                    },
+                                    onSave: (newPlayers) {
+                                      updateGroup(index, newPlayers);
                                     },
                                   ),
                                 ),
