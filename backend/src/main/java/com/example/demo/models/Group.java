@@ -20,6 +20,14 @@ public class Group {
     @Column(nullable = false)
     private String groupName;
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
     public Long getUserId() {
         return userId;
     }

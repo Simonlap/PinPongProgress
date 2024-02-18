@@ -90,4 +90,15 @@ public class UserdataController {
 
         return new ResponseEntity<>(createdGroup, HttpStatus.CREATED);
     }
+
+    @DeleteMapping("/group/{groupId}")
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+    public ResponseEntity<HttpStatus> deleteGroup(@PathVariable Long groupId) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+
+        userdataService.deleteGroup(groupId);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

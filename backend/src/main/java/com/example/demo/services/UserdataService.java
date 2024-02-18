@@ -75,4 +75,8 @@ public class UserdataService {
         Group savedGroup = groupRepository.save(group);
         return modelMapper.map(savedGroup, GroupDTO.class);
     }
+
+    public void deleteGroup(Long groupId) {
+        groupRepository.deleteById(groupId);
+    }
 }
