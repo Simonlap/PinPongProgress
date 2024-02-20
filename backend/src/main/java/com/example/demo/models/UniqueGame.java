@@ -1,23 +1,22 @@
 package com.example.demo.models;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "games")
+@Table(name = "uniqueGames")
 public class UniqueGame {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
-    private int highest_round;
+    private int highestRound;
 
-    @NotBlank
+    @NotNull
     private boolean isFinished;
 
-    @NotBlank
+    @NotNull
     private Long userId;
 
     public void setId(Long id) {
@@ -27,20 +26,20 @@ public class UniqueGame {
         return id;
     }
 
-    public int getHighest_round() {
-        return highest_round;
+    public int getHighestRound() {
+        return highestRound;
     }
-    public void setHighest_round(int highest_round) {
-        this.highest_round = highest_round;
+    public void setHighestRound(int highestRound) {
+        this.highestRound = highestRound;
     }
 
     public boolean isFinished() {
         return isFinished;
     }
-    public void setFinished(boolean is_finished) {
-        this.isFinished = is_finished;
+    public void setFinished(boolean isFinished) {
+        this.isFinished = isFinished;
     }
 
-    public Long isUser_id() {return userId;}
+    public Long isUserId() {return userId;}
     public void setUserId(Long userId) {this.userId = userId;}
 }

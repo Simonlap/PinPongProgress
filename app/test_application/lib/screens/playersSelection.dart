@@ -96,8 +96,8 @@ class _PlayersSelectionState extends State<PlayersSelection> {
                 url,
                 headers: {'Content-Type': 'application/json'},
                 body: jsonEncode({
-                  'highest_round': 0,
-                  'is_finished': false,
+                  'highestRound': 0,
+                  'isFinished': false,
                 }),
               );
 
