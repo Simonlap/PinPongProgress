@@ -9,9 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UniqueGameDTO {
-    @JsonIgnore
+    
     private Long id;
-    private int highest_round;
+    private int highestRound;
     private boolean isFinished;
     private Long userId;
 
@@ -23,12 +23,12 @@ public class UniqueGameDTO {
         return id;
     }
 
-    public int getHighest_round() {
-        return highest_round;
+    public int getHighestRound() {
+        return highestRound;
     }
 
-    public void setHighest_round(int highest_round) {
-        this.highest_round = highest_round;
+    public void setHighestRound(int highestRound) {
+        this.highestRound = highestRound;
     }
 
     public boolean isFinished() {

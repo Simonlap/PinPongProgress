@@ -1,10 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mobile_application/entities/minigamesEnum.dart';
+import 'package:mobile_application/entities/uniqueGame.dart';
+import 'package:mobile_application/globalVariables.dart';
 import 'package:mobile_application/pages/addPlayer_page.dart';
 import 'package:mobile_application/pages/alleGegenAlle_page.dart';
 import 'package:mobile_application/pages/gameExplanation_page.dart';
 import 'package:mobile_application/globalVariables.dart' as globalVariables;
+import 'package:http/http.dart' as http;
 
 import '../entities/player.dart';
 
@@ -30,15 +34,16 @@ class _PlayersSelectionState extends State<PlayersSelectionPage> {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       if (globalVariables.player.length < minimumPlayerNumber) {
         int playersLeft = minimumPlayerNumber - globalVariables.player.length;
-        await Fluttertoast.showToast(
-          msg: "Zu wenig Spieler. Du wirst nun ${playersLeft}x aufgefordert, zunächst Spieler hinzuzufügen.",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.red,
-          textColor: Colors.white,
-          fontSize: 16.0
-        );
+        // await Fluttertoast.showToast(
+        //   msg: "Zu wenig Spieler. Du wirst nun ${playersLeft}x aufgefordert, zunächst Spieler hinzuzufügen.",
+        //   toastLength: Toast.LENGTH_SHORT,
+        //   gravity: ToastGravity.BOTTOM,
+        //   timeInSecForIosWeb: 1,
+        //   backgroundColor: Colors.red,
+        //   textColor: Colors.white,
+        //   fontSize: 16.0
+        // );
+        //TODO:
       }
       checkPlayerCount();
       });
@@ -93,28 +98,48 @@ class _PlayersSelectionState extends State<PlayersSelectionPage> {
           SelectablePlayers(globalVariables.player, selectedPlayers),
           SizedBox(height: 20),
           ElevatedButton(
-            onPressed: () {
-        // Here, you can access the selected players as a List<Player>
-        List<Player> selectedPlayersList = [];
-        for (int i = 0; i < globalVariables.player.length; i++) {
-          if (selectedPlayers[i]) {
-            selectedPlayersList.add(globalVariables.player[i]);
-          }
-        }
-        //pop the last to pages from navigation stack
-        Navigator.pop(context);
-        Navigator.pop(context);
+            onPressed: () async {
+              // Here, you can access the selected players as a List<Player>
+              List<Player> selectedPlayersList = [];
+              for (int i = 0; i < globalVariables.player.length; i++) {
+                if (selectedPlayers[i]) {
+                  selectedPlayersList.add(globalVariables.player[i]);
+                }
+              }
+              //pop the last to pages from navigation stack
+              Navigator.pop(context);
+              Navigator.pop(context);
 
-        // Use the selectedPlayersList as needed
-        // For example, you can pass it to the AlleGegenAlle screen
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => AlleGegenAllePage(players: selectedPlayersList),
-          ),
-        );
-      },
-      child: Text('Los gehts'),
+              final url = Uri.parse(apiUrl + '/api/uniqueGames/entry');
+              final response = await http.post(
+                url,
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Cookie': jwtToken!,
+                },
+                body: jsonEncode({
+                  "isFinished": false,
+                  "highestRound": 0
+                }),
+              );
+              if (response.statusCode == 201) {
+                currentUniqueGame = UniqueGame.fromJson(json.decode(response.body));
+                print('UniqueGame added successfully');
+              } else {
+                // Handle error
+                print('Failed create uniqueGame entry. Status code: ${response.statusCode}');
+              }
+
+              // Use the selectedPlayersList as needed
+              // For example, you can pass it to the AlleGegenAlle screen
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AlleGegenAllePage(players: selectedPlayersList),
+                ),
+              );
+            },
+            child: Text('Los gehts'),
           ),
         ],
       ),
