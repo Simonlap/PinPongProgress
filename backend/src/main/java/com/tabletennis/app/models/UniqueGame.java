@@ -1,5 +1,7 @@
 package com.tabletennis.app.models;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
@@ -18,6 +20,9 @@ public class UniqueGame {
 
     @NotNull
     private Long userId;
+
+    @NotNull
+    private LocalDateTime startTime;
 
     public void setId(Long id) {
         this.id = id;
@@ -42,4 +47,12 @@ public class UniqueGame {
 
     public Long isUserId() {return userId;}
     public void setUserId(Long userId) {this.userId = userId;}
+
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
 }

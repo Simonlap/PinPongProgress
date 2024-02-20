@@ -1,5 +1,7 @@
 package com.tabletennis.app.dto;
 
+import java.time.LocalDateTime;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,6 +16,7 @@ public class UniqueGameDTO {
     private int highestRound;
     private boolean isFinished;
     private Long userId;
+    private LocalDateTime startTime; 
 
     public void setId(Long id) {
         this.id = id;
@@ -45,5 +48,13 @@ public class UniqueGameDTO {
 
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
     }
 }

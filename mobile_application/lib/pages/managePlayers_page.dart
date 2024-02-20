@@ -91,6 +91,8 @@ class _ManagePlayersState extends State<ManagePlayersPage> {
 
   @override
   Widget build(BuildContext context) {
+    player.sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+    
     return Scaffold(
       appBar: AppBar(
         title: const Text(

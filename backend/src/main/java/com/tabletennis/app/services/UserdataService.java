@@ -2,10 +2,14 @@ package com.tabletennis.app.services;
 
 
 import com.tabletennis.app.dto.GroupDTO;
+import com.tabletennis.app.models.EloRating;
 import com.tabletennis.app.models.Group;
+import com.tabletennis.app.repository.EloRatingRepository;
 import com.tabletennis.app.repository.GroupRepository;
 
 import com.tabletennis.app.models.Player;
+import com.tabletennis.app.payload.request.AddEloRatingRequest;
+
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +33,9 @@ public class UserdataService {
     GroupRepository groupRepository;
 
     @Autowired
+    EloRatingRepository eloRatingRepository;
+
+    @Autowired
     ModelMapper modelMapper;
 
     public List<PlayerDTO> getPlayersForUserId(Long userId) {
@@ -40,11 +47,31 @@ public class UserdataService {
     }
 
     public PlayerDTO createPlayer(PlayerDTO playerDTO, Long userId) {
-        Player player = modelMapper.map(playerDTO, Player.class);
+        Player player = new Player();
         player.setUserId(userId);
+        player.setPlayerName(playerDTO.getPlayerName());
+
+        // Handle EloRatings
+        if (playerDTO.getEloRatings() != null) {
+            player.setEloRatings(
+                playerDTO.getEloRatings().stream().map(eloRatingDTO -> {
+                    EloRating eloRating = new EloRating();
+                    eloRating.setElo(eloRatingDTO.getElo());
+                    eloRating.setDate(eloRatingDTO.getDate());
+                    eloRating.setPlayer(player); // Set the relationship
+                    return eloRating;
+                }).collect(Collectors.toSet())
+            );
+        }
+
         Player savedPlayer = playerRepository.save(player);
-        return modelMapper.map(savedPlayer, PlayerDTO.class);
+
+        // After saving, map the saved entity back to DTO
+        PlayerDTO savedPlayerDTO = modelMapper.map(savedPlayer, PlayerDTO.class);
+        // You might need to manually map the EloRatings if ModelMapper doesn't handle it automatically
+        return savedPlayerDTO;
     }
+
 
     public PlayerDTO updatePlayer(PlayerDTO playerDTO, Long userId) {
         Player player = modelMapper.map(playerDTO, Player.class);
@@ -63,6 +90,22 @@ public class UserdataService {
     public void deletePlayer(Long playerId) {
         playerRepository.deleteById(playerId);
     }
+
+    public Player addEloRatingToPlayer(Long playerId, AddEloRatingRequest addEloRatingRequest) {
+        Player player = playerRepository.findById(playerId)
+                            .orElseThrow(() -> new RuntimeException("Player not found with id: " + playerId));
+    
+        EloRating eloRating = new EloRating();
+        eloRating.setElo(addEloRatingRequest.getElo());
+        eloRating.setDate(addEloRatingRequest.getDate());
+        eloRating.setPlayer(player);
+    
+        eloRatingRepository.save(eloRating);
+        
+        // Reload the player to ensure we have the latest state, including the new Elo rating
+        return playerRepository.findById(playerId).orElseThrow(() -> new RuntimeException("Player not found with id: " + playerId));
+    }
+    
 
     public List<GroupDTO> getGroupsForUserId(Long userId) {
         Set<Group> groups = groupRepository.findByUserId(userId);
