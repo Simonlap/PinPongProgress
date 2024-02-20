@@ -110,6 +110,7 @@ class _PlayersSelectionState extends State<PlayersSelectionPage> {
               Navigator.pop(context);
               Navigator.pop(context);
 
+              final String currentDateAndTime = DateTime.now().toIso8601String();
               final url = Uri.parse(apiUrl + '/api/uniqueGames/entry');
               final response = await http.post(
                 url,
@@ -119,7 +120,8 @@ class _PlayersSelectionState extends State<PlayersSelectionPage> {
                 },
                 body: jsonEncode({
                   "isFinished": false,
-                  "highestRound": 0
+                  "highestRound": 0,
+                  "startTime": currentDateAndTime,
                 }),
               );
               if (response.statusCode == 201) {

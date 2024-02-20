@@ -47,6 +47,25 @@ class Player {
     return 1000; // This is a typical starting Elo rating
   }
 
+  int eloAtTime(DateTime dateTime) {
+    EloRating? relevantEloRating;
+
+    // Sort the Elo ratings by date in ascending order
+    _eloRatings.sort((a, b) => a.date.compareTo(b.date));
+
+    // Iterate through the sorted Elo ratings
+    for (var eloRating in _eloRatings) {
+      if (eloRating.date.isBefore(dateTime) || eloRating.date.isAtSameMomentAs(dateTime)) {
+        relevantEloRating = eloRating; 
+      } else {
+        break;
+      }
+    }
+
+    // Return the found Elo rating, or a default value if none is found
+    return relevantEloRating?.elo ?? 1000;
+  }
+
   factory Player.fromJson(Map<String, dynamic> json) {
     List<EloRating> eloRatings = [];
     if (json['eloRatings'] != null) {

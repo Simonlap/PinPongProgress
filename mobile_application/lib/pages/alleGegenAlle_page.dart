@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -32,6 +34,8 @@ class _AlleGegenAlleState extends State<AlleGegenAllePage> {
   }
 
   Future<List<Match>> generateMatches() async {
+    widget.players.shuffle();
+    
     List<Match> matches = [];
     for (int i = 0; i < widget.players.length; i += 2) {
       if (i + 1 < widget.players.length) {
@@ -110,6 +114,20 @@ class _AlleGegenAlleState extends State<AlleGegenAllePage> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0), // Add some spacing between this button and the others
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => EndGamePage(players: widget.players, actionChoice: ActionChoice.intermediateStatus),
+                        ),
+                      );
+                    },
+                    child: Text('Zwischenstand anzeigen'), // Replace with your actual button text
+                  ),
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -134,14 +152,13 @@ class _AlleGegenAlleState extends State<AlleGegenAllePage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => EndGamePage(players: widget.players, terminateGame: false),
+                              builder: (context) => EndGamePage(players: widget.players, actionChoice: ActionChoice.nextRound),
                             ),
                           );
                         } else {
                           // Handle error
                           print('Failed to next round. Status code: ${response.statusCode}');
                         }
-                        //TODO: result screen nach exitRound
                       },
                       child: Text('Nächste Runde'),
                     ),
@@ -166,7 +183,7 @@ class _AlleGegenAlleState extends State<AlleGegenAllePage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => EndGamePage(players: widget.players, terminateGame: true),
+                              builder: (context) => EndGamePage(players: widget.players, actionChoice: ActionChoice.backToStart),
                             ),
                           );
                         }
@@ -174,9 +191,8 @@ class _AlleGegenAlleState extends State<AlleGegenAllePage> {
                           // Handle error
                           print('Failed to finish the game. Status code: ${response.statusCode}');
                         }
-                        //TODO: result screen nach Spiel beenden
                       },
-                      child: Text('Spiel beenden'),
+                      child: const Text('Spiel beenden'),
                     ),
                   ],
                 )
