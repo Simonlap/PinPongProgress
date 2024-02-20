@@ -130,7 +130,7 @@ class _AlleGegenAlleState extends State<AlleGegenAllePage> {
                           currentUniqueGame = UniqueGame.fromJson(json.decode(response.body));
                           print('Next round successfully');
                           final List<Match> matchesList = await matches;
-                          widget.players = EloCalculator.calculateElos(matchesList, widget.players);
+                          widget.players = await EloCalculator.calculateElos(matchesList, widget.players);
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -162,7 +162,7 @@ class _AlleGegenAlleState extends State<AlleGegenAllePage> {
                           currentUniqueGame = UniqueGame.fromJson(json.decode(response.body));
                           print('Game finished successfully');
                           final List<Match> matchesList = await matches;
-                          widget.players = EloCalculator.calculateElos(matchesList, widget.players);
+                          widget.players = await EloCalculator.calculateElos(matchesList, widget.players);
                           Navigator.push(
                             context,
                             MaterialPageRoute(

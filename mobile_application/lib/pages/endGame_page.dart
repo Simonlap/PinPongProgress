@@ -24,7 +24,7 @@ class EndGamePage extends StatelessWidget {
               itemBuilder: (context, index) {
                 return ListTile(
                   title: Text(players[index].name),
-                  subtitle: Text('Elo: ${players[index].elo.toString()}'),
+                  subtitle: Text('Elo: ${players[index].currentElo.toString()}'),
                 );
               },
             ),

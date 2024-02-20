@@ -107,7 +107,7 @@ class _PlayerDetailsState extends State<PlayerDetailsPage> {
             ),
             SizedBox(height: 16),
             Text(
-              'Elo: ${widget.player.elo}',
+              'Elo: ${widget.player.currentElo}',
               style: TextStyle(fontSize: 18),
             ),
             SizedBox(height: 32),
