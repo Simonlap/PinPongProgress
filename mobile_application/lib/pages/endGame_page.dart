@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_application/entities/player.dart';
 import 'package:mobile_application/pages/alleGegenAlle_page.dart';
-import 'package:mobile_application/pages/home_page.dart'; // Import your home page file
+import 'package:mobile_application/pages/home_page.dart';
+import 'package:mobile_application/pages/navigation_page.dart'; // Import your home page file
 
 class EndGamePage extends StatelessWidget {
   final List<Player> players;
@@ -33,7 +34,7 @@ class EndGamePage extends StatelessWidget {
               if(terminateGame) {
                 Navigator.pushAndRemoveUntil(
                   context,
-                  MaterialPageRoute(builder: (context) => HomePage()), 
+                  MaterialPageRoute(builder: (context) => NavigationPage()), 
                   (route) => false,
                 );
               } else {
