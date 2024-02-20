@@ -2,10 +2,13 @@ package com.tabletennis.app.controllers;
 
 
 import com.tabletennis.app.dto.GroupDTO;
+import com.tabletennis.app.payload.request.AddEloRatingRequest;
 import com.tabletennis.app.payload.request.UpdateGroupPlayersRequest;
 
 import com.tabletennis.app.services.UserdataService;
 import jakarta.validation.Valid;
+
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +18,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import com.tabletennis.app.dto.PlayerDTO;
+import com.tabletennis.app.models.Player;
 import com.tabletennis.app.payload.request.UpdatePlayerNameRequest;
 import com.tabletennis.app.security.services.UserDetailsImpl;
 
@@ -27,6 +31,9 @@ public class UserdataController {
 
     @Autowired
     UserdataService userdataService;
+
+    @Autowired
+    ModelMapper modelMapper;
 
     @GetMapping("/players")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
@@ -45,10 +52,12 @@ public class UserdataController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
+        // Assuming your userdataService.createPlayer method is updated to handle PlayerDTO with EloRatingDTO set
         PlayerDTO createdPlayer = userdataService.createPlayer(playerDTO, userDetails.getId());
 
         return new ResponseEntity<>(createdPlayer, HttpStatus.CREATED);
     }
+
 
     @PutMapping("/player/{playerId}/changeName")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
@@ -71,6 +80,14 @@ public class UserdataController {
         userdataService.deletePlayer(playerId);
 
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/player/{playerId}/eloRatings")
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+    public ResponseEntity<PlayerDTO> addEloRatingToPlayer(@PathVariable Long playerId, @Valid @RequestBody AddEloRatingRequest addEloRatingRequest) {
+        Player updatedPlayer = userdataService.addEloRatingToPlayer(playerId, addEloRatingRequest);
+        PlayerDTO playerDTO = modelMapper.map(updatedPlayer, PlayerDTO.class);
+        return new ResponseEntity<>(playerDTO, HttpStatus.CREATED);
     }
 
     @GetMapping("/groups")

@@ -1,5 +1,7 @@
 package com.tabletennis.app.dto;
 
+import java.util.Set;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,7 +13,7 @@ public class PlayerDTO {
 
     private Long id;
     private String playerName;
-    private int elo;
+    private Set<EloRatingDTO> eloRatings;
 
     public void setId(Long id) {
         this.id = id;
@@ -29,11 +31,11 @@ public class PlayerDTO {
         return playerName;
     }
 
-    public void setElo(int elo) {
-        this.elo = elo;
+    public Set<EloRatingDTO> getEloRatings() {
+        return eloRatings;
     }
 
-    public int getElo() {
-        return elo;
+    public void setEloRatings(Set<EloRatingDTO> eloRatings) {
+        this.eloRatings = eloRatings;
     }
 }
