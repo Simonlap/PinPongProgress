@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_application/pages/addPlayer_page.dart';
 import 'package:mobile_application/pages/alleGegenAlle_page.dart';
+import 'package:mobile_application/pages/groupDetails_page.dart';
 import 'package:mobile_application/pages/home_page.dart';
 import 'package:mobile_application/pages/login_page.dart';
 import 'package:mobile_application/pages/managePlayers_page.dart';
+import 'package:mobile_application/pages/manage_groups.dart';
 import 'package:mobile_application/pages/minispiele_page.dart';
 import 'package:mobile_application/pages/navigation_page.dart';
+import 'package:mobile_application/pages/playerSelectionGroup_page.dart';
 import 'package:mobile_application/pages/profile_page.dart';
 import 'package:mobile_application/pages/register_page.dart';
 import 'package:mobile_application/pages/start_page.dart';
+import 'package:mobile_application/pages/tools_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -33,6 +37,9 @@ class MyApp extends StatelessWidget {
         //'/allegegenallepage' :(context) => AlleGegenAllePage(),
         '/manageplayerspage' :(context) => ManagePlayersPage(),
         '/addplayerpage' :(context) => AddPlayerPage(),
+        '/toolspage' :(context) => ToolsPage(),
+        '/managegroupspage' :(context) => ManageGroupsPage(),
+        '/playerselectiongrouppage' :(context) => PlayersSelectionGroupPage(),
       }
     );
   }

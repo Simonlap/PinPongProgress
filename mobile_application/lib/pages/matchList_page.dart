@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_application/entities/match.dart';
-import 'package:mobile_application/entities/minigamesEnum.dart';
 import 'package:mobile_application/pages/addResult_page.dart';
-import 'package:mobile_application/pages/gameExplanation_page.dart';
 
 class MatchListPage extends StatelessWidget {
   final Future<List<Match>> matches;

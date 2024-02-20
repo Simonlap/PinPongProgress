@@ -1,5 +1,10 @@
 package com.example.demo.services;
 
+
+import com.example.demo.dto.GroupDTO;
+import com.example.demo.models.Group;
+import com.example.demo.repository.GroupRepository;
+
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +24,9 @@ public class UserdataService {
 
     @Autowired
     PlayerRepository playerRepository;
+
+    @Autowired
+    GroupRepository groupRepository;
 
     @Autowired
     ModelMapper modelMapper;
@@ -54,5 +62,32 @@ public class UserdataService {
 
     public void deletePlayer(Long playerId) {
         playerRepository.deleteById(playerId);
+    }
+
+    public List<GroupDTO> getGroupsForUserId(Long userId) {
+        Set<Group> groups = groupRepository.findByUserId(userId);
+
+        return groups.stream()
+                .map(group -> modelMapper.map(group, GroupDTO.class))
+                .collect(Collectors.toList());
+    }
+
+    public GroupDTO createGroup(GroupDTO groupDTO, Long userId) {
+        Group group = modelMapper.map(groupDTO, Group.class);
+        group.setUserId(userId);
+        Group savedGroup = groupRepository.save(group);
+        return modelMapper.map(savedGroup, GroupDTO.class);
+    }
+
+    public void deleteGroup(Long groupId) {
+        groupRepository.deleteById(groupId);
+    }
+
+    public GroupDTO updateGroup(Long groupId, Long[] newPlayers) {
+        Group group = groupRepository.findById(groupId).get();
+        group.setPlayers(List.of(newPlayers));
+        Group savedGroup = groupRepository.save(group);
+
+        return modelMapper.map(savedGroup, GroupDTO.class);
     }
 }

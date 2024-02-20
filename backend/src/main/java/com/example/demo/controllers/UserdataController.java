@@ -1,5 +1,9 @@
 package com.example.demo.controllers;
 
+
+import com.example.demo.dto.GroupDTO;
+import com.example.demo.payload.request.UpdateGroupPlayersRequest;
+
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -67,5 +71,49 @@ public class UserdataController {
         userdataService.deletePlayer(playerId);
 
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/groups")
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+    public ResponseEntity<List<GroupDTO>> getGroupsForUserId() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+
+        List<GroupDTO> groups = userdataService.getGroupsForUserId(userDetails.getId());
+
+        return new ResponseEntity<>(groups, HttpStatus.OK);
+    }
+
+    @PostMapping("/groups")
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+    public ResponseEntity<GroupDTO> createGroup(@Valid @RequestBody GroupDTO groupDTO) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+
+        GroupDTO createdGroup = userdataService.createGroup(groupDTO, userDetails.getId());
+
+        return new ResponseEntity<>(createdGroup, HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/group/{groupId}")
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+    public ResponseEntity<HttpStatus> deleteGroup(@PathVariable Long groupId) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+
+        userdataService.deleteGroup(groupId);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping("/group/{groupId}/update")
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+    public ResponseEntity<GroupDTO> updateGroup(@PathVariable Long groupId, @Valid @RequestBody UpdateGroupPlayersRequest updateGroupPlayersRequest) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+
+        GroupDTO updatedGroup = userdataService.updateGroup(groupId, updateGroupPlayersRequest.getNewPlayers());
+
+        return new ResponseEntity<>(updatedGroup, HttpStatus.OK);
     }
 }

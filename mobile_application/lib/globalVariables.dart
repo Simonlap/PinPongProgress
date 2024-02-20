@@ -1,3 +1,4 @@
+import 'package:mobile_application/entities/group.dart';
 import 'package:mobile_application/entities/player.dart';
 import 'package:mobile_application/entities/uniqueGame.dart';
 
@@ -8,6 +9,7 @@ List<dynamic>? userroles = null;
 String? jwtToken = null;
 
 List<Player> player = [];
+List<Group> groups = [];
 
 UniqueGame? currentUniqueGame = null;
 
