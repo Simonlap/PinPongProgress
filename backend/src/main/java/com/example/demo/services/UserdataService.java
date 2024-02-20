@@ -85,7 +85,7 @@ public class UserdataService {
 
     public GroupDTO updateGroup(Long groupId, Long[] newPlayers) {
         Group group = groupRepository.findById(groupId).get();
-        group.setPlayers(List.of(newPlayers));
+        group.updatePlayers(List.of(newPlayers));
         Group savedGroup = groupRepository.save(group);
 
         return modelMapper.map(savedGroup, GroupDTO.class);

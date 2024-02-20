@@ -48,9 +48,12 @@ public class Group {
         return players;
     }
 
-    public void setPlayers(List<Long> newPlayers) {
-        this.players.clear(); // Clear the existing collection
-        this.players.addAll(newPlayers); // Add all from the new collection
+    public void setPlayers(List<Long> newPlayers) {// Clear the existing collection
+        this.players = newPlayers; // Add all from the new collection
+    }
+    public void updatePlayers(List<Long> newPlayers) {
+        this.players.clear();
+        this.players.addAll(newPlayers);
     }
     @ElementCollection
     @CollectionTable(name = "group_players", joinColumns = @JoinColumn(name = "group_id"))
