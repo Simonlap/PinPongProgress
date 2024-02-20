@@ -1,7 +1,19 @@
 package com.example.demo.controllers;
 
-import com.example.demo.payload.response.Responses;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.example.demo.models.ERole;
+import com.example.demo.models.Role;
+import com.example.demo.models.User;
+import com.example.demo.payload.request.LoginRequest;
+import com.example.demo.payload.request.SignupRequest;
+import com.example.demo.payload.response.MessageResponse;
+import com.example.demo.payload.response.Responses;
+import com.example.demo.payload.response.UserInfoResponse;
+import com.example.demo.repository.RoleRepository;
+import com.example.demo.repository.UserRepository;
+import com.example.demo.security.jwt.JwtUtils;
+import com.example.demo.security.services.UserDetailsImpl;
 
 import java.util.HashSet;
 import java.util.List;
@@ -23,18 +35,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import com.example.demo.models.ERole;
-import com.example.demo.models.Role;
-import com.example.demo.models.User;
-import com.example.demo.payload.request.LoginRequest;
-import com.example.demo.payload.request.SignupRequest;
-import com.example.demo.payload.response.UserInfoResponse;
-import com.example.demo.payload.response.MessageResponse;
-import com.example.demo.repository.RoleRepository;
-import com.example.demo.repository.UserRepository;
-import com.example.demo.security.jwt.JwtUtils;
-import com.example.demo.security.services.UserDetailsImpl;
 
 
 @CrossOrigin(origins = "*", maxAge = 3600)

@@ -4,6 +4,7 @@ import 'package:mobile_application/entities/minigamesEnum.dart';
 import 'player.dart';
 
 class Match {
+  late int _id;
   late Player _player1;
   late Player _player2;
   late String _matchName;
@@ -51,6 +52,9 @@ class Match {
   set pointsPlayer2(int value) {
     _pointsPlayer2 = value;
   }
+
+  int get id => _id;
+  set id(int value) {_id = value; }
 
   String get matchName => _matchName;
 

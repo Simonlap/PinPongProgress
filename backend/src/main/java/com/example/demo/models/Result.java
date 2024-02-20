@@ -16,15 +16,17 @@ public class Result {
     @NotNull
     private int minigameId;
     @NotNull
-    private Long player1_id;
+    private Long player1Id;
     @NotNull
-    private Long player2_id;
+    private Long player2Id;
     @NotNull
-    private int points_player1;
+    private int pointsPlayer1;
     @NotNull
-    private int points_player2;
-    @NotBlank
-    private String roundId;
+    private int pointsPlayer2;
+    @NotNull
+    private int roundId;
+    @NotNull
+    private int uniqueGameId;
 
     public Long getId() {
         return id;
@@ -50,43 +52,51 @@ public class Result {
         this.minigameId = minigameId;
     }
 
-    public Long getPlayer1_id() {
-        return player1_id;
+    public Long getPlayer1Id() {
+        return player1Id;
     }
 
-    public void setPlayer1_id(Long player1_id) {
-        this.player1_id = player1_id;
+    public void setPlayer1Id(Long player1Id) {
+        this.player1Id = player1Id;
     }
 
-    public Long getPlayer2_id() {
-        return player2_id;
+    public Long getPlayer2Id() {
+        return player2Id;
     }
 
-    public void setPlayer2_id(Long player2_id) {
-        this.player2_id = player2_id;
+    public void setPlayer2Id(Long player2Id) {
+        this.player2Id = player2Id;
     }
 
-    public int getPoints_player1() {
-        return points_player1;
+    public int getPointsPlayer1() {
+        return pointsPlayer1;
     }
 
-    public void setPoints_player1(int points_player1) {
-        this.points_player1 = points_player1;
+    public void setPointsPlayer1(int pointsPlayer1) {
+        this.pointsPlayer1 = pointsPlayer1;
     }
 
-    public int getPoints_player2() {
-        return points_player2;
+    public int getPointsPlayer2() {
+        return pointsPlayer2;
     }
 
-    public void setPoints_player2(int points_player2) {
-        this.points_player2 = points_player2;
+    public void setPointsPlayer2(int pointsPlayer2) {
+        this.pointsPlayer2 = pointsPlayer2;
     }
 
-    public String getRoundId() {
+    public int getRoundId() {
         return roundId;
     }
 
-    public void setRoundId(String roundId) {
+    public void setRoundId(int roundId) {
         this.roundId = roundId;
+    }
+
+    public int getUniqueGameId() {
+        return uniqueGameId;
+    }
+
+    public void setUniqueGameId(int uniqueGameId) {
+        this.uniqueGameId = uniqueGameId;
     }
 }
