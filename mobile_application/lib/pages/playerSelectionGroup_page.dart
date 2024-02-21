@@ -41,6 +41,8 @@ class _PlayersSelectionGroupState extends State<PlayersSelectionGroupPage> {
     if (response.statusCode == 201) {
 
       groups.add(Group.fromJson(json.decode(response.body)));
+      Navigator.pop(context);
+      Navigator.pop(context);
       Navigator.pushNamed(context, '/managegroupspage');
 
     } else {
