@@ -6,11 +6,12 @@ import 'package:mobile_application/globalVariables.dart';
 
 class RandomGroupsFromGroup extends StatefulWidget {
   final Group group;
+  final int option; // 1 for fixed group size and number, 2 for as many groups as possible with size 2
 
-  const RandomGroupsFromGroup({Key? key, required this.group}) : super(key: key);
+  const RandomGroupsFromGroup({Key? key, required this.group, required this.option}) : super(key: key);
 
   @override
-  _RandomGroupsFromGroupState createState() => _RandomGroupsFromGroupState();
+  State<RandomGroupsFromGroup> createState() => _RandomGroupsFromGroupState();
 }
 
 class _RandomGroupsFromGroupState extends State<RandomGroupsFromGroup> {
@@ -19,101 +20,121 @@ class _RandomGroupsFromGroupState extends State<RandomGroupsFromGroup> {
   int _groupSize = 2;
   List<List<Player>> subGroups = [];
 
-  void _generateSubGroups() {
-    final random = Random();
-    List<int> playerIds = List.from(widget.group.player);
-    subGroups.clear();
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Random Groups from ${widget.group.name}'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: SingleChildScrollView(
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                if (widget.option == 1) ...[
+                  TextFormField(
+                    decoration: InputDecoration(labelText: 'Number of Groups'),
+                    initialValue: _numberOfGroups.toString(),
+                    keyboardType: TextInputType.number,
+                    onChanged: (value) => setState(() {
+                      _numberOfGroups = int.tryParse(value) ?? _numberOfGroups;
+                    }),
+                  ),
+                  TextFormField(
+                    decoration: InputDecoration(labelText: 'Group Size'),
+                    initialValue: _groupSize.toString(),
+                    keyboardType: TextInputType.number,
+                    onChanged: (value) => setState(() {
+                      _groupSize = int.tryParse(value) ?? _groupSize;
+                    }),
+                  ),
+                ],
+                SizedBox(height: 20),
+                Center( // Wrap the button with Center
+                  child: ElevatedButton(
+                    onPressed: _generateSubGroups,
+                    child: Text(widget.option == 1 ? 'Generiere Gruppen' : 'Generiere Paarungen'),
+                  ),
+                ),
+                SizedBox(height: 20),
+                ..._buildGroupCards(),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 
-    for (int i = 0; i < _numberOfGroups; i++) {
+ void _generateSubGroups() {
+  List<int> playerIds = List.from(widget.group.player); // Assuming this is a list of player IDs
+  List<List<Player>> subGroups = [];
+  final random = Random();
+
+  // Filter out the players based on the IDs in playerIds
+  List<Player> filteredPlayers = player.where((player) => playerIds.contains(player.id)).toList();
+
+  if (widget.option == 1) {
+    // Option 1: Fixed number of groups with specified size
+    while (filteredPlayers.isNotEmpty) {
       List<Player> group = [];
-      for (int j = 0; j < _groupSize; j++) {
-        if (playerIds.isNotEmpty) {
-          int randomIndex = random.nextInt(playerIds.length);
-          int playerId = playerIds.removeAt(randomIndex);
-          Player? selectedPlayer = player.firstWhere((element) => element.id == playerId);
-          if (selectedPlayer != null) {
-            group.add(selectedPlayer);
-          }
-        }
+      for (int i = 0; i < _groupSize && filteredPlayers.isNotEmpty; i++) {
+        // Remove a random player and add to the group
+        int randomIndex = random.nextInt(filteredPlayers.length);
+        group.add(filteredPlayers.removeAt(randomIndex));
       }
       if (group.isNotEmpty) {
         subGroups.add(group);
       }
     }
-
-    setState(() {}); // Rebuild the UI to display the new subgroups
+  } else if (widget.option == 2) {
+    // Option 2: As many groups as possible with 2 players each
+    while (filteredPlayers.length >= 2) {
+      List<Player> pair = [];
+      for (int i = 0; i < 2; i++) {
+        // Remove a random player and add to the pair
+        int randomIndex = random.nextInt(filteredPlayers.length);
+        pair.add(filteredPlayers.removeAt(randomIndex));
+      }
+      subGroups.add(pair);
+    }
   }
 
-@override
-Widget build(BuildContext context) {
-  return Scaffold(
-    appBar: AppBar(
-      title: Text('Random Groups from ${widget.group.name}'),
-    ),
-    body: Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: SingleChildScrollView(
-        child: Form(
-          key: _formKey,
+  // Update the state with the new sub-groups
+  setState(() {
+    this.subGroups = subGroups;
+  });
+}
+
+
+
+
+  List<Widget> _buildGroupCards() {
+    return subGroups.asMap().entries.map((entry) {
+      int groupIndex = entry.key;
+      List<Player> group = entry.value;
+      return Card(
+        margin: const EdgeInsets.symmetric(vertical: 8.0),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Number of Groups'),
-                initialValue: '2',
-                keyboardType: TextInputType.number,
-                onChanged: (value) {
-                  _numberOfGroups = int.tryParse(value) ?? 2;
-                },
+              Text(
+                widget.option == 1 ? 'Gruppe ${groupIndex + 1}' : 'Paarung ${groupIndex + 1}',
+                style: Theme.of(context).textTheme.headline6,
               ),
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Group Size'),
-                initialValue: '2',
-                keyboardType: TextInputType.number,
-                onChanged: (value) {
-                  _groupSize = int.tryParse(value) ?? 2;
-                },
-              ),
-              SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: _generateSubGroups,
-                child: Text('Generate Groups'),
-              ),
-              SizedBox(height: 20),
-              ...subGroups.asMap().entries.map((entry) {
-                int groupIndex = entry.key;
-                List<Player> group = entry.value;
-                return Card(
-                  elevation: 4.0, // Adds shadow
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10), // Rounded corners
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8.0),
-                          child: Text(
-                            'Group ${groupIndex + 1}',
-                            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        Divider(),
-                        ...group.map((player) => ListTile(
-                              title: Text(player.name),
-                              subtitle: Text('ELO: ${player.currentElo}'), // Assuming a 'currentElo' property exists
-                            )),
-                      ],
-                    ),
-                  ),
-                );
-              }).toList(),
+              Divider(),
+              ...group.map((player) => ListTile(
+                    title: Text(player.name),
+                    subtitle: Text('ELO: ${player.currentElo}'),
+                  )),
             ],
           ),
         ),
-      ),
-    ),
-  );
-}
+      );
+    }).toList();
+  }
 }

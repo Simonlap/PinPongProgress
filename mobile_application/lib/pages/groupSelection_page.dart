@@ -38,7 +38,6 @@ class _GroupSelectionPageState extends State<GroupSelectionPage> {
               itemBuilder: (context, index) {
                 return Padding( 
                   padding: EdgeInsets.only(bottom: 10, top: 10),
-
                     child: Row(
                       children: <Widget>[
                         Expanded(
@@ -49,10 +48,6 @@ class _GroupSelectionPageState extends State<GroupSelectionPage> {
                               ),
                             ),
                             onPressed: () {
-                              // Handle button tap for each user, e.g., navigate to their profile.
-                              // Example: Navigator.push(context, MaterialPageRoute(builder: (context) => UserProfile(userNames[index]));
-
-                              //navigate to PlayerDetails, handle name change.
                               if (widget.option == 1) {
                                 Navigator.push(
                                   context,
@@ -64,9 +59,11 @@ class _GroupSelectionPageState extends State<GroupSelectionPage> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => RandomGroupsFromGroup(group: groups[index]),
+                                    builder: (context) => RandomGroupsFromGroup(group: groups[index], option: 1),
                                   ),
                                 );
+                              } else if (widget.option == 3) {
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => RandomGroupsFromGroup(group: groups[index], option: 2)));
                               }
                             },
                             child: Text(

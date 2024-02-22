@@ -99,6 +99,29 @@ class ToolsPage extends StatelessWidget {
                   ),
                 ],
               ),
+              SizedBox(height: 20), // Gap between the buttons
+              Row(
+                children: <Widget>[
+                  Expanded(
+                    child: ElevatedButton(
+                      style: ButtonStyle(
+                        minimumSize: MaterialStateProperty.all(
+                            const Size(0, 100)), // Set the button's height
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                                    builder: (context) => GroupSelectionPage(option: 3)
+                          ),
+                        );
+                      },
+                      child: Text('Zufällige Paarungen generieren',
+                          style: TextStyle(fontSize: 24)),
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
         ],
