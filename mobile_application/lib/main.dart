@@ -8,6 +8,7 @@ import 'package:mobile_application/pages/managePlayers_page.dart';
 import 'package:mobile_application/pages/manage_groups.dart';
 import 'package:mobile_application/pages/minispiele_page.dart';
 import 'package:mobile_application/pages/navigation_page.dart';
+import 'package:mobile_application/pages/playerEloRating_page.dart';
 import 'package:mobile_application/pages/playerSelectionGroup_page.dart';
 import 'package:mobile_application/pages/profile_page.dart';
 import 'package:mobile_application/pages/register_page.dart';
@@ -40,6 +41,7 @@ class MyApp extends StatelessWidget {
         '/toolspage' :(context) => ToolsPage(),
         '/managegroupspage' :(context) => ManageGroupsPage(),
         '/playerselectiongrouppage' :(context) => PlayersSelectionGroupPage(),
+        '/playerelochartpage' :(context) => PlayerEloRatingPage(),
       }
     );
   }
