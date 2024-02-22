@@ -15,14 +15,12 @@ class ManagePlayersPage extends StatefulWidget {
 }
 
 class _ManagePlayersState extends State<ManagePlayersPage> {
-
   @override
   void initState() {
     super.initState();
   }
 
   Future<void> changePlayerName(newName, id, index) async {
-
     final url = Uri.parse('$apiUrl/api/userdata/player/' + id.toString() + '/changeName');
     final response = await http.put(
       url,
@@ -30,69 +28,53 @@ class _ManagePlayersState extends State<ManagePlayersPage> {
         'Content-Type': 'application/json',
         'Cookie': jwtToken!,
       },
-      body: jsonEncode({
-        'newPlayerName': newName
-      }),
+      body: jsonEncode({'newPlayerName': newName}),
     );
 
     if (response.statusCode == 200) {
       setState(() {
         player[index] = Player.fromJson(json.decode(response.body));
       });
-      // Player added successfully
       print('Player name changed successfully');
-  
     } else {
       print('Failed to change player name. Status code: ${response.statusCode}');
     }
   }
 
   Future<void> deletePlayer(index) async {
-
     final url = Uri.parse(apiUrl + '/api/userdata/player/' + player[index].id.toString());
     final response = await http.delete(
       url,
-      headers: {
-        'Content-Type': 'application/json',
-        'Cookie': jwtToken!,
-      }
+      headers: {'Content-Type': 'application/json', 'Cookie': jwtToken!},
     );
 
     if (response.statusCode == 200) {
-      player.removeAt(index);
       setState(() {
+        player.removeAt(index);
       });
-      // Player added successfully
-      
       print('Player deleted successfully');
-  
     } else {
-
       print('Failed to delete player. Status code: ${response.statusCode}');
     }
   }
 
   void _navigateToAddPlayer() async {
-    // Navigate to AddPlayer screen and wait for the callback function to be called
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => AddPlayerPage(
           onUserAdded: () {
-            // Callback function to fetch user names when a user is added
-            setState(() {
-
-            });
-         },
+            setState(() {});
+          },
         ),
       ),
-    );    
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     player.sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
-    
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -106,78 +88,47 @@ class _ManagePlayersState extends State<ManagePlayersPage> {
             child: ListView.builder(
               itemCount: player.length,
               itemBuilder: (context, index) {
-                return Padding( 
-                  padding: EdgeInsets.only(bottom: 10, top: 10),
-
-                    child: Row(
-                      children: <Widget>[
-                        Expanded(
-                          child: ElevatedButton(
-                            style: ButtonStyle(
-                              minimumSize: MaterialStateProperty.all(
-                                const Size(0, 100),
-                              ),
-                            ),
-                            onPressed: () {
-                              // Handle button tap for each user, e.g., navigate to their profile.
-                              // Example: Navigator.push(context, MaterialPageRoute(builder: (context) => UserProfile(userNames[index]));
-
-                              //navigate to PlayerDetails, handle name change.
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => PlayerDetailsPage(
-                                    player: player[index],
-                                    onDelete: () {
-                                      deletePlayer(index);
-                                    },
-                                    onNameChanged: (newName) {
-                                      changePlayerName(newName, player[index].id, index);
-                                    },
-                                  ),
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 2.0), // Reduced space between buttons
+                  child: Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: ElevatedButton(
+                          style: ButtonStyle(
+                            // Reduced button height
+                            minimumSize: MaterialStateProperty.all(const Size(0, 50)),
+                            padding: MaterialStateProperty.all(const EdgeInsets.all(8)), // Reduced padding inside the button
+                          ),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => PlayerDetailsPage(
+                                  player: player[index],
+                                  onDelete: () => deletePlayer(index),
+                                  onNameChanged: (newName) => changePlayerName(newName, player[index].id, index),
                                 ),
-                              );
-                            },
-                            child: Text(
-                              player[index].name,
-                              style: TextStyle(fontSize: 24),
-                            ),
+                              ),
+                            );
+                          },
+                          child: Text(
+                            player[index].name,
+                            style: const TextStyle(fontSize: 20), // Reduced font size
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
+                  ),
                 );
               },
             ),
           ),
-          Row(
-            children: <Widget>[
-              Expanded(
-                child: ElevatedButton(
-                  style: ButtonStyle(
-                    minimumSize: MaterialStateProperty.all(
-                      const Size(0, 100),
-                    ),
-                  ),
-                  onPressed: () async{
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => AddPlayerPage(
-                          onUserAdded: () {
-                            // Callback function to fetch user names when a user is added
-                            setState(() {
-
-                            });
-                          },
-                        ),
-                      ),
-                    ); 
-                  },
-                  child: const Text('Add Player', style: TextStyle(fontSize: 24)),
-                ),
-              ),
-            ],
+          ElevatedButton(
+            style: ButtonStyle(
+              minimumSize: MaterialStateProperty.all(const Size.fromHeight(50)), // Reduced button height for 'Add Player'
+            ),
+            onPressed: _navigateToAddPlayer,
+            child: const Text('Add Player', style: TextStyle(fontSize: 20)), // Reduced font size for 'Add Player'
           ),
         ],
       ),
