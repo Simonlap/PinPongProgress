@@ -42,7 +42,6 @@ class _AlleGegenAlleState extends State<AlleGegenAllePage> {
       });
   }
 
-
   Future<void> updateEloScores(List<Match> matches) async {
     widget.players = await EloCalculator.calculateElos(matches, widget.players);
     if (!hasUpdatedScores) {
