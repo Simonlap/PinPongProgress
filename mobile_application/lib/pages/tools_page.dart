@@ -62,6 +62,7 @@ class ToolsPage extends StatelessWidget {
                       ),
                       onPressed: () {
                         // Your code here
+                        Navigator.pushNamed(context, '/groupselectionpage');
                       },
                       child: Text('Zufälligen Spieler auswählen',
                           style: TextStyle(fontSize: 24)),
