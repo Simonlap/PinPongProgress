@@ -1,6 +1,7 @@
 package com.tabletennis.app.dto;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
@@ -17,6 +18,7 @@ public class UniqueGameDTO {
     private boolean isFinished;
     private Long userId;
     private LocalDateTime startTime; 
+    private Set<Long> players;
 
     public void setId(Long id) {
         this.id = id;
@@ -56,5 +58,13 @@ public class UniqueGameDTO {
 
     public void setStartTime(LocalDateTime startTime) {
         this.startTime = startTime;
+    }
+
+    public Set<Long> getPlayers() {
+        return players;
+    }
+
+    public void setPlayers(Set<Long> players) {
+        this.players = players;
     }
 }

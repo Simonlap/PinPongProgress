@@ -117,6 +117,7 @@ class _PlayersSelectionState extends State<PlayersSelectionPage> {
                 Navigator.pop(context); // Pop previous page
 
                 final String currentDateAndTime = DateTime.now().toIso8601String();
+                final List<int> selectedPlayerIds = selectedPlayersList.map((player) => player.id).toList(); // Collect selected player IDs
                 final url = Uri.parse(apiUrl + '/api/uniqueGames/entry');
                 final response = await http.post(
                   url,
@@ -128,6 +129,7 @@ class _PlayersSelectionState extends State<PlayersSelectionPage> {
                     "isFinished": false,
                     "highestRound": 0,
                     "startTime": currentDateAndTime,
+                    "players": selectedPlayerIds, 
                   }),
                 );
                 if (response.statusCode == 201) {

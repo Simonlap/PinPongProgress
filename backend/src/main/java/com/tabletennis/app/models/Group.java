@@ -10,6 +10,11 @@ import java.util.List;
 @Table(name = "groups")
 public class Group {
 
+    @ElementCollection
+    @CollectionTable(name = "group_players", joinColumns = @JoinColumn(name = "group_id"))
+    @Column(name = "player_id")
+    private List<Long> players;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -55,9 +60,4 @@ public class Group {
         this.players.clear();
         this.players.addAll(newPlayers);
     }
-    @ElementCollection
-    @CollectionTable(name = "group_players", joinColumns = @JoinColumn(name = "group_id"))
-    @Column(name = "player_id")
-    private List<Long> players;
-
 }

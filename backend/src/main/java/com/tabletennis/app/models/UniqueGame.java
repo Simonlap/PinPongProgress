@@ -1,6 +1,7 @@
 package com.tabletennis.app.models;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -23,6 +24,14 @@ public class UniqueGame {
 
     @NotNull
     private LocalDateTime startTime;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinTable(
+        name = "uniqueGame_players", 
+        joinColumns = @JoinColumn(name = "uniqueGame_id"), 
+        inverseJoinColumns = @JoinColumn(name = "player_id")
+    )
+    private Set<Player> players;
 
     public void setId(Long id) {
         this.id = id;
@@ -54,5 +63,13 @@ public class UniqueGame {
 
     public void setStartTime(LocalDateTime startTime) {
         this.startTime = startTime;
+    }
+
+    public Set<Player> getPlayers() {
+        return players;
+    }
+
+    public void setPlayers(Set<Player> players) {
+        this.players = players;
     }
 }
