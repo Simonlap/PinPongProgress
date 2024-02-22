@@ -38,7 +38,7 @@ class _PlayerSelectionUpdateGroupState extends State<PlayerSelectionUpdateGroupP
         }
       }
       widget.onUpdate(true, selectedPlayerIds);
-      Navigator.pop(context); // 
+      Navigator.pop(context);
     }
   
 
@@ -46,7 +46,7 @@ class _PlayerSelectionUpdateGroupState extends State<PlayerSelectionUpdateGroupP
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Spieler Hinzufügen'),
+        title: Text('Spieler bearbeiten'),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
