@@ -79,4 +79,18 @@ class Player {
       eloRatings: eloRatings,
     );
   }
+
+  factory Player.fromDynamic(dynamic data) {
+    List<EloRating> eloRatings = [];
+    if (data['eloRatings'] != null) {
+      eloRatings = List.from(data['eloRatings'])
+          .map((eloRatingJson) => EloRating.fromJson(eloRatingJson))
+          .toList();
+    }
+    return Player(
+      id: data['id'] ?? 0,
+      name: data['playerName'] ?? '',
+      eloRatings: eloRatings,
+    );
+  }
 }

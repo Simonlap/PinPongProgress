@@ -113,7 +113,6 @@ class _HomePageState extends State<HomePage> {
                             const Size(0, 100)), // Set the button's height
                       ),
                       onPressed: () {
-                        // Your code here
                         Navigator.pushNamed(context, '/manageplayerspage');
                       },
                       child: Text('Spieler verwalten',
@@ -132,7 +131,7 @@ class _HomePageState extends State<HomePage> {
                             const Size(0, 100)), // Set the button's height
                       ),
                       onPressed: () {
-                        // Your code here
+                        Navigator.pushNamed(context, '/runninguniquegamespage');
                       },
                       child: Text('Laufende Spiele',
                           style: TextStyle(fontSize: 24)),

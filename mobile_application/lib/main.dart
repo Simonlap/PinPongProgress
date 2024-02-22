@@ -11,6 +11,7 @@ import 'package:mobile_application/pages/navigation_page.dart';
 import 'package:mobile_application/pages/playerSelectionGroup_page.dart';
 import 'package:mobile_application/pages/profile_page.dart';
 import 'package:mobile_application/pages/register_page.dart';
+import 'package:mobile_application/pages/runningUniqueGames_page.dart';
 import 'package:mobile_application/pages/start_page.dart';
 import 'package:mobile_application/pages/tools_page.dart';
 
@@ -40,6 +41,7 @@ class MyApp extends StatelessWidget {
         '/toolspage' :(context) => ToolsPage(),
         '/managegroupspage' :(context) => ManageGroupsPage(),
         '/playerselectiongrouppage' :(context) => PlayersSelectionGroupPage(),
+        '/runninguniquegamespage':(context) => RunningUniqueGamesPage(),
       }
     );
   }
