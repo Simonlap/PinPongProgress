@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_application/entities/minigamesEnum.dart';
+import 'package:mobile_application/globalVariables.dart';
 import 'package:mobile_application/pages/playerSelection_page.dart';
 
 class MinispielePage extends StatelessWidget {
@@ -32,7 +33,7 @@ class MinispielePage extends StatelessWidget {
                           ),
                         );                       
                       },
-                      child: Text('Alle gegen Alle',
+                      child: Text(Minigame.alleGegenAlle.title,
                           style: TextStyle(fontSize: 24)),
                     ),
                   ),

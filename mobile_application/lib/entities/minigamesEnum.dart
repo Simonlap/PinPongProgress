@@ -8,7 +8,7 @@ extension MiniGameTitle on Minigame {
   String get title {
     switch (this) {
       case Minigame.alleGegenAlle:
-        return 'Alle gegen alle';
+        return 'Alle gegen Alle';
       case Minigame.kaisertisch:
         return 'Kaisertisch';
       case Minigame.siebenerTisch:

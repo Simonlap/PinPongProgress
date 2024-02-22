@@ -13,11 +13,10 @@ class Match {
   late VoidCallback _onResultConfirmed;
   late Minigame _minigameType;
 
-
   Match({
     required Player player1,
     required Player player2,
-    required VoidCallback onResultConfirmed, // Add callback parameter
+    required VoidCallback onResultConfirmed, 
     required Minigame minigameType
   }) {
     _player1 = player1;
@@ -68,6 +67,23 @@ class Match {
 
   void onResultConfirmed() {
 
+  }
+
+  static Match fromDynamic(dynamic data, VoidCallback onResultConfirmed) {
+    if (data is Match) {
+      return data;
+    } else if (data is Map<String, dynamic>) {
+      return Match(
+        player1: Player.fromJson(data['player1']),
+        player2: Player.fromJson(data['player2']),
+        onResultConfirmed: onResultConfirmed,
+        minigameType: Minigame.values[data['minigameType']], 
+      )..id = data['id']
+      ..pointsPlayer1 = data['pointsPlayer1'] ?? 0 
+      ..pointsPlayer2 = data['pointsPlayer2'] ?? 0;
+    } else {
+      throw ArgumentError('Unsupported data type for fromDynamic method');
+    }
   }
 
 }

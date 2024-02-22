@@ -133,7 +133,9 @@ class _PlayersSelectionState extends State<PlayersSelectionPage> {
                   }),
                 );
                 if (response.statusCode == 201) {
-                  currentUniqueGame = UniqueGame.fromJson(json.decode(response.body));
+                  UniqueGame newCurrentUniqueGame = UniqueGame.fromJson(json.decode(response.body));
+                  updateUniqueGameInList(runningGames, newCurrentUniqueGame);
+                  
                   print('UniqueGame added successfully');
                 } else {
                   // Handle error
