@@ -63,7 +63,6 @@ class _GroupDetailsPageState extends State<GroupDetailsPage> {
     } else {
       widget.onSave(false, []);
     }
-    Navigator.pop(context);
   }
 
   @override
@@ -118,6 +117,7 @@ class _GroupDetailsPageState extends State<GroupDetailsPage> {
                                 _changed = true;
                                 _playerIds = playerIds;
                               });
+                              _saveSelectedPlayers();
                             }
                           },
                         ),
@@ -131,10 +131,6 @@ class _GroupDetailsPageState extends State<GroupDetailsPage> {
                     }
                   },
                   child: Text('Spieler bearbeiten'),
-                ),
-                ElevatedButton(
-                  onPressed: _saveSelectedPlayers,
-                  child: Text('Speichern'),
                 ),
               ],
             ),
