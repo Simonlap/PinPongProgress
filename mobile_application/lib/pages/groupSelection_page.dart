@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_application/globalVariables.dart';
+import 'package:mobile_application/pages/randomGroupFromGroup_page.dart';
 import 'package:mobile_application/pages/randomPlayerFromGroup_page.dart';
 
 
 
 class GroupSelectionPage extends StatefulWidget {
 
+  final int option;
+
   GroupSelectionPage({
+    required this.option,
     Key? key,
   }) : super(key: key);
 
@@ -15,7 +19,7 @@ class GroupSelectionPage extends StatefulWidget {
 }
 
 class _GroupSelectionPageState extends State<GroupSelectionPage> {
-  late List<bool> selectedPlayers;
+  late List<bool> selectedPlayers; 
 
    @override
   Widget build(BuildContext context) {
@@ -49,12 +53,21 @@ class _GroupSelectionPageState extends State<GroupSelectionPage> {
                               // Example: Navigator.push(context, MaterialPageRoute(builder: (context) => UserProfile(userNames[index]));
 
                               //navigate to PlayerDetails, handle name change.
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => RandomPlayerFromGroup(group: groups[index]),
-                                ),
-                              );
+                              if (widget.option == 1) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => RandomPlayerFromGroup(group: groups[index]),
+                                  ),
+                                );
+                              } else if (widget.option == 2) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => RandomGroupsFromGroup(group: groups[index]),
+                                  ),
+                                );
+                              }
                             },
                             child: Text(
                               groups[index].name,

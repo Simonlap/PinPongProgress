@@ -41,7 +41,6 @@ class MyApp extends StatelessWidget {
         '/toolspage' :(context) => ToolsPage(),
         '/managegroupspage' :(context) => ManageGroupsPage(),
         '/playerselectiongrouppage' :(context) => PlayersSelectionGroupPage(),
-        '/groupselectionpage' :(context) => GroupSelectionPage(),
       }
     );
   }

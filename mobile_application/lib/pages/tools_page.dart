@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_application/entities/minigamesEnum.dart';
+import 'package:mobile_application/pages/groupSelection_page.dart';
 import 'package:mobile_application/pages/playerSelection_page.dart';
 
 class ToolsPage extends StatelessWidget {
@@ -62,9 +63,37 @@ class ToolsPage extends StatelessWidget {
                       ),
                       onPressed: () {
                         // Your code here
-                        Navigator.pushNamed(context, '/groupselectionpage');
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                                    builder: (context) => GroupSelectionPage(option: 1)
+                          ),
+                        );
                       },
                       child: Text('Zufälligen Spieler auswählen',
+                          style: TextStyle(fontSize: 24)),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 20), // Gap between the buttons
+              Row(
+                children: <Widget>[
+                  Expanded(
+                    child: ElevatedButton(
+                      style: ButtonStyle(
+                        minimumSize: MaterialStateProperty.all(
+                            const Size(0, 100)), // Set the button's height
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                                    builder: (context) => GroupSelectionPage(option: 2)
+                          ),
+                        );
+                      },
+                      child: Text('Zufällige Gruppe generieren',
                           style: TextStyle(fontSize: 24)),
                     ),
                   ),
