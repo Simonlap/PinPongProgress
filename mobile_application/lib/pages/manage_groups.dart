@@ -114,8 +114,10 @@ class _ManageGroupsState extends State<ManageGroupsPage> {
                                     onDelete: () {
                                       deleteGroup(index);
                                     },
-                                    onSave: (newPlayers) {
-                                      updateGroup(index, newPlayers);
+                                    onSave: (changed, newPlayers) {
+                                      if (changed) {
+                                        updateGroup(index, newPlayers);
+                                      }
                                     },
                                   ),
                                 ),
