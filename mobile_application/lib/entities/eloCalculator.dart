@@ -23,6 +23,10 @@ class EloCalculator {
       playerMap[player1.id] ??= player1;
       playerMap[player2.id] ??= player2;
 
+      if (match.pointsPlayer1 == 0 && match.pointsPlayer2 == 0) {
+        continue;
+      }
+
       int rating1 = player1.currentElo;
       int rating2 = player2.currentElo;
       double expectedScore1 = _expectedScore(rating1, rating2);

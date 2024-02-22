@@ -131,9 +131,6 @@ class _PlayersSelectionState extends State<PlayersSelectionPage> {
                 // Handle error
                 print('Failed create uniqueGame entry. Status code: ${response.statusCode}');
               }
-
-              // Use the selectedPlayersList as needed
-              // For example, you can pass it to the AlleGegenAlle screen
               Navigator.push(
                 context,
                 MaterialPageRoute(
