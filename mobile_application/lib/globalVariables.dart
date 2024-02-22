@@ -24,5 +24,6 @@ void updateUniqueGameInList(List<UniqueGame> uniqueGames, UniqueGame newCurrentU
     uniqueGames[indexToUpdate] = newCurrentUniqueGame;
   } else {
     runningGames.add(newCurrentUniqueGame!);
+    runningGames.sort((a, b) => b.startTime.compareTo(a.startTime));
   }
 }

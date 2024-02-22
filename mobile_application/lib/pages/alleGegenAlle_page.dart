@@ -33,17 +33,15 @@ class _AlleGegenAlleState extends State<AlleGegenAllePage> {
   void initState() {
     super.initState();
     futureMatches = (widget.matches != null ? Future.value(widget.matches) : generateMatches())
-      .then((List<dynamic>? result) { 
+      .then((List<Match>? result) {
         if (result != null) {
-          List<Match> matches = result.map<Match>((dynamic item) {
-            return Match.fromDynamic(item, () {setState(() {});},);
-          }).toList();
-          return updateEloScores(matches).then((_) => matches);
+          return updateEloScores(result).then((_) => result);
         } else {
           return <Match>[];
         }
       });
   }
+
 
   Future<void> updateEloScores(List<Match> matches) async {
     widget.players = await EloCalculator.calculateElos(matches, widget.players);
