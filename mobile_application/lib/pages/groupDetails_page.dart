@@ -84,9 +84,17 @@ class _GroupDetailsPageState extends State<GroupDetailsPage> {
             child: ListView.builder(
               itemCount: _playerIds.length,
               itemBuilder: (context, index) {
-                Player player = allPlayers.firstWhere((p) => p.id == _playerIds[index], orElse: () => Player(id: -1, name: 'Unknown', elo: 0));
+                // Find the player by ID or use a default 'Unknown' player
+                Player player = allPlayers.firstWhere(
+                  (p) => p.id == _playerIds[index], 
+                  orElse: () => Player(id: -1, name: 'Unknown', eloRatings: [])
+                );
+                // Use the currentElo method to get the player's current Elo rating
+                int currentElo = player.currentElo;
+
                 return ListTile(
                   title: Text(player.name),
+                  subtitle: Text('Elo: $currentElo'),
                 );
               },
             ),
@@ -122,11 +130,11 @@ class _GroupDetailsPageState extends State<GroupDetailsPage> {
                       });
                     }
                   },
-                  child: Text('Edit Player'),
+                  child: Text('Spieler bearbeiten'),
                 ),
                 ElevatedButton(
                   onPressed: _saveSelectedPlayers,
-                  child: Text('Save'),
+                  child: Text('Speichern'),
                 ),
               ],
             ),
