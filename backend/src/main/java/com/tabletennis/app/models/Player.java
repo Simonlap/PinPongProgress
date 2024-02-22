@@ -1,5 +1,7 @@
 package com.tabletennis.app.models;
 
+import java.util.Set;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -19,8 +21,8 @@ public class Player {
     @Size(max = 30)
     private String playerName;
 
-    @NotNull
-    private int elo;
+    @OneToMany(mappedBy = "player", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<EloRating> eloRatings;
 
     public void setId(Long id) {
         this.id = id;
@@ -46,11 +48,11 @@ public class Player {
         return playerName;
     }
 
-    public void setElo(int elo) {
-        this.elo = elo;
+    public Set<EloRating> getEloRatings() {
+        return eloRatings;
     }
 
-    public int getElo() {
-        return elo;
+    public void setEloRatings(Set<EloRating> eloRatings) {
+        this.eloRatings = eloRatings;
     }
 }
