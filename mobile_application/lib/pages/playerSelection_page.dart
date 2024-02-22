@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:mobile_application/entities/group.dart';
 import 'package:mobile_application/entities/minigamesEnum.dart';
 import 'package:mobile_application/entities/uniqueGame.dart';
 import 'package:mobile_application/globalVariables.dart';
@@ -23,6 +24,7 @@ class PlayersSelectionPage extends StatefulWidget {
 class _PlayersSelectionState extends State<PlayersSelectionPage> {
   
   final Minigame selectedMiniGame;
+  List<bool> selectedPlayers = [];
   final int minimumPlayerNumber = 2;
 
   _PlayersSelectionState(this.selectedMiniGame);
@@ -30,6 +32,8 @@ class _PlayersSelectionState extends State<PlayersSelectionPage> {
   @override
   void initState() {
     super.initState();
+
+    selectedPlayers = List.generate(globalVariables.player.length, (index) => false);
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       if (globalVariables.player.length < minimumPlayerNumber) {
@@ -71,9 +75,6 @@ class _PlayersSelectionState extends State<PlayersSelectionPage> {
 
   @override
   Widget build(BuildContext context) {
-    List<bool> selectedPlayers =
-        List.generate(globalVariables.player.length, (index) => true);
-
     return Scaffold(
       appBar: AppBar(
         title: Text(selectedMiniGame.title),
@@ -95,48 +96,58 @@ class _PlayersSelectionState extends State<PlayersSelectionPage> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          SelectablePlayers(globalVariables.player, selectedPlayers),
+          SelectablePlayers(globalVariables.player, selectedPlayers, globalVariables.groups),
           SizedBox(height: 20),
           ElevatedButton(
             onPressed: () async {
-              // Here, you can access the selected players as a List<Player>
+              // Initialize an empty list for selected players
               List<Player> selectedPlayersList = [];
+
+              // Iterate through the global list of players and add individually selected players to the list
               for (int i = 0; i < globalVariables.player.length; i++) {
-                if (selectedPlayers[i]) {
+                if (selectedPlayers[i]) {  // Check if the player is selected
                   selectedPlayersList.add(globalVariables.player[i]);
                 }
               }
-              //pop the last to pages from navigation stack
-              Navigator.pop(context);
-              Navigator.pop(context);
 
-              final String currentDateAndTime = DateTime.now().toIso8601String();
-              final url = Uri.parse(apiUrl + '/api/uniqueGames/entry');
-              final response = await http.post(
-                url,
-                headers: {
-                  'Content-Type': 'application/json',
-                  'Cookie': jwtToken!,
-                },
-                body: jsonEncode({
-                  "isFinished": false,
-                  "highestRound": 0,
-                  "startTime": currentDateAndTime,
-                }),
-              );
-              if (response.statusCode == 201) {
-                currentUniqueGame = UniqueGame.fromJson(json.decode(response.body));
-                print('UniqueGame added successfully');
+              // Proceed only if there are selected players
+              if (selectedPlayersList.isNotEmpty) {
+                // Navigate to the AlleGegenAllePage with the selected players
+                Navigator.pop(context); // Pop current page
+                Navigator.pop(context); // Pop previous page
+
+                final String currentDateAndTime = DateTime.now().toIso8601String();
+                final url = Uri.parse(apiUrl + '/api/uniqueGames/entry');
+                final response = await http.post(
+                  url,
+                  headers: {
+                    'Content-Type': 'application/json',
+                    'Cookie': jwtToken!,
+                  },
+                  body: jsonEncode({
+                    "isFinished": false,
+                    "highestRound": 0,
+                    "startTime": currentDateAndTime,
+                  }),
+                );
+                if (response.statusCode == 201) {
+                  currentUniqueGame = UniqueGame.fromJson(json.decode(response.body));
+                  print('UniqueGame added successfully');
+                } else {
+                  // Handle error
+                  print('Failed to create uniqueGame entry. Status code: ${response.statusCode}');
+                }
+
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AlleGegenAllePage(players: selectedPlayersList),
+                  ),
+                );
               } else {
-                // Handle error
-                print('Failed create uniqueGame entry. Status code: ${response.statusCode}');
+                // Optionally, show a message if no players are selected
+                print('No players selected');
               }
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => AlleGegenAllePage(players: selectedPlayersList),
-                ),
-              );
             },
             child: Text('Los gehts'),
           ),
@@ -149,14 +160,35 @@ class _PlayersSelectionState extends State<PlayersSelectionPage> {
 class SelectablePlayers extends StatefulWidget {
   final List<Player> players;
   final List<bool> selectedPlayers;
+  final List<Group> groups;
 
-  SelectablePlayers(this.players, this.selectedPlayers);
+  SelectablePlayers(this.players, this.selectedPlayers, this.groups);
 
   @override
   _SelectablePlayersState createState() => _SelectablePlayersState();
 }
 
 class _SelectablePlayersState extends State<SelectablePlayers> {
+  List<bool> selectedGroups = []; 
+
+  @override
+  void initState() {
+    super.initState();
+    selectedGroups = List.filled(widget.groups.length, false); 
+  }
+
+  void _handleGroupSelection(int groupIndex, bool isSelected) {
+    setState(() {
+      selectedGroups[groupIndex] = isSelected;
+      widget.groups[groupIndex].player.forEach((playerId) {
+        int playerIndex = widget.players.indexWhere((player) => player.id == playerId);
+        if (playerIndex != -1) {
+          widget.selectedPlayers[playerIndex] = isSelected;
+        }
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -165,18 +197,34 @@ class _SelectablePlayersState extends State<SelectablePlayers> {
           'Wer soll mitspielen?',
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
         ),
-        for (int i = 0; i < widget.players.length; i++)
-          ListTile(
-            title: Text(widget.players[i].name),
+        ...widget.groups.asMap().entries.map((entry) {
+          int groupIndex = entry.key;
+          Group group = entry.value;
+          return ListTile(
+            title: Text("Gruppe: ${group.name}", style: TextStyle(fontWeight: FontWeight.bold)), // Prepend "Gruppe: " to group name
             leading: Checkbox(
-              value: widget.selectedPlayers[i],
+              value: selectedGroups[groupIndex],
+              onChanged: (value) {
+                _handleGroupSelection(groupIndex, value!);
+              },
+            ),
+          );
+        }).toList(),
+        ...widget.players.asMap().entries.map((entry) {
+          int playerIndex = entry.key;
+          Player player = entry.value;
+          return ListTile(
+            title: Text(player.name),
+            leading: Checkbox(
+              value: widget.selectedPlayers[playerIndex],
               onChanged: (value) {
                 setState(() {
-                  widget.selectedPlayers[i] = value!;
+                  widget.selectedPlayers[playerIndex] = value!;
                 });
               },
             ),
-          ),
+          );
+        }).toList(),
       ],
     );
   }
