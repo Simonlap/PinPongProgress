@@ -49,9 +49,14 @@ class MinispielePage extends StatelessWidget {
                             const Size(0, 100)), // Set the button's height
                       ),
                       onPressed: () {
-                        // Your code here
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => PlayersSelectionPage(selectedMinigame: Minigame.siebenerTisch),
+                          ),
+                        ); 
                       },
-                      child: Text('Siebener Tisch',
+                      child: Text(Minigame.siebenerTisch.title,
                           style: TextStyle(fontSize: 24)),
                     ),
                   ),

@@ -10,6 +10,7 @@ import 'package:mobile_application/pages/alleGegenAlle_page.dart';
 import 'package:mobile_application/pages/gameExplanation_page.dart';
 import 'package:mobile_application/globalVariables.dart' as globalVariables;
 import 'package:http/http.dart' as http;
+import 'package:mobile_application/pages/sevenTable_page.dart';
 
 import '../entities/player.dart';
 
@@ -130,6 +131,7 @@ class _PlayersSelectionState extends State<PlayersSelectionPage> {
                     "highestRound": 0,
                     "startTime": currentDateAndTime,
                     "players": selectedPlayerIds, 
+                    "minigameId": selectedMiniGame.id,
                   }),
                 );
                 if (response.statusCode == 201) {
@@ -138,16 +140,25 @@ class _PlayersSelectionState extends State<PlayersSelectionPage> {
                   
                   print('UniqueGame added successfully');
                 } else {
-                  // Handle error
                   print('Failed to create uniqueGame entry. Status code: ${response.statusCode}');
                 }
 
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => AlleGegenAllePage(players: selectedPlayersList),
-                  ),
-                );
+                if(selectedMiniGame == Minigame.alleGegenAlle) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AlleGegenAllePage(players: selectedPlayersList),
+                    ),
+                  );
+                }
+                else if(selectedMiniGame == Minigame.siebenerTisch) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SevenTablePage(players: selectedPlayersList),
+                    ),
+                  );
+                }
               } else {
                 // Optionally, show a message if no players are selected
                 print('No players selected');
