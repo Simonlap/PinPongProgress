@@ -14,8 +14,6 @@ public class Result {
     @NotNull
     private Long userId;
     @NotNull
-    private int minigameId;
-    @NotNull
     private Long player1Id;
     @NotNull
     private Long player2Id;
@@ -42,14 +40,6 @@ public class Result {
 
     public void setUserId(Long userId) {
         this.userId = userId;
-    }
-
-    public int getMinigameId() {
-        return minigameId;
-    }
-
-    public void setMinigameId(int minigameId) {
-        this.minigameId = minigameId;
     }
 
     public Long getPlayer1Id() {

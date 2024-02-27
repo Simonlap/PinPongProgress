@@ -73,7 +73,6 @@ class _RunningUniqueGamesPageState extends State<RunningUniqueGamesPage> {
                                 // This will trigger a rebuild when points are updated
                               });
                             },
-                            minigameType: Minigame.values[result.minigameId],
                           )..id = result.id
                           ..pointsPlayer1 = result.pointsPlayer1
                           ..pointsPlayer2 = result.pointsPlayer2;

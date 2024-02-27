@@ -12,16 +12,12 @@ public class UniqueGame {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @NotNull
     private int highestRound;
-
     @NotNull
     private boolean isFinished;
-
     @NotNull
     private Long userId;
-
     @NotNull
     private LocalDateTime startTime;
 
@@ -32,6 +28,9 @@ public class UniqueGame {
         inverseJoinColumns = @JoinColumn(name = "player_id")
     )
     private Set<Player> players;
+
+    @NotNull
+    private int minigameId;
 
     public void setId(Long id) {
         this.id = id;
@@ -71,5 +70,13 @@ public class UniqueGame {
 
     public void setPlayers(Set<Player> players) {
         this.players = players;
+    }
+
+    public int getMinigameId() {
+        return minigameId;
+    }
+
+    public void setMinigameId(int minigameId) {
+        this.minigameId = minigameId;
     }
 }

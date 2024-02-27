@@ -19,6 +19,7 @@ public class UniqueGameDTO {
     private Long userId;
     private LocalDateTime startTime; 
     private Set<Long> players;
+    private int minigameId;
 
     public void setId(Long id) {
         this.id = id;
@@ -66,5 +67,13 @@ public class UniqueGameDTO {
 
     public void setPlayers(Set<Long> players) {
         this.players = players;
+    }
+
+    public int getMinigameId() {
+        return minigameId;
+    }
+
+    public void setMinigameId(int minigameId) {
+        this.minigameId = minigameId;
     }
 }

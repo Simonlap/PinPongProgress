@@ -65,7 +65,6 @@ class _AlleGegenAlleState extends State<AlleGegenAllePage> {
               // This will trigger a rebuild when points are updated
             });
           },
-          minigameType: Minigame.alleGegenAlle
         );
         matches.add(match);
         final url = Uri.parse(apiUrl + '/api/minigame/entry');
@@ -82,7 +81,6 @@ class _AlleGegenAlleState extends State<AlleGegenAllePage> {
             'pointsPlayer2': 0,
             'roundId': currentUniqueGame?.highestRound,
             'uniqueGameId': currentUniqueGame?.id,
-            'minigameId': match.minigameType.index
           }),
         );
 
