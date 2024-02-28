@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_application/elements/customElevatedButton.dart';
 import 'dart:math';
 
 import 'package:mobile_application/entities/minigamesEnum.dart';
@@ -87,7 +88,7 @@ class _ImperialTablePageState extends State<ImperialTablePage> {
             children: <Widget>[
               if (selectedText != null)
                 Card(
-                  elevation: 4.0, // Adds shadow under the card
+                  elevation: 4.0, 
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Text(
@@ -97,13 +98,10 @@ class _ImperialTablePageState extends State<ImperialTablePage> {
                     ),
                   ),
                 ),
-              SizedBox(height: 24), // Adds space between card and button
-              ElevatedButton(
+              SizedBox(height: 24),
+              CustomElevatedButton(
                 onPressed: _selectRandomText,
-                child: Text('Neue Variation'),
-                style: ElevatedButton.styleFrom(
-                  padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
-                ),
+                text: 'Neue Variation',
               ),
             ],
           ),

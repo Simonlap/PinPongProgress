@@ -1,26 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mobile_application/elements/customElevatedButton.dart';
 
 class StartPage extends StatefulWidget {
-  const StartPage({super.key});
-
   @override
   _StartPageState createState() => _StartPageState();
 }
 
 class _StartPageState extends State<StartPage> with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
-  late Animation<double> _buttonAnimation;
+  late Animation<double> _buttonScaleAnimation;
 
   @override
   void initState() {
     super.initState();
     _animationController = AnimationController(
-      duration: const Duration(milliseconds: 800), // Make the animation faster
+      duration: const Duration(milliseconds: 800),
       vsync: this,
     )..repeat(reverse: true);
 
-    _buttonAnimation = Tween<double>(begin: 0.9, end: 1.1).animate(CurvedAnimation( // Increase the scaling effect
+    _buttonScaleAnimation = Tween<double>(
+      begin: 1.0,
+      end: 1.2,
+    ).animate(CurvedAnimation(
       parent: _animationController,
       curve: Curves.easeInOut,
     ));
@@ -70,38 +72,24 @@ class _StartPageState extends State<StartPage> with SingleTickerProviderStateMix
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  ScaleTransition(
-                    scale: _buttonAnimation,
-                    child: _animatedButton("Register", '/registerpage'),
+                  CustomElevatedButton(
+                    text: 'Register',
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/registerpage');
+                    },
+                    animation: _buttonScaleAnimation,
                   ),
-                  ScaleTransition(
-                    scale: _buttonAnimation,
-                    child: _animatedButton("Login", '/loginpage'),
+                  CustomElevatedButton(
+                    text: 'Login',
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/loginpage');
+                    },
+                    animation: _buttonScaleAnimation,
                   ),
                 ],
               ),
             ),
           ],
-        ),
-      ),
-    );
-  }
-
-  Widget _animatedButton(String text, String route) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Color(0xFF294597),
-        padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
-      ),
-      onPressed: () {
-        Navigator.pushNamed(context, route);
-      },
-      child: Text(
-        text,
-        style: TextStyle(
-          color: Color(0xFFFFE019),
-          fontSize: 15,
-          fontWeight: FontWeight.bold,
         ),
       ),
     );

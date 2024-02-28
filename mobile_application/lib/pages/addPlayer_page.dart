@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:mobile_application/elements/customElevatedButton.dart';
 import 'package:mobile_application/entities/player.dart';
 import 'package:mobile_application/globalVariables.dart';
 import 'package:flutter/services.dart';
@@ -70,9 +71,9 @@ class _AddPlayerState extends State<AddPlayerPage> {
               ]
             ),
             SizedBox(height: 32),
-            ElevatedButton(
+            CustomElevatedButton(
               onPressed: addPlayer,
-              child: Text('Erstellen'),
+              text: 'Erstellen',
             ),
           ],
         ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:mobile_application/elements/customElevatedButton.dart';
 import 'package:mobile_application/entities/player.dart';
 import 'package:mobile_application/globalVariables.dart';
 import 'dart:convert';
@@ -89,16 +90,13 @@ class _ManagePlayersState extends State<ManagePlayersPage> {
               itemCount: player.length,
               itemBuilder: (context, index) {
                 return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 2.0), // Reduced space between buttons
+                  padding: const EdgeInsets.symmetric(vertical: 2.0), 
                   child: Row(
                     children: <Widget>[
                       Expanded(
-                        child: ElevatedButton(
-                          style: ButtonStyle(
-                            // Reduced button height
-                            minimumSize: MaterialStateProperty.all(const Size(0, 50)),
-                            padding: MaterialStateProperty.all(const EdgeInsets.all(8)), // Reduced padding inside the button
-                          ),
+                        child: CustomElevatedButton.customButton(
+                          player[index].name,
+                          minimumSize: Size(0, 50),
                           onPressed: () {
                             Navigator.push(
                               context,
@@ -111,10 +109,6 @@ class _ManagePlayersState extends State<ManagePlayersPage> {
                               ),
                             );
                           },
-                          child: Text(
-                            player[index].name,
-                            style: const TextStyle(fontSize: 20), // Reduced font size
-                          ),
                         ),
                       ),
                     ],
@@ -123,12 +117,9 @@ class _ManagePlayersState extends State<ManagePlayersPage> {
               },
             ),
           ),
-          ElevatedButton(
-            style: ButtonStyle(
-              minimumSize: MaterialStateProperty.all(const Size.fromHeight(50)), // Reduced button height for 'Add Player'
-            ),
+          CustomElevatedButton.customButton(
+            'Spieler hinzufügen',
             onPressed: _navigateToAddPlayer,
-            child: const Text('Add Player', style: TextStyle(fontSize: 20)), // Reduced font size for 'Add Player'
           ),
         ],
       ),

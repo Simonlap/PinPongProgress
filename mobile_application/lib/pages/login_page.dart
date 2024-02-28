@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_application/elements/customElevatedButton.dart';
 import 'package:mobile_application/globalVariables.dart' as globalVariables;
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -18,15 +19,13 @@ class _LoginPageState extends State<LoginPage> {
 
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController= TextEditingController();
-  bool isLoggingIn = false;
   Map<String, bool> fieldErrors = {
     'username': false,
     'password': false,
   };
 
-  Future<void> performLogin() async {
+  performLogin() async {
     setState(() {
-      isLoggingIn = true; // Set login state to true when the button is clicked
       fieldErrors = {
         'username': false,
         'password': false,
@@ -34,9 +33,7 @@ class _LoginPageState extends State<LoginPage> {
     });
 
     if (!validateInputs()) {
-      setState(() {
-        isLoggingIn = false;
-      });
+      setState(() {});
       return;
     }
 
@@ -84,10 +81,6 @@ class _LoginPageState extends State<LoginPage> {
     //     fontSize: 16.0
     // );
     }
-
-    setState(() {
-      isLoggingIn = false; // Reset login state, whether successful or not
-    });
   }
 
   bool validateInputs() {
@@ -150,18 +143,10 @@ class _LoginPageState extends State<LoginPage> {
             const SizedBox(height: 32),
             Stack(
               children: [
-                ElevatedButton(
-                  onPressed: isLoggingIn
-                      ? null
-                      : performLogin, // Disable click when logging in
-                  child: const Text('Login'),
+                CustomElevatedButton(
+                  text: 'Login',
+                  onPressed: performLogin,
                 ),
-                if (isLoggingIn)
-                  Positioned.fill(
-                    child: Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  ),
               ],
             )
           ],

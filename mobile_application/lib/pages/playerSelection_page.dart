@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:mobile_application/elements/customElevatedButton.dart';
 import 'package:mobile_application/entities/group.dart';
 import 'package:mobile_application/entities/minigamesEnum.dart';
 import 'package:mobile_application/entities/uniqueGame.dart';
@@ -99,76 +100,76 @@ class _PlayersSelectionState extends State<PlayersSelectionPage> {
         children: <Widget>[
           SelectablePlayers(globalVariables.player, selectedPlayers, globalVariables.groups),
           SizedBox(height: 20),
-          ElevatedButton(
-            onPressed: () async {
-              // Initialize an empty list for selected players
-              List<Player> selectedPlayersList = [];
-
-              // Iterate through the global list of players and add individually selected players to the list
-              for (int i = 0; i < globalVariables.player.length; i++) {
-                if (selectedPlayers[i]) {  // Check if the player is selected
-                  selectedPlayersList.add(globalVariables.player[i]);
-                }
-              }
-
-              // Proceed only if there are selected players
-              if (selectedPlayersList.isNotEmpty) {
-                // Navigate to the AlleGegenAllePage with the selected players
-                Navigator.pop(context); // Pop current page
-                Navigator.pop(context); // Pop previous page
-
-                final String currentDateAndTime = DateTime.now().toIso8601String();
-                final List<int> selectedPlayerIds = selectedPlayersList.map((player) => player.id).toList(); // Collect selected player IDs
-                final url = Uri.parse(apiUrl + '/api/uniqueGames/entry');
-                final response = await http.post(
-                  url,
-                  headers: {
-                    'Content-Type': 'application/json',
-                    'Cookie': jwtToken!,
-                  },
-                  body: jsonEncode({
-                    "isFinished": false,
-                    "highestRound": 0,
-                    "startTime": currentDateAndTime,
-                    "players": selectedPlayerIds, 
-                    "minigameId": selectedMiniGame.id,
-                  }),
-                );
-                if (response.statusCode == 201) {
-                  UniqueGame newCurrentUniqueGame = UniqueGame.fromJson(json.decode(response.body));
-                  updateUniqueGameInList(runningGames, newCurrentUniqueGame);
-                  
-                  print('UniqueGame added successfully');
-                } else {
-                  print('Failed to create uniqueGame entry. Status code: ${response.statusCode}');
-                }
-
-                if(selectedMiniGame == Minigame.alleGegenAlle) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => AlleGegenAllePage(players: selectedPlayersList),
-                    ),
-                  );
-                }
-                else if(selectedMiniGame == Minigame.siebenerTisch) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => SevenTablePage(players: selectedPlayersList),
-                    ),
-                  );
-                }
-              } else {
-                // Optionally, show a message if no players are selected
-                print('No players selected');
-              }
-            },
-            child: Text('Los gehts'),
+          CustomElevatedButton(
+            text: 'Los gehts',
+            onPressed: performSelection,
           ),
         ],
       ),
     );
+  }
+  
+  performSelection() async {
+
+    List<Player> selectedPlayersList = [];
+
+    for (int i = 0; i < globalVariables.player.length; i++) {
+      if (selectedPlayers[i]) {  
+        selectedPlayersList.add(globalVariables.player[i]);
+      }
+    }
+
+    if (selectedPlayersList.isNotEmpty) {
+      // Navigate to the AlleGegenAllePage with the selected players
+      Navigator.pop(context); 
+      Navigator.pop(context); 
+
+      final String currentDateAndTime = DateTime.now().toIso8601String();
+      final List<int> selectedPlayerIds = selectedPlayersList.map((player) => player.id).toList(); // Collect selected player IDs
+      final url = Uri.parse(apiUrl + '/api/uniqueGames/entry');
+      final response = await http.post(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Cookie': jwtToken!,
+        },
+        body: jsonEncode({
+          "isFinished": false,
+          "highestRound": 0,
+          "startTime": currentDateAndTime,
+          "players": selectedPlayerIds, 
+          "minigameId": selectedMiniGame.id,
+        }),
+      );
+      if (response.statusCode == 201) {
+        UniqueGame newCurrentUniqueGame = UniqueGame.fromJson(json.decode(response.body));
+        updateUniqueGameInList(runningGames, newCurrentUniqueGame);
+        
+        print('UniqueGame added successfully');
+      } else {
+        print('Failed to create uniqueGame entry. Status code: ${response.statusCode}');
+      }
+
+      if(selectedMiniGame == Minigame.alleGegenAlle) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => AlleGegenAllePage(players: selectedPlayersList),
+          ),
+        );
+      }
+      else if(selectedMiniGame == Minigame.siebenerTisch) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => SevenTablePage(players: selectedPlayersList),
+          ),
+        );
+      }
+    } else {
+      // Optionally, show a message if no players are selected
+      print('No players selected');
+    }
   }
 }
 

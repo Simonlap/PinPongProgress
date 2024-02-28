@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:mobile_application/elements/customElevatedButton.dart';
 import 'package:mobile_application/entities/group.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile_application/globalVariables.dart' as globalVariables;
@@ -83,7 +84,8 @@ class _PlayersSelectionGroupState extends State<PlayersSelectionGroupPage> {
           ),
           SelectablePlayers(globalVariables.player, selectedPlayers),
           SizedBox(height: 20),
-          ElevatedButton(
+          CustomElevatedButton(
+            text: 'Gruppe erstellen',
             onPressed: () {
               List<int> selectedPlayersList = [];
               for (int i = 0; i < globalVariables.player.length; i++) {
@@ -93,7 +95,6 @@ class _PlayersSelectionGroupState extends State<PlayersSelectionGroupPage> {
               }
               saveGroup(_groupNameController.text, selectedPlayersList);
           },
-      child: Text('Gruppe Erstellen'),
           ),
         ],
       ),

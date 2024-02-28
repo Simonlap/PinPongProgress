@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart'; // For date formatting
+import 'package:mobile_application/elements/customElevatedButton.dart';
 import 'package:mobile_application/entities/player.dart';
 import 'package:mobile_application/entities/minigamesEnum.dart';
 import 'package:mobile_application/globalVariables.dart';
@@ -173,12 +174,10 @@ class _SevenTablePageState extends State<SevenTablePage> {
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: ElevatedButton(
+            child: CustomElevatedButton(
               onPressed: _exitUniqueGame,
-              child: Text('Spiel beenden'),
-              style: ElevatedButton.styleFrom(
-                minimumSize: Size(double.infinity, 50), // Full-width button with fixed height
-              ),
+              text: 'Spiel beenden',
+              
             ),
           ),
         ],

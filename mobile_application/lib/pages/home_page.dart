@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:mobile_application/elements/customElevatedButton.dart';
 import 'package:mobile_application/entities/group.dart';
 import 'package:mobile_application/entities/player.dart';
 import 'package:mobile_application/entities/uniqueGame.dart';
@@ -93,95 +94,15 @@ class _HomePageState extends State<HomePage> {
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Row(
-                children: <Widget>[
-                  Expanded(
-                    child: ElevatedButton(
-                      style: ButtonStyle(
-                        minimumSize: MaterialStateProperty.all(
-                            const Size(0, 100)), // Set the button's height
-                      ),
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/minispielepage');
-                      },
-                      child: Text('Minispiel Starten',
-                          style: TextStyle(fontSize: 24)),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20), // Gap between the buttons
-              Row(
-                children: <Widget>[
-                  Expanded(
-                    child: ElevatedButton(
-                      style: ButtonStyle(
-                        minimumSize: MaterialStateProperty.all(
-                            const Size(0, 100)), // Set the button's height
-                      ),
-                      onPressed: () {
-                        // Your code here
-                      },
-                      child: Text('Statistiken anschauen',
-                          style: TextStyle(fontSize: 24)),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20), // Gap between the buttons
-              Row(
-                children: <Widget>[
-                  Expanded(
-                    child: ElevatedButton(
-                      style: ButtonStyle(
-                        minimumSize: MaterialStateProperty.all(
-                            const Size(0, 100)), // Set the button's height
-                      ),
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/manageplayerspage');
-                      },
-                      child: Text('Spieler verwalten',
-                          style: TextStyle(fontSize: 24)),
-                    ),
-                  ),
-                ],
-              ),
+              CustomElevatedButton.customButton('Minispiel starten', context: context, route: '/minispielepage'),
+              SizedBox(height: 20), 
+              CustomElevatedButton.customButton('Statistiken anschauen', context: context, route: '/statspage'), // Assuming '/statspage' is the route
+              SizedBox(height: 20), 
+              CustomElevatedButton.customButton('Spieler verwalten', context: context, route: '/manageplayerspage'),
               SizedBox(height: 20),
-              Row(
-                children: <Widget>[
-                  Expanded(
-                    child: ElevatedButton(
-                      style: ButtonStyle(
-                        minimumSize: MaterialStateProperty.all(
-                            const Size(0, 100)), // Set the button's height
-                      ),
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/runninguniquegamespage');
-                      },
-                      child: Text('Laufende Spiele',
-                          style: TextStyle(fontSize: 24)),
-                    ),
-                  ),
-                ],
-              ),
+              CustomElevatedButton.customButton('Laufende Spiele', context: context, route: '/runninguniquegamespage'),
               SizedBox(height: 20),
-              Row(
-                children: <Widget>[
-                  Expanded(
-                    child: ElevatedButton(
-                      style: ButtonStyle(
-                        minimumSize: MaterialStateProperty.all(
-                            const Size(0, 100)), // Set the button's height
-                      ),
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/toolspage');
-                      },
-                      child: Text('Tools',
-                          style: TextStyle(fontSize: 24)),
-                    ),
-                  ),
-                ],
-              ),
+              CustomElevatedButton.customButton('Tools', context: context, route: '/toolspage'),
             ],
           ),
         ],

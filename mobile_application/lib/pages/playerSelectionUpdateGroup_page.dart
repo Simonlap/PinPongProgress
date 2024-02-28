@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_application/elements/customElevatedButton.dart';
 import 'package:mobile_application/entities/player.dart';
 import 'package:mobile_application/globalVariables.dart' as globalVariables;
 
@@ -53,9 +54,9 @@ class _PlayerSelectionUpdateGroupState extends State<PlayerSelectionUpdateGroupP
         children: <Widget>[
           SelectablePlayers(globalVariables.player, selectedPlayers),
           SizedBox(height: 20),
-          ElevatedButton(
+          CustomElevatedButton(
             onPressed: _updateGroup,
-            child: Text('Speichern'),
+            text: 'Speichern',
           ),
         ],
       ),
