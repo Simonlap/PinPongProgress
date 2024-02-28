@@ -13,7 +13,6 @@ public class ResultDTO {
 
     private Long id;
     private Long userId;
-    private int minigameId;
     private Long player1Id;
     private Long player2Id;
     private int pointsPlayer1;
@@ -35,14 +34,6 @@ public class ResultDTO {
 
     public void setUserId(Long userId) {
         this.userId = userId;
-    }
-
-    public int getMinigameId() {
-        return minigameId;
-    }
-
-    public void setMinigameId(int minigameId) {
-        this.minigameId = minigameId;
     }
 
     public Long getPlayer1Id() {

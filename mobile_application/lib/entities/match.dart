@@ -11,19 +11,15 @@ class Match {
   int _pointsPlayer1 = 0;
   int _pointsPlayer2 = 0;
   late VoidCallback _onResultConfirmed;
-  late Minigame _minigameType;
-
 
   Match({
     required Player player1,
     required Player player2,
-    required VoidCallback onResultConfirmed, // Add callback parameter
-    required Minigame minigameType
+    required VoidCallback onResultConfirmed, 
   }) {
     _player1 = player1;
     _player2 = player2;
     _onResultConfirmed = onResultConfirmed; 
-    _minigameType = minigameType;
     _updateMatchName();
   }
 
@@ -58,8 +54,6 @@ class Match {
 
   String get matchName => _matchName;
 
-  Minigame get minigameType => _minigameType;
-
   // No need for a setter for matchName since it's updated automatically
   // Private method to update matchName whenever player1 or player2 changes
   void _updateMatchName() {
@@ -69,5 +63,4 @@ class Match {
   void onResultConfirmed() {
 
   }
-
 }

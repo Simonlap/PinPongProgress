@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:mobile_application/entities/group.dart';
 import 'package:mobile_application/entities/player.dart';
+import 'package:mobile_application/entities/uniqueGame.dart';
 import 'package:mobile_application/globalVariables.dart';
 import 'package:http/http.dart' as http;
 
@@ -20,6 +21,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     fetchPlayers(); // Call the function to fetch user data when the widget initializes.
     fetchGroups();
+    fetchRunningGames();
   }
 
   Future<void> fetchPlayers() async {
@@ -41,7 +43,7 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-    Future<void> fetchGroups() async {
+  Future<void> fetchGroups() async {
     final url = Uri.parse('$apiUrl/api/userdata/groups');
     final response = await http.get(
       url,
@@ -57,6 +59,29 @@ class _HomePageState extends State<HomePage> {
       });
     } else {
       throw Exception('Failed to load user data');
+    }
+  }
+
+  Future<void> fetchRunningGames() async {
+    final url = Uri.parse('$apiUrl/api/uniqueGames/running'); 
+    final response = await http.get(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Cookie': jwtToken!, // Assuming you have a JWT token for authentication
+      },
+    );
+
+    if (response.statusCode == 200) {
+      List<dynamic> gamesJson = json.decode(response.body);
+      List<UniqueGame> fetchedGames = gamesJson.map((gameJson) => UniqueGame.fromJson(gameJson)).toList();
+
+      // Sort the games list by the start time in descending order (newest first)
+      fetchedGames.sort((a, b) => b.startTime.compareTo(a.startTime));
+      runningGames = fetchedGames;
+
+    } else {
+      print('Failed to fetch running unique games. Status code: ${response.statusCode}');
     }
   }
 
@@ -113,7 +138,6 @@ class _HomePageState extends State<HomePage> {
                             const Size(0, 100)), // Set the button's height
                       ),
                       onPressed: () {
-                        // Your code here
                         Navigator.pushNamed(context, '/manageplayerspage');
                       },
                       child: Text('Spieler verwalten',
@@ -132,7 +156,7 @@ class _HomePageState extends State<HomePage> {
                             const Size(0, 100)), // Set the button's height
                       ),
                       onPressed: () {
-                        // Your code here
+                        Navigator.pushNamed(context, '/runninguniquegamespage');
                       },
                       child: Text('Laufende Spiele',
                           style: TextStyle(fontSize: 24)),

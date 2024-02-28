@@ -24,6 +24,9 @@ public class Player {
     @OneToMany(mappedBy = "player", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<EloRating> eloRatings;
 
+    @ManyToMany(mappedBy = "players", fetch = FetchType.LAZY)
+    private Set<UniqueGame> uniqueGames;
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -54,5 +57,13 @@ public class Player {
 
     public void setEloRatings(Set<EloRating> eloRatings) {
         this.eloRatings = eloRatings;
+    }
+
+    public Set<UniqueGame> getUniqueGames() {
+        return uniqueGames;
+    }
+
+    public void setUniqueGames(Set<UniqueGame> uniqueGames) {
+        this.uniqueGames = uniqueGames;
     }
 }

@@ -17,20 +17,38 @@ import 'package:http/http.dart' as http;
 
 class AlleGegenAllePage extends StatefulWidget {
   List<Player> players;
+  List<Match>? matches;
 
-  AlleGegenAllePage({required this.players});
+  AlleGegenAllePage({required this.players, this.matches});
 
   @override
   _AlleGegenAlleState createState() => _AlleGegenAlleState();
 }
 
 class _AlleGegenAlleState extends State<AlleGegenAllePage> {
-  late Future<List<Match>> matches;
+  late Future<List<Match>> futureMatches;
+  bool hasUpdatedScores = false;
 
   @override
   void initState() {
     super.initState();
-    matches = generateMatches();
+    futureMatches = (widget.matches != null ? Future.value(widget.matches) : generateMatches())
+      .then((List<Match>? result) {
+        if (result != null) {
+          return updateEloScores(result).then((_) => result);
+        } else {
+          return <Match>[];
+        }
+      });
+  }
+
+  Future<void> updateEloScores(List<Match> matches) async {
+    widget.players = await EloCalculator.calculateElos(matches, widget.players);
+    if (!hasUpdatedScores) {
+      setState(() {
+        hasUpdatedScores = true; // Prevents further unnecessary rebuilds
+      });
+    }
   }
 
   Future<List<Match>> generateMatches() async {
@@ -47,7 +65,6 @@ class _AlleGegenAlleState extends State<AlleGegenAllePage> {
               // This will trigger a rebuild when points are updated
             });
           },
-          minigameType: Minigame.alleGegenAlle
         );
         matches.add(match);
         final url = Uri.parse(apiUrl + '/api/minigame/entry');
@@ -64,7 +81,6 @@ class _AlleGegenAlleState extends State<AlleGegenAllePage> {
             'pointsPlayer2': 0,
             'roundId': currentUniqueGame?.highestRound,
             'uniqueGameId': currentUniqueGame?.id,
-            'minigameId': match.minigameType.index
           }),
         );
 
@@ -86,7 +102,7 @@ class _AlleGegenAlleState extends State<AlleGegenAllePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(Minigame.alleGegenAlle.title),
+        title: Text('${Minigame.alleGegenAlle.title}, Runde: ${currentUniqueGame!.highestRound}'),
         actions: [
           IconButton(
             icon: Icon(Icons.help_outline),
@@ -103,10 +119,24 @@ class _AlleGegenAlleState extends State<AlleGegenAllePage> {
       ),
       body: Stack(
         children: [
-          MatchListPage(
-            matches: matches,
-            onResultConfirmed: () {
-              setState(() {});
+          FutureBuilder<List<Match>>(
+            future: futureMatches, 
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(child: CircularProgressIndicator());
+              } else if (snapshot.hasError) {
+                return Center(child: Text('An error occurred'));
+              } else if (snapshot.hasData) {
+                // No need to call updateEloScores here since it's already been handled in initState
+                return MatchListPage(
+                  matches: snapshot.data!,
+                  onResultConfirmed: () {
+                    setState(() {});
+                  },
+                );
+              } else {
+                return Container();
+              }
             },
           ),
           Align(
@@ -145,10 +175,13 @@ class _AlleGegenAlleState extends State<AlleGegenAllePage> {
                           }),
                         );
                         if (response.statusCode == 200) {
-                          currentUniqueGame = UniqueGame.fromJson(json.decode(response.body));
+                          UniqueGame newCurrentUniqueGame = UniqueGame.fromJson(json.decode(response.body));
+                          updateUniqueGameInList(runningGames, newCurrentUniqueGame);
+                          
+                          List<Match> matches = await futureMatches;
+                          await updateEloScores(matches);
+
                           print('Next round successfully');
-                          final List<Match> matchesList = await matches;
-                          widget.players = await EloCalculator.calculateElos(matchesList, widget.players);
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -176,10 +209,13 @@ class _AlleGegenAlleState extends State<AlleGegenAllePage> {
                           }),
                         );
                         if (response.statusCode == 200) {
-                          currentUniqueGame = UniqueGame.fromJson(json.decode(response.body));
+
+                          UniqueGame newCurrentUniqueGame = UniqueGame.fromJson(json.decode(response.body));
+                          updateUniqueGameInList(runningGames, newCurrentUniqueGame);
+                          
+                          List<Match> matches = await futureMatches;
+                          await updateEloScores(matches);
                           print('Game finished successfully');
-                          final List<Match> matchesList = await matches;
-                          widget.players = await EloCalculator.calculateElos(matchesList, widget.players);
                           Navigator.push(
                             context,
                             MaterialPageRoute(

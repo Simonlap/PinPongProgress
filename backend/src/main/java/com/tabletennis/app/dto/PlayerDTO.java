@@ -14,6 +14,7 @@ public class PlayerDTO {
     private Long id;
     private String playerName;
     private Set<EloRatingDTO> eloRatings;
+    private Set<Long> uniqueGameIds;
 
     public void setId(Long id) {
         this.id = id;
@@ -21,7 +22,7 @@ public class PlayerDTO {
 
     public Long getId() {
         return id;
-    }
+    } 
 
     public void setPlayerName(String playerName) {
         this.playerName = playerName;
@@ -37,5 +38,13 @@ public class PlayerDTO {
 
     public void setEloRatings(Set<EloRatingDTO> eloRatings) {
         this.eloRatings = eloRatings;
+    }
+
+    public Set<Long> getUniqueGameIds() {
+        return uniqueGameIds;
+    }
+
+    public void setUniqueGameIds(Set<Long> uniqueGameIds) {
+        this.uniqueGameIds = uniqueGameIds;
     }
 }

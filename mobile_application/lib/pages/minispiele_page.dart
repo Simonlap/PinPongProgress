@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_application/entities/minigamesEnum.dart';
+import 'package:mobile_application/globalVariables.dart';
 import 'package:mobile_application/pages/playerSelection_page.dart';
 
 class MinispielePage extends StatelessWidget {
@@ -32,7 +33,7 @@ class MinispielePage extends StatelessWidget {
                           ),
                         );                       
                       },
-                      child: Text('Alle gegen Alle',
+                      child: Text(Minigame.alleGegenAlle.title,
                           style: TextStyle(fontSize: 24)),
                     ),
                   ),
@@ -48,9 +49,14 @@ class MinispielePage extends StatelessWidget {
                             const Size(0, 100)), // Set the button's height
                       ),
                       onPressed: () {
-                        // Your code here
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => PlayersSelectionPage(selectedMinigame: Minigame.siebenerTisch),
+                          ),
+                        ); 
                       },
-                      child: Text('Siebener Tisch',
+                      child: Text(Minigame.siebenerTisch.title,
                           style: TextStyle(fontSize: 24)),
                     ),
                   ),

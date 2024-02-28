@@ -45,16 +45,18 @@ class EndGamePage extends StatelessWidget {
           ElevatedButton(
             onPressed: () {
               if (actionChoice == ActionChoice.backToStart) {
+                deleteCurrentUniqueGame();
                 Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(builder: (context) => NavigationPage()),
                   (route) => false,
                 );
               } else if (actionChoice == ActionChoice.nextRound) {
-                Navigator.pushAndRemoveUntil(
+                Navigator.pop(context);
+                Navigator.pop(context);
+                Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => AlleGegenAllePage(players: players)),
-                  (route) => false,
                 );
               } else if (actionChoice == ActionChoice.intermediateStatus) {
                 Navigator.pop(context);

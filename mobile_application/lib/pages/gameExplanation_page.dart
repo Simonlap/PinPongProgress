@@ -3,17 +3,13 @@ import 'package:mobile_application/entities/minigamesEnum.dart';
 
 class GameExplanationPage extends StatelessWidget {
   final Minigame selectedMinigame;
-  final String explanationTitle;
 
-  // Use a constructor initializer to initialize explanationTitle
-  GameExplanationPage(this.selectedMinigame) : explanationTitle = selectedMinigame.title;
+  GameExplanationPage(this.selectedMinigame);
 
   @override
   Widget build(BuildContext context) {
-    final String title = "Wie funktioniert $explanationTitle?";
-    final String explanationText =
-        "Welcome to the Mini Game!\n\nThis game is designed to challenge your skills and have some fun. "
-        "Get ready for an exciting experience and enjoy the game.";
+    final String title = "Erkärung: ${selectedMinigame.title}";
+    final String explanationText = selectedMinigame.explanation;
 
     return Scaffold(
       appBar: AppBar(
@@ -25,7 +21,7 @@ class GameExplanationPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-              "Game Overview",
+              "Spielerklärung",
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 16),

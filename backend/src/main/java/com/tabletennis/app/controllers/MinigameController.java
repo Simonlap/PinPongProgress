@@ -24,13 +24,15 @@ public class MinigameController {
     @Autowired
     MinigameService minigameService;
 
-    @GetMapping("/results/{roundId}")
+    @GetMapping("/results/{uniqueGameId}/{roundId}")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-    public ResponseEntity<List<ResultDTO>> getResultsForUserIdAndRoundId(@RequestParam Long roundId) {
+    public ResponseEntity<List<ResultDTO>> getResultsForUniqueGameAndRound(
+            @PathVariable Long uniqueGameId,
+            @PathVariable Long roundId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
-        List<ResultDTO> results = minigameService.getResultsForUserIdAndRoundId(userDetails.getId(), roundId);
+        List<ResultDTO> results = minigameService.getResultsForUniqueGameAndRoundId(userDetails.getId(), uniqueGameId, roundId);
 
         return new ResponseEntity<>(results, HttpStatus.OK);
     }
