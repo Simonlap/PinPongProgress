@@ -38,7 +38,7 @@ class UniqueGame {
       json['isFinished'] ?? false,
       DateTime.parse(json['startTime']),
       (json['players'] as List)?.map((item) => item as int)?.toList() ?? [],
-      json['uniqueGameId'] ?? 0,
+      json['minigameId'] ?? 0,
     );
   }
 }

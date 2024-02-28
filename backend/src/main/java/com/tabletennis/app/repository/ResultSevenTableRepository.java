@@ -11,7 +11,7 @@ import java.util.Set;
 public interface ResultSevenTableRepository extends JpaRepository<ResultSevenTable, Long> {
     
     @SuppressWarnings("null")
-    ResultSevenTable findByIdAndUserId(@SuppressWarnings("null") Long id, Long userId);
+    ResultSevenTable findByUniqueGameIdAndPlayerIdAndUserId(Long uniqueGameId, Long playerId, Long userId);
 
     Set<ResultSevenTable> findByUserId(Long userId);
 

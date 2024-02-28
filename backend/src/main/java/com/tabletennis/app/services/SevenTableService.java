@@ -1,5 +1,6 @@
 package com.tabletennis.app.services;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
@@ -38,22 +39,23 @@ public class SevenTableService {
         return modelMapper.map(savedResult, ResultSevenTableDTO.class);
     }
 
-    public ResultSevenTableDTO increaseResult(Long id, Long userId) {
-        ResultSevenTable result = resultRepository.findByIdAndUserId(id, userId);
+    public ResultSevenTableDTO increaseResult(Long uniqueGamesId, Long playerId, Long userId) {
+        ResultSevenTable result = resultRepository.findByUniqueGameIdAndPlayerIdAndUserId(uniqueGamesId, playerId, userId);
         if (result != null) {
             result.setPointsPlayer(result.getPointsPlayer() + 1);
+            result.setEditTime(LocalDateTime.now());
             ResultSevenTable updatedResult = resultRepository.save(result);
             return modelMapper.map(updatedResult, ResultSevenTableDTO.class);
         }
         return null;
     }
 
-    public ResultSevenTableDTO decreaseResult(Long id, Long userId) {
-        ResultSevenTable result = resultRepository.findByIdAndUserId(id, userId);
+    public ResultSevenTableDTO decreaseResult(Long uniqueGamesId, Long playerId, Long userId) {
+        ResultSevenTable result = resultRepository.findByUniqueGameIdAndPlayerIdAndUserId(uniqueGamesId, playerId, userId);
         if (result != null) {
-            // Ensure that pointsPlayer doesn't go below 0
             int newPoints = Math.max(0, result.getPointsPlayer() - 1);
             result.setPointsPlayer(newPoints);
+            result.setEditTime(LocalDateTime.now());
             ResultSevenTable updatedResult = resultRepository.save(result);
             return modelMapper.map(updatedResult, ResultSevenTableDTO.class);
         }

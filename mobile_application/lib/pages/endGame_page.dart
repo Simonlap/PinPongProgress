@@ -45,6 +45,7 @@ class EndGamePage extends StatelessWidget {
           ElevatedButton(
             onPressed: () {
               if (actionChoice == ActionChoice.backToStart) {
+                deleteCurrentUniqueGame();
                 Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(builder: (context) => NavigationPage()),

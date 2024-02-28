@@ -53,24 +53,24 @@ public class SevenTableController {
         return new ResponseEntity<>(createdResult, HttpStatus.CREATED);
     }
 
-    @PutMapping("/increaseEntry/{id}")
+    @PutMapping("/increaseEntry/{uniqueGamesId}/{playerId}")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-    public ResponseEntity<ResultSevenTableDTO> increaseResult(@PathVariable Long id) {
+    public ResponseEntity<ResultSevenTableDTO> increaseResult(@PathVariable Long uniqueGamesId, @PathVariable Long playerId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
-        ResultSevenTableDTO createdResult = sevenTableService.increaseResult(id, userDetails.getId());
+        ResultSevenTableDTO createdResult = sevenTableService.increaseResult(uniqueGamesId, playerId, userDetails.getId());
 
         return new ResponseEntity<>(createdResult, HttpStatus.OK);
     }
 
-    @PutMapping("/decreaseEntry/{id}")
+    @PutMapping("/decreaseEntry/{uniqueGamesId}/{playerId}")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-    public ResponseEntity<ResultSevenTableDTO> decreaseResult(@PathVariable Long id) {
+    public ResponseEntity<ResultSevenTableDTO> decreaseResult(@PathVariable Long uniqueGamesId, @PathVariable Long playerId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
-        ResultSevenTableDTO createdResult = sevenTableService.decreaseResult(id, userDetails.getId());
+        ResultSevenTableDTO createdResult = sevenTableService.decreaseResult(uniqueGamesId, playerId, userDetails.getId());
 
         return new ResponseEntity<>(createdResult, HttpStatus.OK);
     }

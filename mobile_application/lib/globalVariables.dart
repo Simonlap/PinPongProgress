@@ -27,3 +27,10 @@ void updateUniqueGameInList(List<UniqueGame> uniqueGames, UniqueGame newCurrentU
     runningGames.sort((a, b) => b.startTime.compareTo(a.startTime));
   }
 }
+
+void deleteCurrentUniqueGame() {
+  if (currentUniqueGame != null) {
+    runningGames.removeWhere((game) => game.id == currentUniqueGame!.id);
+    currentUniqueGame = null;
+  }
+}
