@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:mobile_application/elements/customAppBar.dart';
 import 'package:mobile_application/elements/customElevatedButton.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:mobile_application/entities/match.dart';
@@ -27,9 +28,7 @@ class _AddResultState extends State<AddResultPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.match.matchName),
-      ),
+      appBar: CustomAppBar(title: widget.match.matchName),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[

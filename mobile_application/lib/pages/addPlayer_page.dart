@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:mobile_application/elements/customAppBar.dart';
 import 'package:mobile_application/elements/customElevatedButton.dart';
 import 'package:mobile_application/entities/player.dart';
 import 'package:mobile_application/globalVariables.dart';
@@ -50,9 +51,7 @@ class _AddPlayerState extends State<AddPlayerPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Spieler Erstellen'),
-      ),
+      appBar: CustomAppBar(title: 'Spieler erstellen'),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(

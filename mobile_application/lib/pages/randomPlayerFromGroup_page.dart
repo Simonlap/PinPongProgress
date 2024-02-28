@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_application/elements/customAppBar.dart';
 import 'package:mobile_application/elements/customElevatedButton.dart';
 import 'dart:math';
 import 'package:mobile_application/entities/player.dart';
@@ -32,8 +33,8 @@ class _RandomPlayerFromGroupState extends State<RandomPlayerFromGroup> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Random Player from ${widget.group.name}')
+      appBar: CustomAppBar(
+        title: 'Zufälliger Spieler aus ${widget.group.name}'
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

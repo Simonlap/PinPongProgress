@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart'; // For date formatting
+import 'package:mobile_application/elements/customAppBar.dart';
 import 'package:mobile_application/elements/customElevatedButton.dart';
 import 'package:mobile_application/entities/player.dart';
 import 'package:mobile_application/entities/minigamesEnum.dart';
@@ -114,8 +115,8 @@ class _SevenTablePageState extends State<SevenTablePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(Minigame.siebenerTisch.title),
+      appBar: CustomAppBar(
+        title: Minigame.siebenerTisch.title,
         actions: [
           IconButton(
             icon: Icon(Icons.help_outline),

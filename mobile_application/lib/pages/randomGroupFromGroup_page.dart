@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_application/elements/customAppBar.dart';
 import 'package:mobile_application/elements/customElevatedButton.dart';
 import 'dart:math';
 import 'package:mobile_application/entities/player.dart';
@@ -24,8 +25,8 @@ class _RandomGroupsFromGroupState extends State<RandomGroupsFromGroup> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Random Groups from ${widget.group.name}'),
+      appBar: CustomAppBar(
+        title: 'Zufällige Gruppen aus ${widget.group.name}',
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

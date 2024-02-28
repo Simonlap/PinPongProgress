@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_application/elements/customAppBar.dart';
 import 'package:mobile_application/elements/customElevatedButton.dart';
 import 'package:mobile_application/entities/player.dart';
 import 'package:mobile_application/globalVariables.dart';
@@ -17,15 +18,11 @@ class EndGamePage extends StatelessWidget {
     players.sort((a, b) => b.currentElo.compareTo(a.currentElo));
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          actionChoice == ActionChoice.backToStart
+      appBar: CustomAppBar(title: actionChoice == ActionChoice.backToStart
               ? 'Spiel beenden'
               : actionChoice == ActionChoice.nextRound
                   ? 'Zwischenstand'
-                  : 'Zwischenstand',
-        ),
-      ),
+                  : 'Zwischenstand'),
       body: Column(
         children: [
           Expanded(

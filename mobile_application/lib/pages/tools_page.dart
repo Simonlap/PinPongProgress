@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_application/elements/customAppBar.dart';
 import 'package:mobile_application/elements/customElevatedButton.dart';
 import 'package:mobile_application/pages/groupSelection_page.dart';
 
@@ -28,8 +29,8 @@ class ToolsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Tools'),
+      appBar: CustomAppBar(
+        title: 'Tools',
       ),
       body: SingleChildScrollView(
         child: Padding(

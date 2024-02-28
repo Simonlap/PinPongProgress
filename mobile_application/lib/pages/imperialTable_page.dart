@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_application/elements/customAppBar.dart';
 import 'package:mobile_application/elements/customElevatedButton.dart';
 import 'dart:math';
 
@@ -64,8 +65,8 @@ class _ImperialTablePageState extends State<ImperialTablePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(Minigame.kaisertisch.title),
+      appBar: CustomAppBar(
+        title: Minigame.kaisertisch.title,
         actions: [
           IconButton(
             icon: Icon(Icons.help_outline),

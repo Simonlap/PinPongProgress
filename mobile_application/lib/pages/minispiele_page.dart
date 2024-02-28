@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_application/elements/customAppBar.dart';
 import 'package:mobile_application/elements/customElevatedButton.dart';
 import 'package:mobile_application/entities/minigamesEnum.dart';
 import 'package:mobile_application/pages/gameExplanation_page.dart';
@@ -11,8 +12,8 @@ class MinispielePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Minispiele'),
+      appBar: CustomAppBar(
+        title: 'Minispiele',
       ),
       body: SingleChildScrollView(
         child: Column(

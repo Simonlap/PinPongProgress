@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_application/elements/customAppBar.dart';
 import 'package:mobile_application/elements/customElevatedButton.dart';
 import 'package:mobile_application/globalVariables.dart';
 import 'package:mobile_application/pages/randomGroupFromGroup_page.dart';
@@ -25,10 +26,8 @@ class _GroupSelectionPageState extends State<GroupSelectionPage> {
    @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Gruppe auswählen',
-        ),
+      appBar: CustomAppBar(
+        title: 'Gruppe auswählen'
       ),
       body: Column(
         children: <Widget>[

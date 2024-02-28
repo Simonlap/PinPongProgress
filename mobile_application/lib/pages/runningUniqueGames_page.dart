@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:mobile_application/elements/customAppBar.dart';
 import 'package:mobile_application/elements/customElevatedButton.dart';
 import 'package:mobile_application/entities/minigamesEnum.dart';
 import 'package:mobile_application/entities/player.dart';
@@ -28,8 +29,8 @@ class _RunningUniqueGamesPageState extends State<RunningUniqueGamesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Laufende Spiele'),
+      appBar: CustomAppBar(
+        title: 'Laufende Spiele',
       ),
       body: ListView.builder(
         itemCount: runningGames.length,

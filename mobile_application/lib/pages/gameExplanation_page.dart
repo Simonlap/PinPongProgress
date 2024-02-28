@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_application/elements/customAppBar.dart';
 import 'package:mobile_application/entities/minigamesEnum.dart';
 
 class GameExplanationPage extends StatelessWidget {
@@ -12,9 +13,7 @@ class GameExplanationPage extends StatelessWidget {
     final String explanationText = selectedMinigame.explanation;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-      ),
+      appBar: CustomAppBar(title: title),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(

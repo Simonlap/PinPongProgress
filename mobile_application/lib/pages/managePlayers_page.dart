@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:mobile_application/elements/customAppBar.dart';
 import 'package:mobile_application/elements/customElevatedButton.dart';
 import 'package:mobile_application/entities/player.dart';
 import 'package:mobile_application/globalVariables.dart';
@@ -77,11 +78,8 @@ class _ManagePlayersState extends State<ManagePlayersPage> {
     player.sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Manage Players',
-          style: TextStyle(fontSize: 32),
-        ),
+      appBar: CustomAppBar(
+        title: 'Spieler verwalten',
       ),
       body: Column(
         children: <Widget>[

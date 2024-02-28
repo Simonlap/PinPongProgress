@@ -3,6 +3,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:mobile_application/elements/customAppBar.dart';
 import 'package:mobile_application/elements/customElevatedButton.dart';
 import 'package:mobile_application/entities/minigamesEnum.dart';
 import 'package:mobile_application/entities/player.dart';
@@ -97,9 +98,7 @@ class _AlleGegenAlleState extends State<AlleGegenAllePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('${Minigame.alleGegenAlle.title}, Runde: ${currentUniqueGame!.highestRound}'),
-        actions: [
+      appBar: CustomAppBar(title: '${Minigame.alleGegenAlle.title}, Runde: ${currentUniqueGame!.highestRound}', actions: [
           IconButton(
             icon: Icon(Icons.help_outline),
             onPressed: () {
@@ -111,8 +110,7 @@ class _AlleGegenAlleState extends State<AlleGegenAllePage> {
               );
             },
           ),
-        ],
-      ),
+        ],),
       body: Stack(
         children: [
           FutureBuilder<List<Match>>(

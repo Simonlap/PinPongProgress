@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_application/elements/customAppBar.dart';
 import 'package:mobile_application/pages/home_page.dart';
 import 'package:mobile_application/pages/profile_page.dart';
 
@@ -29,8 +30,8 @@ class _NavigationPageState extends State<NavigationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Start"),
+      appBar: CustomAppBar(
+        title: "Start",
         automaticallyImplyLeading: false,
       ),
       body: _pages[_selectedIndex],

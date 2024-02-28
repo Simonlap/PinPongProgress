@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_application/elements/customAppBar.dart';
 import 'package:mobile_application/elements/customElevatedButton.dart';
 import 'package:mobile_application/globalVariables.dart' as globalVariables;
 import 'package:http/http.dart' as http;
@@ -112,8 +113,8 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Login")
+      appBar: CustomAppBar(
+        title: "Login",
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
