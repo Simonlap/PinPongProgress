@@ -2,6 +2,8 @@ enum Minigame {
   alleGegenAlle,
   kaisertisch,
   siebenerTisch,
+  achtZuAcht,
+  tikTakToe,
 }
 
 extension MiniGameExtension on Minigame {
@@ -13,6 +15,10 @@ extension MiniGameExtension on Minigame {
         return 'Kaisertisch';
       case Minigame.siebenerTisch:
         return '7er Tisch';
+      case Minigame.achtZuAcht:
+        return 'Acht zu Acht';
+      case Minigame.tikTakToe:
+        return 'Tik Tak Toe';
       default:
         return 'Unknown Game';
     }
@@ -53,6 +59,27 @@ extension MiniGameExtension on Minigame {
             "Um den Trainer nicht zu verwirren mit zu vielen Spielern (Hab ich für Marie schon den Strich gemacht???), wird hier auch die Uhrzeit des letzten gewonnenen Spiels angezeigt. "
             "Viel Spaß beim Spielen! "
             ;
+      case Minigame.achtZuAcht:
+        return "Dies ist ein sehr einfacher Spielmodus, der sogar ohne weitere Funktionen der App auskommt. \n\n"
+            "Die Spieler starten das Spiel mit einem Punktestand von 8:8. "
+            "In unserem Beispiel spielen Jonathan gegen Marie. "
+            "Gewinnt Jonathan den ersten Punkt, wird ihm einer gut geschrieben und Marie einen Punkt abgezogen. "
+            "Der neue Spielstand ist also 9:7. "
+            "Gespielt wird solange, bis einer der beiden Spieler 16 Punkte hat.\n\n"
+            "Viel Erfolg! "
+        ;
+      case Minigame.tikTakToe:
+        return "Hier kommt ein bei den Spielern sehr beliebtes Minispiel! \n\n"
+            "Aufgebaut muss ein 3x3 Feld, an dem mit beliebigen Materialien TikTakToe gespielt wird. "
+            "Die Spieler werden an maximal 4 Tischen mit möglichst gleicher Spielstärke verteilt. "
+            "Es gibt 2 Teams, die jeweils aus einer Person von jedem Tisch bestehen. "
+            "Am einfachsten ist es, Spieler auf einer Seite in ein Team einzuordnen. "
+            "Die Spieler spielen bis zum Punktstand von 5 gegeneinander. "
+            "Der Gewinner kann nun zum aufgebauten 3x3 Feld rennen und sein Kreis oder Kreuz beliebig setzen. \n\n"
+            "Gespielt wird nun mit normalen TikTokToe regeln, 3 in einer Reihe gewinnt! "
+            "\n\nTipp: Teams gerne durchwechseln, denn die Runden gehen schnell vorbei!"
+            "Viel Spaß!"
+        ;
       default:
         return "Das hier ist ein super tolles Minigame. Mach dich bereit!";
     }
