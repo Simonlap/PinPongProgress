@@ -96,7 +96,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       onPressed: () {
                         // Your code here
-                        Navigator.pushNamed(context, '/playerelochartpage');
+                        Navigator.pushNamed(context, '/statisticsoverviewpage');
                       },
                       child: Text('Statistiken anschauen',
                           style: TextStyle(fontSize: 24)),

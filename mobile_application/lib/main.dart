@@ -13,6 +13,7 @@ import 'package:mobile_application/pages/playerSelectionGroup_page.dart';
 import 'package:mobile_application/pages/profile_page.dart';
 import 'package:mobile_application/pages/register_page.dart';
 import 'package:mobile_application/pages/start_page.dart';
+import 'package:mobile_application/pages/statisticsOverview_page.dart';
 import 'package:mobile_application/pages/tools_page.dart';
 
 void main() {
@@ -42,6 +43,7 @@ class MyApp extends StatelessWidget {
         '/managegroupspage' :(context) => ManageGroupsPage(),
         '/playerselectiongrouppage' :(context) => PlayersSelectionGroupPage(),
         '/playerelochartpage' :(context) => PlayerEloRatingPage(),
+        '/statisticsoverviewpage' :(context) => StatisticsOverviewPage(),
       }
     );
   }
