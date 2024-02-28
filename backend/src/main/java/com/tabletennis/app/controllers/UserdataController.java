@@ -23,6 +23,7 @@ import com.tabletennis.app.payload.request.UpdatePlayerNameRequest;
 import com.tabletennis.app.security.services.UserDetailsImpl;
 
 import java.util.List;
+import java.util.Map;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -70,7 +71,6 @@ public class UserdataController {
         return new ResponseEntity<>(updatedPlayer, HttpStatus.OK);
     }
 
-    //endpoint to delete player
     @DeleteMapping("/player/{playerId}")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public ResponseEntity<HttpStatus> deletePlayer(@PathVariable Long playerId) {
@@ -89,6 +89,18 @@ public class UserdataController {
         PlayerDTO playerDTO = modelMapper.map(updatedPlayer, PlayerDTO.class);
         return new ResponseEntity<>(playerDTO, HttpStatus.CREATED);
     }
+
+    @GetMapping("/player/eloIncreases")
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+    public ResponseEntity<Map<String, Integer>> getPlayersWithEloIncreases() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+
+        Map<String, Integer> players = userdataService.getEloIncreaseForLastMonth(userDetails.getId());
+        return new ResponseEntity<>(players, HttpStatus.OK);
+    }
+
+
 
     @GetMapping("/groups")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")

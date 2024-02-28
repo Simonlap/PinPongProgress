@@ -18,8 +18,8 @@ import org.springframework.stereotype.Service;
 import com.tabletennis.app.dto.PlayerDTO;
 import com.tabletennis.app.repository.PlayerRepository;
 
-import java.util.List;
-import java.util.Set;
+import java.time.LocalDateTime;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -104,6 +104,26 @@ public class UserdataService {
         
         // Reload the player to ensure we have the latest state, including the new Elo rating
         return playerRepository.findById(playerId).orElseThrow(() -> new RuntimeException("Player not found with id: " + playerId));
+    }
+
+    public Map<String, Integer> getEloIncreaseForLastMonth(Long userId) {
+        Set<Player> players = playerRepository.findByUserId(userId);
+        Map<String, Integer> eloIncreases = new HashMap<>();
+
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime lastMonth = now.minusMonths(1);
+
+        for (Player player : players) {
+            Optional<EloRating> earliestRating = eloRatingRepository.findFirstByPlayerIdAndDateBetweenOrderByDateAsc(player.getId(), lastMonth, now);
+            Optional<EloRating> latestRating = eloRatingRepository.findFirstByPlayerIdAndDateBetweenOrderByDateDesc(player.getId(), lastMonth, now);
+
+
+            if (earliestRating.isPresent() && latestRating.isPresent()) {
+                int increase = latestRating.get().getElo() - earliestRating.get().getElo();
+                eloIncreases.put(player.getPlayerName(), increase);
+            }
+        }
+        return eloIncreases;
     }
     
 

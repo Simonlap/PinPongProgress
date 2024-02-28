@@ -20,7 +20,7 @@ import java.util.List;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/uniqueGames")
-public class UniqueGamesController {
+public class   UniqueGamesController {
 
     @Autowired
     UniqueGamesService uniqueGamesService;
