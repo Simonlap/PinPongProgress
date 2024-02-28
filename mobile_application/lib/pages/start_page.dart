@@ -7,78 +7,67 @@ class StartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-      ),
       body: Container(
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              Color(0xFF294597),  // Blue shade
-              Color(0xFFFFE019),  // Yellow shade
-            ],
+          image: DecorationImage(
+            image: AssetImage("images/tsgDuelmen.jpeg"),
+            fit: BoxFit.cover,
           ),
         ),
-        child: Stack(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween, // Aligns the children vertically
           children: <Widget>[
-            Center(
-              child: Text(
-                "Ping Pong Progress",
-                textAlign: TextAlign.center,
-                style: GoogleFonts.bebasNeue(
-                  textStyle: TextStyle(
-                    fontSize: 60, // Increased font size
-                    color: Colors.white, // Text color changed to white for contrast
-                    fontWeight: FontWeight.bold, // Font weight
-                  ),
+            Spacer(), // This will take all available space, pushing everything below to the bottom
+            Text(
+              "PingPong Progress",
+              textAlign: TextAlign.center, // Centers the text horizontally
+              style: GoogleFonts.bebasNeue( // Using GoogleFonts for styling
+                textStyle: TextStyle(
+                  color: Color(0xFFFFE019), // Text color
+                  fontSize: 110, // Font size
+                  fontWeight: FontWeight.bold, // Font weight
                 ),
               ),
             ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 50.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/registerpage');
-                      },
-                      style: ElevatedButton.styleFrom(
-                        primary: Color(0xFFFFE019), // Yellow shade for button background
-                        onPrimary: Color(0xFF294597), // Blue shade for text
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-                        child: Text(
-                          'Register',
-                          style: TextStyle(fontSize: 20),
-                        ),
+            Spacer(), // Another spacer to balance the layout
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 70.0, vertical: 20.0), // Padding around the buttons
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween, // Space out the buttons evenly
+                children: <Widget>[
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color(0xFF294597), // Button color #294597
+                      padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12), // Button padding
+                    ),
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/registerpage');
+                    },
+                    child: Text(
+                      'Register',
+                      style: TextStyle(
+                        color: Color(0xFFFFE019),
+                        fontSize: 15,
                       ),
                     ),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/loginpage');
-                      },
-                      style: ElevatedButton.styleFrom(
-                        primary: Color(0xFFFFE019), // Yellow shade for button background
-                        onPrimary: Color(0xFF294597), // Blue shade for text
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-                        child: Text(
-                          'Login',
-                          style: TextStyle(fontSize: 20),
-                        ),
+                  ),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color(0xFF294597), // Button color #294597
+                      padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12), // Button padding
+                    ),
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/loginpage');
+                    },
+                    child: Text(
+                      'Login',
+                      style: TextStyle(
+                        color: Color(0xFFFFE019),
+                        fontSize: 15,
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ],
