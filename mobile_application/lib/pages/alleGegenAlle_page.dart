@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:mobile_application/elements/customAppBar.dart';
@@ -54,45 +55,65 @@ class _AlleGegenAlleState extends State<AlleGegenAllePage> {
   }
 
   Future<List<Match>> generateMatches() async {
-    widget.players.shuffle();
-    
+    List<Player> sortedPlayers = List.from(widget.players)..sort((a, b) => b.currentElo.compareTo(a.currentElo));
     List<Match> matches = [];
-    for (int i = 0; i < widget.players.length; i += 2) {
-      if (i + 1 < widget.players.length) {
-        Match match = Match(
-          player1: widget.players[i],
-          player2: widget.players[i + 1],
-          onResultConfirmed: () {
-            setState(() {});
-          },
-        );
-        matches.add(match);
-        final url = Uri.parse(apiUrl + '/api/minigame/entry');
-        final response = await http.post(
-          url,
-          headers: {
-            'Content-Type': 'application/json',
-            'Cookie': jwtToken!,
-          },
-          body: jsonEncode({
-            'player1Id': match.player1.id,
-            'player2Id': match.player2.id,
-            'pointsPlayer1': 0,
-            'pointsPlayer2': 0,
-            'roundId': currentUniqueGame?.highestRound,
-            'uniqueGameId': currentUniqueGame?.id,
-          }),
-        );
+    Random random = Random();
 
-        if (response.statusCode == 201) {
-          match.id = Result.fromJson(json.decode(response.body)).id;
-          print('Minigame entry created successfully');
-        } else {
-          print('Failed to create minigame entry. Status code: ${response.statusCode}');
+    int matchRange = 3; // Players can be matched with others up to 3 positions away from them in the sorted list
+
+    for (int i = 0; i < sortedPlayers.length; i++) {
+      bool isMatched = matches.any((match) => match.player1.id == sortedPlayers[i].id || match.player2.id == sortedPlayers[i].id);
+
+      if (!isMatched) {
+        int start = max(0, i - matchRange);
+        int end = min(sortedPlayers.length, i + matchRange + 1);
+        List<Player> potentialOpponents = sortedPlayers.getRange(start, end).where((p) => p.id != sortedPlayers[i].id).toList();
+
+        // Remove already matched players from potential opponents
+        potentialOpponents.removeWhere((player) => matches.any((match) => match.player1.id == player.id || match.player2.id == player.id));
+
+        if (potentialOpponents.isNotEmpty) {
+          Player opponent = potentialOpponents[random.nextInt(potentialOpponents.length)];
+          Match match = Match(
+            player1: sortedPlayers[i],
+            player2: opponent,
+            onResultConfirmed: () {
+              setState(() {});
+            },
+          );
+          matches.add(match);
+          await _createMatchAPICall(match);
         }
       }
     }
     return matches;
+  }
+
+
+  _createMatchAPICall(Match match) async {
+    final url = Uri.parse(apiUrl + '/api/minigame/entry');
+    final response = await http.post(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Cookie': jwtToken!,
+      },
+      body: jsonEncode({
+        'player1Id': match.player1.id,
+        'player2Id': match.player2.id,
+        'pointsPlayer1': 0,
+        'pointsPlayer2': 0,
+        'roundId': currentUniqueGame?.highestRound,
+        'uniqueGameId': currentUniqueGame?.id,
+      }),
+    );
+
+    if (response.statusCode == 201) {
+      match.id = Result.fromJson(json.decode(response.body)).id;
+      print('Minigame entry created successfully');
+    } else {
+      print('Failed to create minigame entry. Status code: ${response.statusCode}');
+    }
   }
 
   @override
