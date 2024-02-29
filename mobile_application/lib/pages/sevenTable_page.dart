@@ -13,7 +13,7 @@ import 'package:mobile_application/pages/gameExplanation_page.dart';
 import 'dart:convert';
 
 class SevenTablePage extends StatefulWidget {
-  final List<Player> players;
+  List<Player> players;
 
   SevenTablePage({Key? key, required this.players}) : super(key: key);
 
@@ -107,8 +107,9 @@ class _SevenTablePageState extends State<SevenTablePage> {
       updateUniqueGameInList(runningGames, newCurrentUniqueGame);
       
       Map<int, int> playerPointsSimple = playerPoints.map((key, valueNotifier) => MapEntry(key, valueNotifier.value));
-      await EloCalculator.calculateElosForSevenTable(widget.players, playerPointsSimple);
+      widget.players = await EloCalculator.calculateElosForSevenTable(widget.players, playerPointsSimple);
       print('Game finished successfully');
+      Navigator.pop(context);
       Navigator.push(
         context,
         MaterialPageRoute(

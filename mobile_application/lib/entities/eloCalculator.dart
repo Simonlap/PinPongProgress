@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:mobile_application/globalVariables.dart';
 
 class EloCalculator {
-  static const int k = 32; // Elo k-factor, can be adjusted as needed
+  static const int k = 32; 
 
   static Future<List<Player>> calculateElos(List<Match> matches, List<Player> players) async {
     Map<int, Player> playerMap = {};
@@ -41,12 +41,59 @@ class EloCalculator {
       playerMap[player1.id]!.eloRatings.add(EloRating(elo: newRating1, date: DateTime.now()));
       playerMap[player2.id]!.eloRatings.add(EloRating(elo: newRating2, date: DateTime.now()));
 
-      // Update Elo ratings for both players
       await _updatePlayerElo(player1.id, newRating1);
       await _updatePlayerElo(player2.id, newRating2);
     }
 
     return playerMap.values.toList();
+  }
+
+  static Future<List<Player>> calculateElosForSevenTable(List<Player> players, Map<int, int> playerPoints) async {
+    // Calculate the average ELO rating of all players
+    double averageElo = players.fold(0, (prev, player) => prev + player.currentElo) / players.length;
+
+    // Calculate total points scored in the game
+    int totalPoints = playerPoints.values.fold(0, (prev, points) => prev + points);
+
+    // Map to store the ELO change for each player
+    Map<int, int> eloChanges = {};
+
+    // Calculate ELO changes
+    playerPoints.forEach((playerId, points) {
+      Player player = players.firstWhere((p) => p.id == playerId);
+      double playerElo = player.currentElo.toDouble();
+
+      // Calculate player's performance ratio
+      double performanceRatio = totalPoints > 0 ? points / totalPoints : 0;
+
+      // Expected score based on ELO
+      double expectedScore = 1 / (1 + pow(10, (averageElo - playerElo) / 400));
+
+      // ELO change based on performance compared to expected score
+      int eloChange = (k * 3 * (performanceRatio - expectedScore)).round();
+
+      // Store the ELO change
+      eloChanges[playerId] = eloChange;
+    });
+    // Adjust ELO changes to ensure the sum is zero
+    int totalEloChange = eloChanges.values.fold(0, (prev, change) => prev + change);
+    if (totalEloChange != 0) {
+      int adjustment = (totalEloChange / eloChanges.length).round();
+      eloChanges = eloChanges.map((playerId, change) => MapEntry(playerId, change - adjustment));
+    }
+    // Apply ELO changes to players
+    for (var entry in eloChanges.entries) {
+      int playerId = entry.key;
+      int eloChange = entry.value;
+
+      Player currentPlayer = players.firstWhere((p) => p.id == playerId);
+      int newElo = currentPlayer.currentElo + eloChange;
+
+      // Update the player's ELO ratings
+      currentPlayer.eloRatings.add(EloRating(elo: newElo, date: DateTime.now()));
+      await _updatePlayerElo(currentPlayer.id, newElo);
+    }
+    return players;
   }
 
   static Future<void> _updatePlayerElo(int playerId, int newElo) async {
