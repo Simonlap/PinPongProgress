@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_application/elements/customAlertDialog.dart';
 import 'package:mobile_application/elements/customAppBar.dart';
 import 'package:mobile_application/entities/player.dart';
+import 'package:mobile_application/globalVariables.dart';
 
 class PlayerDetailsPage extends StatefulWidget {
   final Player player;
@@ -49,19 +50,30 @@ class _PlayerDetailsState extends State<PlayerDetailsPage> {
     Navigator.pop(context);
   }
 
-  void _showDeleteConfirmationDialog() {
-    showConfirmationDialog(
-      context: context,
-      title: 'Spieler löschen',
-      message: 'Möchtest du diesen Spieler wirklich löschen?',
-      onConfirm: _deletePlayer,
-      onCancel: () {},
-    ).then((confirmed) {
-      if (confirmed) {
-        _deletePlayer();
-      }
-    });
-  } 
+  void _showDeleteDialog() {
+    bool isInRunningGame = runningGames.any((game) => game.players.contains(widget.player.id));
+
+    if (isInRunningGame) {
+      showAlert(
+        context,
+        "Spieler löschen nicht möglich",
+        "Dieser Spieler ist Teil eines laufenden Spiels und kann nicht gelöscht werden.",
+      );
+    } else {
+      showConfirmationDialog(
+        context: context,
+        title: 'Spieler löschen',
+        message: 'Möchtest du diesen Spieler wirklich löschen?',
+        onConfirm: _deletePlayer,
+        onCancel: () {},
+      ).then((confirmed) {
+        if (confirmed) {
+          _deletePlayer();
+        }
+      });
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +83,7 @@ class _PlayerDetailsState extends State<PlayerDetailsPage> {
         actions: [
           IconButton(
             icon: Icon(Icons.delete),
-            onPressed: _showDeleteConfirmationDialog,
+            onPressed: _showDeleteDialog,
           ),
         ],
       ),
