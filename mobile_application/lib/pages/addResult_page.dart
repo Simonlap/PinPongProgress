@@ -14,16 +14,19 @@ class AddResultPage extends StatefulWidget {
   AddResultPage({required this.match});
 
   @override
-  _AddResultState createState() => _AddResultState(match);
+  _AddResultState createState() => _AddResultState();
 }
 
 class _AddResultState extends State<AddResultPage> {
-  final Match match;
+  late int player1Points;
+  late int player2Points;
 
-  _AddResultState(this.match);
-
-  int player1Points = 0;
-  int player2Points = 0;
+  @override
+  void initState() {
+    super.initState();
+    player1Points = widget.match.pointsPlayer1; 
+    player2Points = widget.match.pointsPlayer2;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +38,7 @@ class _AddResultState extends State<AddResultPage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Text("Spieler 1: " + match.player1.name),
+              Text("Spieler 1: " + widget.match.player1.name),
               NumberPicker(
                 value: player1Points,
                 minValue: 0,
@@ -61,7 +64,7 @@ class _AddResultState extends State<AddResultPage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Text("Spieler 2: " + match.player2.name),
+              Text("Spieler 2: " + widget.match.player2.name),
               NumberPicker(
                 value: player2Points,
                 minValue: 0,
@@ -85,7 +88,7 @@ class _AddResultState extends State<AddResultPage> {
             ],
           ),
           CustomElevatedButton(
-            onPressed: _confirmResult,
+            onPressed: () => _confirmResult(widget.match),
             text: 'Bestätigen',
           ),
         ],
@@ -93,7 +96,7 @@ class _AddResultState extends State<AddResultPage> {
     );
   }
 
-  Future<void> _confirmResult() async {
+  Future<void> _confirmResult(Match match) async {
     if (!(player1Points == match.pointsPlayer1 && player2Points == match.pointsPlayer2)) {
       final url = Uri.parse(apiUrl + '/api/minigame/editEntry');
       final response = await http.put(
