@@ -107,7 +107,7 @@ class _SevenTablePageState extends State<SevenTablePage> {
       updateUniqueGameInList(runningGames, newCurrentUniqueGame);
       
       Map<int, int> playerPointsSimple = playerPoints.map((key, valueNotifier) => MapEntry(key, valueNotifier.value));
-      await EloCalculator.calculateElosForSevenTable(widget.players, playerPointsSimple);
+      //await EloCalculator.calculateElosForSevenTable(widget.players, playerPointsSimple);
       print('Game finished successfully');
       Navigator.push(
         context,

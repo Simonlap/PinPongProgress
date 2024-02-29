@@ -25,8 +25,6 @@ class _AddPlayerState extends State<AddPlayerPage> {
   Future<void> addPlayer() async {
   EloRating eloRating = EloRating(date: DateTime.now(), elo: int.parse(_eloController.text));
 
-  print(eloRating.toJson());
-
     final url = Uri.parse(apiUrl + '/api/userdata/players');
     final response = await http.post(
       url,
