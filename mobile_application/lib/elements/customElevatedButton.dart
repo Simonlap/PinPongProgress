@@ -28,6 +28,7 @@ class CustomElevatedButton extends StatefulWidget {
       double? fontSize,
       BuildContext? context,
       String? route,
+      String? subtitle,
     }) {
       return Row(
         children: <Widget>[
@@ -37,6 +38,7 @@ class CustomElevatedButton extends StatefulWidget {
               onPressed: onPressed ?? (context != null && route != null ? () => Navigator.pushNamed(context, route) : null),
               minimumSize: minimumSize ?? const Size(0, 100),
               fontSize: fontSize ?? 24,
+              subtitle: subtitle ?? null,
             ),
           ),
         ],
@@ -83,7 +85,7 @@ class _CustomElevatedButtonState extends State<CustomElevatedButton> with Single
                   )
                 : Column(
                     mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
                         widget.text,
@@ -91,7 +93,9 @@ class _CustomElevatedButtonState extends State<CustomElevatedButton> with Single
                           color: const Color(0xFFFFE019),
                           fontSize: widget.fontSize ?? 15,
                           fontWeight: FontWeight.bold,
+                          
                         ),
+                        
                       ),
                       if (widget.subtitle != null)
                         Padding(

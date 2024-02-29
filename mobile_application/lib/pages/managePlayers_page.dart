@@ -95,6 +95,7 @@ class _ManagePlayersState extends State<ManagePlayersPage> {
                         child: CustomElevatedButton.customButton(
                           player[index].name,
                           minimumSize: Size(0, 50),
+                          subtitle: 'Elo: ${player[index].currentElo}',
                           onPressed: () {
                             Navigator.push(
                               context,
@@ -115,6 +116,7 @@ class _ManagePlayersState extends State<ManagePlayersPage> {
               },
             ),
           ),
+          SizedBox(height: 10),
           CustomElevatedButton.customButton(
             'Spieler hinzufügen',
             onPressed: _navigateToAddPlayer,
