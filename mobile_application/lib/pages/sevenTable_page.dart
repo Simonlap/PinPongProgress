@@ -3,9 +3,12 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart'; // For date formatting
 import 'package:mobile_application/elements/customAppBar.dart';
 import 'package:mobile_application/elements/customElevatedButton.dart';
+import 'package:mobile_application/entities/eloCalculator.dart';
 import 'package:mobile_application/entities/player.dart';
 import 'package:mobile_application/entities/minigamesEnum.dart';
+import 'package:mobile_application/entities/uniqueGame.dart';
 import 'package:mobile_application/globalVariables.dart';
+import 'package:mobile_application/pages/endGame_page.dart';
 import 'package:mobile_application/pages/gameExplanation_page.dart';
 import 'dart:convert';
 
@@ -78,7 +81,7 @@ class _SevenTablePageState extends State<SevenTablePage> {
 
     if (response.statusCode == 200) {
       final resultData = jsonDecode(response.body);
-      playerPoints[playerId]?.value = resultData['pointsPlayer']; // Update the ValueNotifier
+      playerPoints[playerId]?.value = resultData['pointsPlayer']; 
       lastEdited[playerId] = DateTime.parse(resultData['editTime']);
     } else {
       print('Error updating points: ${response.body}');
@@ -99,9 +102,19 @@ class _SevenTablePageState extends State<SevenTablePage> {
     );
 
     if (response.statusCode == 200) {
-      print('Exited game successfully');
-      deleteCurrentUniqueGame();
-      Navigator.pop(context);
+
+      UniqueGame newCurrentUniqueGame = UniqueGame.fromJson(json.decode(response.body));
+      updateUniqueGameInList(runningGames, newCurrentUniqueGame);
+      
+      Map<int, int> playerPointsSimple = playerPoints.map((key, valueNotifier) => MapEntry(key, valueNotifier.value));
+      await EloCalculator.calculateElosForSevenTable(widget.players, playerPointsSimple);
+      print('Game finished successfully');
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => EndGamePage(players: widget.players, actionChoice: ActionChoice.backToStart),
+        ),
+      );
     } else {
       print('Failed to exit game: ${response.body}');
     }
