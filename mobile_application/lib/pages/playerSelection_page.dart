@@ -103,7 +103,9 @@ class _PlayersSelectionState extends State<PlayersSelectionPage> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          SelectablePlayers(globalVariables.player, selectedPlayers, globalVariables.groups),
+          Expanded( // Make the list of selectable players and groups scrollable
+            child: SelectablePlayers(globalVariables.player, selectedPlayers, globalVariables.groups),
+          ),
           SizedBox(height: 20),
           CustomElevatedButton(
             text: 'Los gehts',
@@ -235,45 +237,55 @@ class _SelectablePlayersState extends State<SelectablePlayers> {
     });
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Text(
+@override
+Widget build(BuildContext context) {
+  return Column(
+    children: <Widget>[
+      SizedBox(height: 20),
+      Center(
+        child: Text(
           'Wer soll mitspielen?',
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
         ),
-        ...widget.groups.asMap().entries.map((entry) {
-          int groupIndex = entry.key;
-          Group group = entry.value;
-          return ListTile(
-            title: Text("Gruppe: ${group.name}", style: TextStyle(fontWeight: FontWeight.bold)), // Prepend "Gruppe: " to group name
-            leading: Checkbox(
-              value: selectedGroups[groupIndex],
-              onChanged: (value) {
-                _handleGroupSelection(groupIndex, value!);
-              },
-            ),
-          );
-        }).toList(),
-        ...widget.players.asMap().entries.map((entry) {
-          int playerIndex = entry.key;
-          Player player = entry.value;
-          return ListTile(
-            title: Text(player.name),
-            leading: Checkbox(
-              value: widget.selectedPlayers[playerIndex],
-              onChanged: (value) {
-                setState(() {
-                  widget.selectedPlayers[playerIndex] = value!;
-                });
-              },
-            ),
-          );
-        }).toList(),
-      ],
-    );
-  }
+      ),
+      Expanded( // This will make only the list below scrollable
+        child: ListView(
+          children: <Widget>[
+            ...widget.groups.asMap().entries.map((entry) {
+              int groupIndex = entry.key;
+              Group group = entry.value;
+              return ListTile(
+                title: Text("Gruppe: ${group.name}", style: TextStyle(fontWeight: FontWeight.bold)),
+                leading: Checkbox(
+                  value: selectedGroups[groupIndex],
+                  onChanged: (value) {
+                    _handleGroupSelection(groupIndex, value!);
+                  },
+                ),
+              );
+            }).toList(),
+            ...widget.players.asMap().entries.map((entry) {
+              int playerIndex = entry.key;
+              Player player = entry.value;
+              return ListTile(
+                title: Text(player.name),
+                leading: Checkbox(
+                  value: widget.selectedPlayers[playerIndex],
+                  onChanged: (value) {
+                    setState(() {
+                      widget.selectedPlayers[playerIndex] = value!;
+                    });
+                  },
+                ),
+              );
+            }).toList(),
+          ],
+        ),
+      ),
+    ],
+  );
+}
+
 }
 
 enum ActionChoice{
