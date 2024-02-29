@@ -61,46 +61,48 @@ class _PlayersSelectionGroupState extends State<PlayersSelectionGroupPage> {
   }
 
   
-  @override
-  Widget build(BuildContext context) {
-    List<bool> selectedPlayers =
-        List.generate(globalVariables.player.length, (index) => true);
+ @override
+Widget build(BuildContext context) {
+  List<bool> selectedPlayers =
+      List.generate(globalVariables.player.length, (index) => true);
 
-    return Scaffold(
-      appBar: CustomAppBar(
-        title: 'Wähle Spieler aus',
-      ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextFormField(
-              controller: _groupNameController, // Use the controller here
-              decoration: InputDecoration(
-                labelText: 'Gruppenname', // Label for the input field
-                border: OutlineInputBorder(), // Adds a border around the input field
-              ),
+  return Scaffold(
+    appBar: CustomAppBar(
+      title: 'Wähle Spieler aus',
+    ),
+    body: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: TextFormField(
+            controller: _groupNameController,
+            decoration: InputDecoration(
+              labelText: 'Gruppenname',
+              border: OutlineInputBorder(),
             ),
           ),
-          SelectablePlayers(globalVariables.player, selectedPlayers),
-          SizedBox(height: 20),
-          CustomElevatedButton(
-            text: 'Gruppe erstellen',
-            onPressed: () {
-              List<int> selectedPlayersList = [];
-              for (int i = 0; i < globalVariables.player.length; i++) {
-                if (selectedPlayers[i]) {
-                  selectedPlayersList.add(globalVariables.player[i].id);
-                }
+        ),
+        Expanded( // Wrap SelectablePlayers with Expanded
+          child: SelectablePlayers(globalVariables.player, selectedPlayers),
+        ),
+        SizedBox(height: 20),
+        CustomElevatedButton(
+          text: 'Gruppe erstellen',
+          onPressed: () {
+            List<int> selectedPlayersList = [];
+            for (int i = 0; i < globalVariables.player.length; i++) {
+              if (selectedPlayers[i]) {
+                selectedPlayersList.add(globalVariables.player[i].id);
               }
-              saveGroup(_groupNameController.text, selectedPlayersList);
+            }
+            saveGroup(_groupNameController.text, selectedPlayersList);
           },
-          ),
-        ],
-      ),
-    );
-  }
+        ),
+      ],
+    ),
+  );
+}
 }
 
 class SelectablePlayers extends StatefulWidget {
@@ -122,18 +124,24 @@ class _SelectablePlayersState extends State<SelectablePlayers> {
           'Spieler:',
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
         ),
-        for (int i = 0; i < widget.players.length; i++)
-          ListTile(
-            title: Text(widget.players[i].name),
-            leading: Checkbox(
-              value: widget.selectedPlayers[i],
-              onChanged: (value) {
-                setState(() {
-                  widget.selectedPlayers[i] = value!;
-                });
-              },
-            ),
+        Expanded( // Wrap ListView with Expanded
+          child: ListView.builder(
+            itemCount: widget.players.length,
+            itemBuilder: (BuildContext context, int index) {
+              return ListTile(
+                title: Text(widget.players[index].name),
+                leading: Checkbox(
+                  value: widget.selectedPlayers[index],
+                  onChanged: (bool? value) {
+                    setState(() {
+                      widget.selectedPlayers[index] = value!;
+                    });
+                  },
+                ),
+              );
+            },
           ),
+        ),
       ],
     );
   }
