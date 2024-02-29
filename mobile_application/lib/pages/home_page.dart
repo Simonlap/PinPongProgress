@@ -89,23 +89,22 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              CustomElevatedButton.customButton('Minispiel starten', context: context, route: '/minispielepage'),
-              SizedBox(height: 20), 
-              CustomElevatedButton.customButton('Statistiken anschauen', context: context, route: '/statisticsoverviewpage'),
-              SizedBox(height: 20), 
-              CustomElevatedButton.customButton('Spieler verwalten', context: context, route: '/manageplayerspage'),
-              SizedBox(height: 20),
-              CustomElevatedButton.customButton('Laufende Spiele', context: context, route: '/runninguniquegamespage'),
-              SizedBox(height: 20),
-              CustomElevatedButton.customButton('Tools', context: context, route: '/toolspage'),
-            ],
-          ),
-        ],
+      body: SingleChildScrollView( 
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            SizedBox(height: 20), 
+            CustomElevatedButton.customButton('Minispiel starten', context: context, route: '/minispielepage'),
+            SizedBox(height: 20), 
+            CustomElevatedButton.customButton('Statistiken anschauen', context: context, route: '/statisticsoverviewpage'),
+            SizedBox(height: 20), 
+            CustomElevatedButton.customButton('Spieler verwalten', context: context, route: '/manageplayerspage'),
+            SizedBox(height: 20),
+            CustomElevatedButton.customButton('Laufende Spiele', context: context, route: '/runninguniquegamespage'),
+            SizedBox(height: 20),
+            CustomElevatedButton.customButton('Tools', context: context, route: '/toolspage'),
+          ],
+        ),
       ),
     );
   }
