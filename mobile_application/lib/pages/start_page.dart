@@ -67,26 +67,36 @@ class _StartPageState extends State<StartPage> with SingleTickerProviderStateMix
               ),
             ),
             Spacer(),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 70.0, vertical: 20.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  CustomElevatedButton(
-                    text: 'Register',
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/registerpage');
-                    },
-                    animation: _buttonScaleAnimation,
-                  ),
-                  CustomElevatedButton(
-                    text: 'Login',
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/loginpage');
-                    },
-                    animation: _buttonScaleAnimation,
-                  ),
-                ],
+            Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [Colors.transparent, Colors.black.withOpacity(1)],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  stops: [0.1, 2],
+                ),
+              ),
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 70.0, vertical: 20.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    CustomElevatedButton(
+                      text: 'Register',
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/registerpage');
+                      },
+                      animation: _buttonScaleAnimation,
+                    ),
+                    CustomElevatedButton(
+                      text: 'Login',
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/loginpage');
+                      },
+                      animation: _buttonScaleAnimation,
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
