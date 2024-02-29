@@ -20,7 +20,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    fetchPlayers(); // Call the function to fetch user data when the widget initializes.
+    fetchPlayers();
     fetchGroups();
     fetchRunningGames();
   }
@@ -69,7 +69,7 @@ class _HomePageState extends State<HomePage> {
       url,
       headers: {
         'Content-Type': 'application/json',
-        'Cookie': jwtToken!, // Assuming you have a JWT token for authentication
+        'Cookie': jwtToken!,
       },
     );
 
@@ -96,7 +96,7 @@ class _HomePageState extends State<HomePage> {
             children: <Widget>[
               CustomElevatedButton.customButton('Minispiel starten', context: context, route: '/minispielepage'),
               SizedBox(height: 20), 
-              CustomElevatedButton.customButton('Statistiken anschauen', context: context, route: '/statspage'), // Assuming '/statspage' is the route
+              CustomElevatedButton.customButton('Statistiken anschauen', context: context, route: '/statisticsoverviewpage'),
               SizedBox(height: 20), 
               CustomElevatedButton.customButton('Spieler verwalten', context: context, route: '/manageplayerspage'),
               SizedBox(height: 20),

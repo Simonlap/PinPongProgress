@@ -14,7 +14,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       title: Text(
         title,
         style: TextStyle(
-          color: Colors.white, 
+          color: Color(0xFFFFE019), 
         ),
       ),
       automaticallyImplyLeading: automaticallyImplyLeading ?? true,

@@ -18,8 +18,8 @@ import org.springframework.stereotype.Service;
 import com.tabletennis.app.dto.PlayerDTO;
 import com.tabletennis.app.repository.PlayerRepository;
 
-import java.util.List;
-import java.util.Set;
+import java.time.LocalDateTime;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -105,7 +105,6 @@ public class UserdataService {
         // Reload the player to ensure we have the latest state, including the new Elo rating
         return playerRepository.findById(playerId).orElseThrow(() -> new RuntimeException("Player not found with id: " + playerId));
     }
-    
 
     public List<GroupDTO> getGroupsForUserId(Long userId) {
         Set<Group> groups = groupRepository.findByUserId(userId);

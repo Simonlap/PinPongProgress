@@ -23,6 +23,7 @@ import com.tabletennis.app.payload.request.UpdatePlayerNameRequest;
 import com.tabletennis.app.security.services.UserDetailsImpl;
 
 import java.util.List;
+import java.util.Map;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -70,7 +71,6 @@ public class UserdataController {
         return new ResponseEntity<>(updatedPlayer, HttpStatus.OK);
     }
 
-    //endpoint to delete player
     @DeleteMapping("/player/{playerId}")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public ResponseEntity<HttpStatus> deletePlayer(@PathVariable Long playerId) {

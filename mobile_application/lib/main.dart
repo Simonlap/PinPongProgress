@@ -9,11 +9,14 @@ import 'package:mobile_application/pages/managePlayers_page.dart';
 import 'package:mobile_application/pages/manage_groups.dart';
 import 'package:mobile_application/pages/minispiele_page.dart';
 import 'package:mobile_application/pages/navigation_page.dart';
+import 'package:mobile_application/pages/statisticsEloGain.dart';
+import 'package:mobile_application/pages/statisticsEloRating.dart';
 import 'package:mobile_application/pages/playerSelectionGroup_page.dart';
 import 'package:mobile_application/pages/profile_page.dart';
 import 'package:mobile_application/pages/register_page.dart';
 import 'package:mobile_application/pages/runningUniqueGames_page.dart';
 import 'package:mobile_application/pages/start_page.dart';
+import 'package:mobile_application/pages/statisticsOverview_page.dart';
 import 'package:mobile_application/pages/tools_page.dart';
 
 void main() {
@@ -40,6 +43,9 @@ class MyApp extends StatelessWidget {
         '/toolspage' :(context) => ToolsPage(),
         '/managegroupspage' :(context) => ManageGroupsPage(),
         '/playerselectiongrouppage' :(context) => PlayersSelectionGroupPage(),
+        '/playerelochartpage' :(context) => StatisticsEloRatingPage(),
+        '/statisticsoverviewpage' :(context) => StatisticsOverviewPage(),
+        '/statisticselogainpage' :(context) => StatisticsEloGainPage(),
         '/runninguniquegamespage':(context) => RunningUniqueGamesPage(),
       }
     );
