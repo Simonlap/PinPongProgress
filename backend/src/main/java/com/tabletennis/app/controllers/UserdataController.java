@@ -90,18 +90,6 @@ public class UserdataController {
         return new ResponseEntity<>(playerDTO, HttpStatus.CREATED);
     }
 
-    @GetMapping("/player/eloIncreases")
-    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-    public ResponseEntity<Map<String, Integer>> getPlayersWithEloIncreases() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-
-        Map<String, Integer> players = userdataService.getEloIncreaseForLastMonth(userDetails.getId());
-        return new ResponseEntity<>(players, HttpStatus.OK);
-    }
-
-
-
     @GetMapping("/groups")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public ResponseEntity<List<GroupDTO>> getGroupsForUserId() {

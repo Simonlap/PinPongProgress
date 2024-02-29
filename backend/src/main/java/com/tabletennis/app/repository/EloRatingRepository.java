@@ -13,8 +13,4 @@ import org.springframework.stereotype.Repository;
 public interface EloRatingRepository extends JpaRepository<EloRating, Long> {
 
     List<EloRating> findByPlayerId(Long playerId);
-
-    Optional<EloRating> findFirstByPlayerIdAndDateBetweenOrderByDateAsc(Long playerId, LocalDateTime startDate, LocalDateTime endDate);
-
-    Optional<EloRating> findFirstByPlayerIdAndDateBetweenOrderByDateDesc(Long playerId, LocalDateTime startDate, LocalDateTime endDate);
 }

@@ -106,27 +106,6 @@ public class UserdataService {
         return playerRepository.findById(playerId).orElseThrow(() -> new RuntimeException("Player not found with id: " + playerId));
     }
 
-    public Map<String, Integer> getEloIncreaseForLastMonth(Long userId) {
-        Set<Player> players = playerRepository.findByUserId(userId);
-        Map<String, Integer> eloIncreases = new HashMap<>();
-
-        LocalDateTime now = LocalDateTime.now();
-        LocalDateTime lastMonth = now.minusMonths(1);
-
-        for (Player player : players) {
-            Optional<EloRating> earliestRating = eloRatingRepository.findFirstByPlayerIdAndDateBetweenOrderByDateAsc(player.getId(), lastMonth, now);
-            Optional<EloRating> latestRating = eloRatingRepository.findFirstByPlayerIdAndDateBetweenOrderByDateDesc(player.getId(), lastMonth, now);
-
-
-            if (earliestRating.isPresent() && latestRating.isPresent()) {
-                int increase = latestRating.get().getElo() - earliestRating.get().getElo();
-                eloIncreases.put(player.getPlayerName(), increase);
-            }
-        }
-        return eloIncreases;
-    }
-    
-
     public List<GroupDTO> getGroupsForUserId(Long userId) {
         Set<Group> groups = groupRepository.findByUserId(userId);
 
