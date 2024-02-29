@@ -89,7 +89,6 @@ class _PlayersSelectionState extends State<PlayersSelectionPage> {
           IconButton(
             icon: Icon(Icons.help_outline),
             onPressed: () {
-              // Open a new page for game explanation
               Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -103,7 +102,14 @@ class _PlayersSelectionState extends State<PlayersSelectionPage> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Expanded( // Make the list of selectable players and groups scrollable
+          SizedBox(height: 20),
+          Center(
+            child: Text(
+              'Wer soll mitspielen?',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+            ),
+          ),
+          Expanded( 
             child: SelectablePlayers(globalVariables.player, selectedPlayers, globalVariables.groups),
           ),
           SizedBox(height: 20),
@@ -199,7 +205,6 @@ class _PlayersSelectionState extends State<PlayersSelectionPage> {
         );
       }
     } else {
-      // Optionally, show a message if no players are selected
       print('No players selected');
     }
   }
@@ -241,14 +246,7 @@ class _SelectablePlayersState extends State<SelectablePlayers> {
 Widget build(BuildContext context) {
   return Column(
     children: <Widget>[
-      SizedBox(height: 20),
-      Center(
-        child: Text(
-          'Wer soll mitspielen?',
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
-        ),
-      ),
-      Expanded( // This will make only the list below scrollable
+      Expanded( 
         child: ListView(
           children: <Widget>[
             ...widget.groups.asMap().entries.map((entry) {

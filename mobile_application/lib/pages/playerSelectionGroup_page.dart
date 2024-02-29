@@ -124,7 +124,8 @@ class _SelectablePlayersState extends State<SelectablePlayers> {
           'Spieler:',
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
         ),
-        Expanded( // Wrap ListView with Expanded
+        SizedBox(height: 10),
+        Expanded( 
           child: ListView.builder(
             itemCount: widget.players.length,
             itemBuilder: (BuildContext context, int index) {
