@@ -145,7 +145,7 @@ class _PlayersSelectionState extends State<PlayersSelectionPage> {
           },
           body: jsonEncode({
             "isFinished": false,
-            "highestRound": 0,
+            "highestRound": 1,
             "startTime": currentDateAndTime,
             "players": selectedPlayerIds, 
             "minigameId": widget.selectedMinigame!.id,

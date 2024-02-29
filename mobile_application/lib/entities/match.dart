@@ -56,7 +56,7 @@ class Match {
   // No need for a setter for matchName since it's updated automatically
   // Private method to update matchName whenever player1 or player2 changes
   void _updateMatchName() {
-    _matchName = '${_player1.name} vs. ${_player2.name}';
+    _matchName = '${_player1.name} (${_player1.currentElo}) vs. ${_player2.name} (${_player2.currentElo})';
   }
 
   void onResultConfirmed() {
