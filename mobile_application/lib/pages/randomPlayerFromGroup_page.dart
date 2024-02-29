@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_application/elements/customAppBar.dart';
+import 'package:mobile_application/elements/customElevatedButton.dart';
 import 'dart:math';
 import 'package:mobile_application/entities/player.dart';
 import 'package:mobile_application/entities/group.dart';
@@ -31,8 +33,8 @@ class _RandomPlayerFromGroupState extends State<RandomPlayerFromGroup> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Random Player from ${widget.group.name}')
+      appBar: CustomAppBar(
+        title: 'Zufälliger Spieler aus ${widget.group.name}'
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -61,12 +63,9 @@ class _RandomPlayerFromGroupState extends State<RandomPlayerFromGroup> {
                   ),
                 ),
               SizedBox(height: 24), // Adds space between card and button
-              ElevatedButton(
+              CustomElevatedButton(
                 onPressed: _selectRandomPlayer,
-                child: Text('Select Random Player'),
-                style: ElevatedButton.styleFrom(
-                  padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
-                ),
+                text: 'Zufälligen Spieler auswählen',
               ),
             ],
           ),

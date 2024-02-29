@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:mobile_application/elements/customAppBar.dart';
+import 'package:mobile_application/elements/customElevatedButton.dart';
 import 'package:mobile_application/entities/group.dart';
 import 'package:mobile_application/entities/player.dart';
 import 'package:mobile_application/globalVariables.dart';
@@ -77,11 +79,8 @@ class _ManageGroupsState extends State<ManageGroupsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Manage Groups',
-          style: TextStyle(fontSize: 32),
-        ),
+      appBar: CustomAppBar(
+        title: 'Gruppen verwalten',
       ),
       body: Column(
         children: <Widget>[
@@ -95,17 +94,9 @@ class _ManageGroupsState extends State<ManageGroupsPage> {
                     child: Row(
                       children: <Widget>[
                         Expanded(
-                          child: ElevatedButton(
-                            style: ButtonStyle(
-                              minimumSize: MaterialStateProperty.all(
-                                const Size(0, 100),
-                              ),
-                            ),
+                          child: CustomElevatedButton.customButton(
+                            groups[index].name,
                             onPressed: () {
-                              // Handle button tap for each user, e.g., navigate to their profile.
-                              // Example: Navigator.push(context, MaterialPageRoute(builder: (context) => UserProfile(userNames[index]));
-
-                              //navigate to PlayerDetails, handle name change.
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -123,10 +114,6 @@ class _ManageGroupsState extends State<ManageGroupsPage> {
                                 ),
                               );
                             },
-                            child: Text(
-                              groups[index].name,
-                              style: TextStyle(fontSize: 24),
-                            ),
                           ),
                         ),
                       ],
@@ -138,16 +125,11 @@ class _ManageGroupsState extends State<ManageGroupsPage> {
           Row(
             children: <Widget>[
               Expanded(
-                child: ElevatedButton(
-                  style: ButtonStyle(
-                    minimumSize: MaterialStateProperty.all(
-                      const Size(0, 100),
-                    ),
-                  ),
+                child: CustomElevatedButton.customButton(
+                  'Add Group',
                   onPressed: () {
                     Navigator.pushNamed(context, '/playerselectiongrouppage');
                   },
-                  child: const Text('Add Group', style: TextStyle(fontSize: 24)),
                 ),
               ),
             ],

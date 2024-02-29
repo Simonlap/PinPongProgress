@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:mobile_application/elements/customAppBar.dart';
+import 'package:mobile_application/elements/customElevatedButton.dart';
 import 'package:mobile_application/globalVariables.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -47,7 +49,7 @@ class _RegisterState extends State<RegisterPage> {
   //   super.dispose();
   // }
 
-  Future<void> performRegistration() async {
+  performRegistration() async {
     setState(() {
       isRegistering = true;
       fieldErrors = {
@@ -179,9 +181,7 @@ class _RegisterState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Register', style: TextStyle(fontSize: 32)),
-      ),
+      appBar: CustomAppBar(title: 'Registrieren'),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -230,9 +230,9 @@ class _RegisterState extends State<RegisterPage> {
             const SizedBox(height: 32),
             Stack(
               children: [
-                ElevatedButton(
-                  onPressed: isRegistering ? null : performRegistration,
-                  child: const Text('Registrieren'),
+                CustomElevatedButton(
+                  onPressed: performRegistration,
+                  text: 'Registrieren',
                 ),
                 if (isRegistering)
                   Positioned.fill(

@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:mobile_application/elements/customAppBar.dart';
+import 'package:mobile_application/elements/customElevatedButton.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:mobile_application/entities/match.dart';
 import 'package:http/http.dart' as http;
@@ -26,9 +28,7 @@ class _AddResultState extends State<AddResultPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.match.matchName),
-      ),
+      appBar: CustomAppBar(title: widget.match.matchName),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
@@ -84,9 +84,9 @@ class _AddResultState extends State<AddResultPage> {
               ),
             ],
           ),
-          ElevatedButton(
+          CustomElevatedButton(
             onPressed: _confirmResult,
-            child: Text('Bestätigen'),
+            text: 'Bestätigen',
           ),
         ],
       ),
@@ -114,8 +114,6 @@ class _AddResultState extends State<AddResultPage> {
 
         match.pointsPlayer1 = player1Points;
         match.pointsPlayer2 = player2Points;
-
-        //TODO: Gloable Minigames Variable?
 
         Navigator.pop(context);
       } else {

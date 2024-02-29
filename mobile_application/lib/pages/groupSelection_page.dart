@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_application/elements/customAppBar.dart';
+import 'package:mobile_application/elements/customElevatedButton.dart';
 import 'package:mobile_application/globalVariables.dart';
 import 'package:mobile_application/pages/randomGroupFromGroup_page.dart';
 import 'package:mobile_application/pages/randomPlayerFromGroup_page.dart';
@@ -24,11 +26,8 @@ class _GroupSelectionPageState extends State<GroupSelectionPage> {
    @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Select Group',
-          style: TextStyle(fontSize: 32),
-        ),
+      appBar: CustomAppBar(
+        title: 'Gruppe auswählen'
       ),
       body: Column(
         children: <Widget>[
@@ -41,12 +40,7 @@ class _GroupSelectionPageState extends State<GroupSelectionPage> {
                     child: Row(
                       children: <Widget>[
                         Expanded(
-                          child: ElevatedButton(
-                            style: ButtonStyle(
-                              minimumSize: MaterialStateProperty.all(
-                                const Size(0, 100),
-                              ),
-                            ),
+                          child: CustomElevatedButton(
                             onPressed: () {
                               if (widget.option == 1) {
                                 Navigator.push(
@@ -66,10 +60,7 @@ class _GroupSelectionPageState extends State<GroupSelectionPage> {
                                 Navigator.push(context, MaterialPageRoute(builder: (context) => RandomGroupsFromGroup(group: groups[index], option: 2)));
                               }
                             },
-                            child: Text(
-                              groups[index].name,
-                              style: TextStyle(fontSize: 24),
-                            ),
+                            text: groups[index].name
                           ),
                         ),
                       ],

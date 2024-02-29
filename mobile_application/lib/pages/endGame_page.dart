@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_application/elements/customAppBar.dart';
+import 'package:mobile_application/elements/customElevatedButton.dart';
 import 'package:mobile_application/entities/player.dart';
 import 'package:mobile_application/globalVariables.dart';
 import 'package:mobile_application/pages/alleGegenAlle_page.dart';
@@ -16,15 +18,11 @@ class EndGamePage extends StatelessWidget {
     players.sort((a, b) => b.currentElo.compareTo(a.currentElo));
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          actionChoice == ActionChoice.backToStart
+      appBar: CustomAppBar(title: actionChoice == ActionChoice.backToStart
               ? 'Spiel beenden'
               : actionChoice == ActionChoice.nextRound
                   ? 'Zwischenstand'
-                  : 'Zwischenstand',
-        ),
-      ),
+                  : 'Zwischenstand'),
       body: Column(
         children: [
           Expanded(
@@ -42,7 +40,7 @@ class EndGamePage extends StatelessWidget {
               },
             ),
           ),
-          ElevatedButton(
+          CustomElevatedButton(
             onPressed: () {
               if (actionChoice == ActionChoice.backToStart) {
                 deleteCurrentUniqueGame();
@@ -62,13 +60,12 @@ class EndGamePage extends StatelessWidget {
                 Navigator.pop(context);
               }
             },
-            child: Text(
+            text: 
               actionChoice == ActionChoice.backToStart
                   ? 'Zurück zum Start'
                   : actionChoice == ActionChoice.nextRound
                       ? 'Nächste Runde'
                       : 'Zurück zur Ergebniseingabe',
-            )
           ),
         ],
       ),

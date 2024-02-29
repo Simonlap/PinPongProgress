@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_application/elements/customElevatedButton.dart';
 import 'package:mobile_application/entities/match.dart';
 import 'package:mobile_application/pages/addResult_page.dart';
 
@@ -16,7 +17,8 @@ class MatchListPage extends StatelessWidget {
       itemBuilder: (context, index) {
         final match = matches[index];  // Direct access to match object
         return ListTile(
-          title: ElevatedButton(
+          title: CustomElevatedButton(
+            text: match.matchName,
             onPressed: () async {
               await Navigator.push(
                 context,
@@ -26,16 +28,7 @@ class MatchListPage extends StatelessWidget {
               );
               onResultConfirmed();  // Callback after adding result
             },
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(match.matchName),  // Display match name
-                Text(
-                  'Result: ${match.pointsPlayer1} - ${match.pointsPlayer2}',  // Display match result
-                  style: TextStyle(fontSize: 12),
-                ),
-              ],
-            ),
+            subtitle: 'Result: ${match.pointsPlayer1} - ${match.pointsPlayer2}',
           ),
         );
       },

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_application/elements/customElevatedButton.dart';
 import 'package:mobile_application/globalVariables.dart';
 import 'package:mobile_application/pages/start_page.dart';
 import 'package:http/http.dart' as http;
@@ -30,13 +31,13 @@ class ProfilePage extends StatelessWidget {
                 ),
                 const SizedBox(height: 20),
                 // Button to Reset Password
-                ElevatedButton(
+                CustomElevatedButton(
                   onPressed: () {
-                    // Implement password reset logic here
+                    // TODO:
                   },
-                  child: const Text('Passwort zurücksetzen'),
+                  text: 'Passwort zurücksetzen',
                 ),
-                ElevatedButton(
+                CustomElevatedButton(
                   onPressed: () async {
                     final url = Uri.parse('$apiUrl/api/auth/signout');
                     http.post(
@@ -49,7 +50,7 @@ class ProfilePage extends StatelessWidget {
                       (Route<dynamic> route) => false, // This condition prevents any route from being retained.
                     );
                   },
-                  child: const Text('Ausloggen'),
+                  text: 'Ausloggen',
                 ),
               ],
             ),

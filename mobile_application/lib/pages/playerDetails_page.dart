@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_application/elements/customAlertDialog.dart';
+import 'package:mobile_application/elements/customAppBar.dart';
 import 'package:mobile_application/entities/player.dart';
 
 class PlayerDetailsPage extends StatefulWidget {
@@ -65,8 +66,8 @@ class _PlayerDetailsState extends State<PlayerDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Player Details'),
+      appBar: CustomAppBar(
+        title: 'Spieler Details',
         actions: [
           IconButton(
             icon: Icon(Icons.delete),

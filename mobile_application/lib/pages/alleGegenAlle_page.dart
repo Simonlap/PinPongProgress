@@ -3,6 +3,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:mobile_application/elements/customAppBar.dart';
+import 'package:mobile_application/elements/customElevatedButton.dart';
 import 'package:mobile_application/entities/minigamesEnum.dart';
 import 'package:mobile_application/entities/player.dart';
 import 'package:mobile_application/entities/match.dart';
@@ -61,9 +63,7 @@ class _AlleGegenAlleState extends State<AlleGegenAllePage> {
           player1: widget.players[i],
           player2: widget.players[i + 1],
           onResultConfirmed: () {
-            setState(() {
-              // This will trigger a rebuild when points are updated
-            });
+            setState(() {});
           },
         );
         matches.add(match);
@@ -85,12 +85,9 @@ class _AlleGegenAlleState extends State<AlleGegenAllePage> {
         );
 
         if (response.statusCode == 201) {
-          // added successfully
           match.id = Result.fromJson(json.decode(response.body)).id;
           print('Minigame entry created successfully');
-          //TODO: Gloable Minigames Variable?
         } else {
-          // Handle error
           print('Failed to create minigame entry. Status code: ${response.statusCode}');
         }
       }
@@ -101,9 +98,7 @@ class _AlleGegenAlleState extends State<AlleGegenAllePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('${Minigame.alleGegenAlle.title}, Runde: ${currentUniqueGame!.highestRound}'),
-        actions: [
+      appBar: CustomAppBar(title: '${Minigame.alleGegenAlle.title}, Runde: ${currentUniqueGame!.highestRound}', actions: [
           IconButton(
             icon: Icon(Icons.help_outline),
             onPressed: () {
@@ -115,8 +110,7 @@ class _AlleGegenAlleState extends State<AlleGegenAllePage> {
               );
             },
           ),
-        ],
-      ),
+        ],),
       body: Stack(
         children: [
           FutureBuilder<List<Match>>(
@@ -145,90 +139,22 @@ class _AlleGegenAlleState extends State<AlleGegenAllePage> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 8.0), // Add some spacing between this button and the others
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => EndGamePage(players: widget.players, actionChoice: ActionChoice.intermediateStatus),
-                        ),
-                      );
-                    },
-                    child: Text('Zwischenstand anzeigen'), // Replace with your actual button text
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: CustomElevatedButton(
+                    onPressed: _onCurrentResult,
+                    text: 'Zwischenstand anzeigen',
                   ),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    ElevatedButton(
-                      onPressed: () async {
-                        final url = Uri.parse(apiUrl + '/api/uniqueGames/increaseRound');
-                        final response = await http.put(
-                          url,
-                          headers: {
-                            'Content-Type': 'application/json',
-                            'Cookie': jwtToken!,
-                          },
-                          body: jsonEncode({
-                            "uniqueGameId": currentUniqueGame?.id
-                          }),
-                        );
-                        if (response.statusCode == 200) {
-                          UniqueGame newCurrentUniqueGame = UniqueGame.fromJson(json.decode(response.body));
-                          updateUniqueGameInList(runningGames, newCurrentUniqueGame);
-                          
-                          List<Match> matches = await futureMatches;
-                          await updateEloScores(matches);
-
-                          print('Next round successfully');
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => EndGamePage(players: widget.players, actionChoice: ActionChoice.nextRound),
-                            ),
-                          );
-                        } else {
-                          // Handle error
-                          print('Failed to next round. Status code: ${response.statusCode}');
-                        }
-                      },
-                      child: Text('Nächste Runde'),
+                    CustomElevatedButton(
+                      onPressed: _onNextRound,
+                      text: 'Nächste Runde',
                     ),
-                    ElevatedButton(
-                      onPressed: () async {
-                        final url = Uri.parse(apiUrl + '/api/uniqueGames/exitGame');
-                        final response = await http.put(
-                          url,
-                          headers: {
-                            'Content-Type': 'application/json',
-                            'Cookie': jwtToken!,
-                          },
-                          body: jsonEncode({
-                            "uniqueGameId": currentUniqueGame?.id
-                          }),
-                        );
-                        if (response.statusCode == 200) {
-
-                          UniqueGame newCurrentUniqueGame = UniqueGame.fromJson(json.decode(response.body));
-                          updateUniqueGameInList(runningGames, newCurrentUniqueGame);
-                          
-                          List<Match> matches = await futureMatches;
-                          await updateEloScores(matches);
-                          print('Game finished successfully');
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => EndGamePage(players: widget.players, actionChoice: ActionChoice.backToStart),
-                            ),
-                          );
-                        }
-                        else {
-                          // Handle error
-                          print('Failed to finish the game. Status code: ${response.statusCode}');
-                        }
-                      },
-                      child: const Text('Spiel beenden'),
+                    CustomElevatedButton(
+                      onPressed: _onExitGame,
+                      text: 'Spiel beenden',
                     ),
                   ],
                 )
@@ -238,5 +164,79 @@ class _AlleGegenAlleState extends State<AlleGegenAllePage> {
         ],
       ),
     );
+  }
+
+  _onCurrentResult() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => EndGamePage(players: widget.players, actionChoice: ActionChoice.intermediateStatus),
+      ),
+    );
+  }
+
+  _onNextRound() async {
+    final url = Uri.parse(apiUrl + '/api/uniqueGames/increaseRound');
+    final response = await http.put(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Cookie': jwtToken!,
+      },
+      body: jsonEncode({
+        "uniqueGameId": currentUniqueGame?.id
+      }),
+    );
+    if (response.statusCode == 200) {
+      UniqueGame newCurrentUniqueGame = UniqueGame.fromJson(json.decode(response.body));
+      updateUniqueGameInList(runningGames, newCurrentUniqueGame);
+      
+      List<Match> matches = await futureMatches;
+      await updateEloScores(matches);
+
+      print('Next round successfully');
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => EndGamePage(players: widget.players, actionChoice: ActionChoice.nextRound),
+        ),
+      );
+    } else {
+      // Handle error
+      print('Failed to next round. Status code: ${response.statusCode}');
+    }
+  }
+
+  _onExitGame() async {
+    final url = Uri.parse(apiUrl + '/api/uniqueGames/exitGame');
+    final response = await http.put(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Cookie': jwtToken!,
+      },
+      body: jsonEncode({
+        "uniqueGameId": currentUniqueGame?.id
+      }),
+    );
+    if (response.statusCode == 200) {
+
+      UniqueGame newCurrentUniqueGame = UniqueGame.fromJson(json.decode(response.body));
+      updateUniqueGameInList(runningGames, newCurrentUniqueGame);
+      
+      List<Match> matches = await futureMatches;
+      await updateEloScores(matches);
+      print('Game finished successfully');
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => EndGamePage(players: widget.players, actionChoice: ActionChoice.backToStart),
+        ),
+      );
+    }
+    else {
+      // Handle error
+      print('Failed to finish the game. Status code: ${response.statusCode}');
+    }
   }
 }
