@@ -128,7 +128,7 @@ class _RandomGroupsFromGroupState extends State<RandomGroupsFromGroup> {
               Divider(),
               ...group.map((player) => ListTile(
                     title: Text(player.name),
-                    subtitle: Text('ELO: ${player.currentElo}'),
+                    subtitle: Text('Elo: ${player.currentElo}'),
                   )),
             ],
           ),

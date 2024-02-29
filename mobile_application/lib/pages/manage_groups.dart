@@ -126,7 +126,7 @@ class _ManageGroupsState extends State<ManageGroupsPage> {
             children: <Widget>[
               Expanded(
                 child: CustomElevatedButton.customButton(
-                  'Add Group',
+                  'Gruppe hinzufügen',
                   onPressed: () {
                     Navigator.pushNamed(context, '/playerselectiongrouppage');
                   },
