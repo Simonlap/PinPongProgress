@@ -27,7 +27,7 @@ class MinispielePage extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => PlayersSelectionPage(selectedMinigame: game),
+                        builder: (context) => PlayersSelectionPage(selectedMinigame: game, actionChoice: ActionChoice.minigame,),
                       ),
                     );
                   } else if (game == Minigame.kaisertisch) {

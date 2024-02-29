@@ -3,14 +3,14 @@ import 'package:mobile_application/elements/customAppBar.dart';
 import 'package:mobile_application/entities/minigamesEnum.dart';
 
 class GameExplanationPage extends StatelessWidget {
-  final Minigame selectedMinigame;
+  final Minigame? selectedMinigame;
 
   GameExplanationPage(this.selectedMinigame);
 
   @override
   Widget build(BuildContext context) {
-    final String title = "Erkärung: ${selectedMinigame.title}";
-    final String explanationText = selectedMinigame.explanation;
+    final String title = "Erkärung: ${selectedMinigame!.title}";
+    final String explanationText = selectedMinigame!.explanation;
 
     return Scaffold(
       appBar: CustomAppBar(title: title),

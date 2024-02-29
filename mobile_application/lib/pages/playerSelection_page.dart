@@ -9,28 +9,32 @@ import 'package:mobile_application/entities/uniqueGame.dart';
 import 'package:mobile_application/globalVariables.dart';
 import 'package:mobile_application/pages/addPlayer_page.dart';
 import 'package:mobile_application/pages/alleGegenAlle_page.dart';
+import 'package:mobile_application/pages/endGame_page.dart';
 import 'package:mobile_application/pages/gameExplanation_page.dart';
 import 'package:mobile_application/globalVariables.dart' as globalVariables;
 import 'package:http/http.dart' as http;
+import 'package:mobile_application/pages/randomGroupFromGroup_page.dart';
+import 'package:mobile_application/pages/randomPlayerFromGroup_page.dart';
 import 'package:mobile_application/pages/sevenTable_page.dart';
 
 import '../entities/player.dart';
 
 class PlayersSelectionPage extends StatefulWidget {
-  final Minigame selectedMinigame;
-  PlayersSelectionPage({required this.selectedMinigame});
+  final Minigame? selectedMinigame;
+  final ActionChoice actionChoice;
+
+  PlayersSelectionPage({this.selectedMinigame, required this.actionChoice});
 
   @override
-  _PlayersSelectionState createState() => _PlayersSelectionState(selectedMinigame);
+  _PlayersSelectionState createState() => _PlayersSelectionState();
 }
 
 class _PlayersSelectionState extends State<PlayersSelectionPage> {
   
-  final Minigame selectedMiniGame;
   List<bool> selectedPlayers = [];
   final int minimumPlayerNumber = 2;
 
-  _PlayersSelectionState(this.selectedMiniGame);
+  _PlayersSelectionState();
 
   @override
   void initState() {
@@ -80,7 +84,7 @@ class _PlayersSelectionState extends State<PlayersSelectionPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        title: selectedMiniGame.title,
+        title: widget.selectedMinigame != null ? widget.selectedMinigame!.title : 'Wähle Spieler aus',
         actions: [
           IconButton(
             icon: Icon(Icons.help_outline),
@@ -89,7 +93,7 @@ class _PlayersSelectionState extends State<PlayersSelectionPage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => GameExplanationPage(selectedMiniGame),
+                  builder: (context) => GameExplanationPage(widget.selectedMinigame),
                 ),
               );
             },
@@ -103,7 +107,7 @@ class _PlayersSelectionState extends State<PlayersSelectionPage> {
           SizedBox(height: 20),
           CustomElevatedButton(
             text: 'Los gehts',
-            onPressed: performSelection,
+            onPressed:() => performSelection(),
           ),
         ],
       ),
@@ -114,6 +118,7 @@ class _PlayersSelectionState extends State<PlayersSelectionPage> {
 
     List<Player> selectedPlayersList = [];
 
+
     for (int i = 0; i < globalVariables.player.length; i++) {
       if (selectedPlayers[i]) {  
         selectedPlayersList.add(globalVariables.player[i]);
@@ -121,49 +126,74 @@ class _PlayersSelectionState extends State<PlayersSelectionPage> {
     }
 
     if (selectedPlayersList.isNotEmpty) {
-      // Navigate to the AlleGegenAllePage with the selected players
-      Navigator.pop(context); 
-      Navigator.pop(context); 
+      if(widget.actionChoice == ActionChoice.minigame && widget.selectedMinigame != null) {
 
-      final String currentDateAndTime = DateTime.now().toIso8601String();
-      final List<int> selectedPlayerIds = selectedPlayersList.map((player) => player.id).toList(); // Collect selected player IDs
-      final url = Uri.parse(apiUrl + '/api/uniqueGames/entry');
-      final response = await http.post(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Cookie': jwtToken!,
-        },
-        body: jsonEncode({
-          "isFinished": false,
-          "highestRound": 0,
-          "startTime": currentDateAndTime,
-          "players": selectedPlayerIds, 
-          "minigameId": selectedMiniGame.id,
-        }),
-      );
-      if (response.statusCode == 201) {
-        UniqueGame newCurrentUniqueGame = UniqueGame.fromJson(json.decode(response.body));
-        updateUniqueGameInList(runningGames, newCurrentUniqueGame);
-        
-        print('UniqueGame added successfully');
-      } else {
-        print('Failed to create uniqueGame entry. Status code: ${response.statusCode}');
-      }
+      
+        // Navigate to the AlleGegenAllePage with the selected players
+        Navigator.pop(context); 
+        Navigator.pop(context); 
 
-      if(selectedMiniGame == Minigame.alleGegenAlle) {
+        final String currentDateAndTime = DateTime.now().toIso8601String();
+        final List<int> selectedPlayerIds = selectedPlayersList.map((player) => player.id).toList(); // Collect selected player IDs
+        final url = Uri.parse(apiUrl + '/api/uniqueGames/entry');
+        final response = await http.post(
+          url,
+          headers: {
+            'Content-Type': 'application/json',
+            'Cookie': jwtToken!,
+          },
+          body: jsonEncode({
+            "isFinished": false,
+            "highestRound": 0,
+            "startTime": currentDateAndTime,
+            "players": selectedPlayerIds, 
+            "minigameId": widget.selectedMinigame!.id,
+          }),
+        );
+        if (response.statusCode == 201) {
+          UniqueGame newCurrentUniqueGame = UniqueGame.fromJson(json.decode(response.body));
+          updateUniqueGameInList(runningGames, newCurrentUniqueGame);
+          
+          print('UniqueGame added successfully');
+        } else {
+          print('Failed to create uniqueGame entry. Status code: ${response.statusCode}');
+        }
+
+        if(widget.selectedMinigame == Minigame.alleGegenAlle) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => AlleGegenAllePage(players: selectedPlayersList),
+            ),
+          );
+        }
+        else if(widget.selectedMinigame == Minigame.siebenerTisch) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => SevenTablePage(players: selectedPlayersList),
+            ),
+          );
+        }
+      } else if (widget.actionChoice == ActionChoice.randomGroups) {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => AlleGegenAllePage(players: selectedPlayersList),
+            builder: (context) => RandomGroupsFromGroup(players: selectedPlayersList, option: 1),
           ),
         );
-      }
-      else if(selectedMiniGame == Minigame.siebenerTisch) {
+      } else if (widget.actionChoice == ActionChoice.randomPlayer) {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => SevenTablePage(players: selectedPlayersList),
+            builder: (context) => RandomPlayerFromGroup(players: selectedPlayersList),
+          ),
+        );
+      } else if (widget.actionChoice == ActionChoice.randomMatches) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => RandomGroupsFromGroup(players: selectedPlayersList, option: 2),
           ),
         );
       }
@@ -245,4 +275,11 @@ class _SelectablePlayersState extends State<SelectablePlayers> {
       ],
     );
   }
+}
+
+enum ActionChoice{
+  randomGroups,
+  randomPlayer,
+  randomMatches,
+  minigame,
 }

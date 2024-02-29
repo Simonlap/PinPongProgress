@@ -7,9 +7,10 @@ import 'package:mobile_application/entities/group.dart';
 import 'package:mobile_application/globalVariables.dart';
 
 class RandomPlayerFromGroup extends StatefulWidget {
-  final Group group;
+  //final Group group;
+  final List<Player> players;
 
-  const RandomPlayerFromGroup({Key? key, required this.group}) : super(key: key);
+  const RandomPlayerFromGroup({Key? key, required this.players}) : super(key: key);
 
   @override
   _RandomPlayerFromGroupState createState() => _RandomPlayerFromGroupState();
@@ -20,9 +21,9 @@ class _RandomPlayerFromGroupState extends State<RandomPlayerFromGroup> {
 
   void _selectRandomPlayer() {
     final random = Random();
-    if (widget.group.player.isNotEmpty) {
-      int randomIndex = random.nextInt(widget.group.player.length);
-      int playerId = widget.group.player[randomIndex];
+    if (widget.players.isNotEmpty) {
+      int randomIndex = random.nextInt(widget.players.length);
+      int playerId = widget.players[randomIndex].id;
 
       setState(() {
         selectedPlayer = player.firstWhere((element) => element.id == playerId);
@@ -34,7 +35,7 @@ class _RandomPlayerFromGroupState extends State<RandomPlayerFromGroup> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        title: 'Zufälliger Spieler aus ${widget.group.name}'
+        title: 'Zufälliger Spieler'
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

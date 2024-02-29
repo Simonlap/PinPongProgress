@@ -3,14 +3,13 @@ import 'package:mobile_application/elements/customAppBar.dart';
 import 'package:mobile_application/elements/customElevatedButton.dart';
 import 'dart:math';
 import 'package:mobile_application/entities/player.dart';
-import 'package:mobile_application/entities/group.dart';
-import 'package:mobile_application/globalVariables.dart';
 
 class RandomGroupsFromGroup extends StatefulWidget {
-  final Group group;
+  //final Group group;
+  final List<Player> players;
   final int option; // 1 for fixed group size and number, 2 for as many groups as possible with size 2
 
-  const RandomGroupsFromGroup({Key? key, required this.group, required this.option}) : super(key: key);
+  const RandomGroupsFromGroup({Key? key, required this.players, required this.option}) : super(key: key);
 
   @override
   State<RandomGroupsFromGroup> createState() => _RandomGroupsFromGroupState();
@@ -26,7 +25,7 @@ class _RandomGroupsFromGroupState extends State<RandomGroupsFromGroup> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        title: 'Zufällige Gruppen aus ${widget.group.name}',
+        title: widget.option == 1 ? 'Zufällige Gruppen generieren' : 'Zufällige Paarungen generieren',
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -37,7 +36,7 @@ class _RandomGroupsFromGroupState extends State<RandomGroupsFromGroup> {
               children: [
                 if (widget.option == 1) ...[
                   TextFormField(
-                    decoration: InputDecoration(labelText: 'Number of Groups'),
+                    decoration: InputDecoration(labelText: 'Anzahl der Gruppen'),
                     initialValue: _numberOfGroups.toString(),
                     keyboardType: TextInputType.number,
                     onChanged: (value) => setState(() {
@@ -45,7 +44,7 @@ class _RandomGroupsFromGroupState extends State<RandomGroupsFromGroup> {
                     }),
                   ),
                   TextFormField(
-                    decoration: InputDecoration(labelText: 'Group Size'),
+                    decoration: InputDecoration(labelText: 'Gruppengröße'),
                     initialValue: _groupSize.toString(),
                     keyboardType: TextInputType.number,
                     onChanged: (value) => setState(() {
@@ -71,44 +70,42 @@ class _RandomGroupsFromGroupState extends State<RandomGroupsFromGroup> {
   }
 
  void _generateSubGroups() {
-  List<int> playerIds = List.from(widget.group.player); // Assuming this is a list of player IDs
-  List<List<Player>> subGroups = [];
+  List<List<Player>> newSubGroups = []; // Use a new local list to prepare the new groups
   final random = Random();
 
-  // Filter out the players based on the IDs in playerIds
-  List<Player> filteredPlayers = player.where((player) => playerIds.contains(player.id)).toList();
+  // Make a copy of the widget's players list so we can modify it
+  List<Player> playersToDistribute = List.from(widget.players);
 
   if (widget.option == 1) {
     // Option 1: Fixed number of groups with specified size
-    while (filteredPlayers.isNotEmpty) {
+    while (playersToDistribute.isNotEmpty) {
       List<Player> group = [];
-      for (int i = 0; i < _groupSize && filteredPlayers.isNotEmpty; i++) {
-        // Remove a random player and add to the group
-        int randomIndex = random.nextInt(filteredPlayers.length);
-        group.add(filteredPlayers.removeAt(randomIndex));
+      for (int i = 0; i < _groupSize && playersToDistribute.isNotEmpty; i++) {
+        int randomIndex = random.nextInt(playersToDistribute.length);
+        group.add(playersToDistribute.removeAt(randomIndex));
       }
       if (group.isNotEmpty) {
-        subGroups.add(group);
+        newSubGroups.add(group);
       }
     }
   } else if (widget.option == 2) {
     // Option 2: As many groups as possible with 2 players each
-    while (filteredPlayers.length >= 2) {
+    while (playersToDistribute.length >= 2) {
       List<Player> pair = [];
       for (int i = 0; i < 2; i++) {
-        // Remove a random player and add to the pair
-        int randomIndex = random.nextInt(filteredPlayers.length);
-        pair.add(filteredPlayers.removeAt(randomIndex));
+        int randomIndex = random.nextInt(playersToDistribute.length);
+        pair.add(playersToDistribute.removeAt(randomIndex));
       }
-      subGroups.add(pair);
+      newSubGroups.add(pair);
     }
   }
 
-  // Update the state with the new sub-groups
+  // Update the state's subGroups list with the new groups
   setState(() {
-    this.subGroups = subGroups;
+    subGroups = newSubGroups;
   });
 }
+
 
 
 
