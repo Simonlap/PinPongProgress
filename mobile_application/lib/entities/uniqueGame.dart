@@ -33,7 +33,7 @@ class UniqueGame {
   factory UniqueGame.fromJson(Map<String, dynamic> json) {
     return UniqueGame(
       json['id'] ?? 0,
-      json['highestRound'] ?? 0,
+      json['highestRound'] ?? 1,
       json['userId'] ?? 0,
       json['isFinished'] ?? false,
       DateTime.parse(json['startTime']),

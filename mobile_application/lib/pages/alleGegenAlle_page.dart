@@ -121,7 +121,7 @@ class _AlleGegenAlleState extends State<AlleGegenAllePage> {
               } else if (snapshot.hasError) {
                 return Center(child: Text('An error occurred'));
               } else if (snapshot.hasData) {
-                // No need to call updateEloScores here since it's already been handled in initState
+                // No call updateEloScores here --> handled in initState
                 return MatchListPage(
                   matches: snapshot.data!,
                   onResultConfirmed: () {

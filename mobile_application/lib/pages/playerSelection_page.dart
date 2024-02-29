@@ -128,7 +128,6 @@ class _PlayersSelectionState extends State<PlayersSelectionPage> {
     if (selectedPlayersList.isNotEmpty) {
       if(widget.actionChoice == ActionChoice.minigame && widget.selectedMinigame != null) {
 
-      
         // Navigate to the AlleGegenAllePage with the selected players
         Navigator.pop(context); 
         Navigator.pop(context); 
