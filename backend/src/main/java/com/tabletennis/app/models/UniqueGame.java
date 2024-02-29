@@ -1,6 +1,7 @@
 package com.tabletennis.app.models;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -11,18 +12,25 @@ public class UniqueGame {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @NotNull
     private int highestRound;
-
     @NotNull
     private boolean isFinished;
-
     @NotNull
     private Long userId;
-
     @NotNull
     private LocalDateTime startTime;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinTable(
+        name = "uniqueGame_players", 
+        joinColumns = @JoinColumn(name = "uniqueGame_id"), 
+        inverseJoinColumns = @JoinColumn(name = "player_id")
+    )
+    private Set<Player> players;
+
+    @NotNull
+    private int minigameId;
 
     public void setId(Long id) {
         this.id = id;
@@ -54,5 +62,21 @@ public class UniqueGame {
 
     public void setStartTime(LocalDateTime startTime) {
         this.startTime = startTime;
+    }
+
+    public Set<Player> getPlayers() {
+        return players;
+    }
+
+    public void setPlayers(Set<Player> players) {
+        this.players = players;
+    }
+
+    public int getMinigameId() {
+        return minigameId;
+    }
+
+    public void setMinigameId(int minigameId) {
+        this.minigameId = minigameId;
     }
 }

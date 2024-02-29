@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_application/elements/customAppBar.dart';
+import 'package:mobile_application/elements/customElevatedButton.dart';
 import 'package:mobile_application/entities/group.dart';
 import 'package:mobile_application/entities/player.dart';
 import 'package:mobile_application/elements/customAlertDialog.dart';
@@ -68,15 +70,12 @@ class _GroupDetailsPageState extends State<GroupDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Group Details'),
-        actions: [
+      appBar: CustomAppBar(title: 'Gruppendetails', actions: [
           IconButton(
             icon: Icon(Icons.delete),
             onPressed: _showDeleteConfirmationDialog,
           ),
-        ],
-      ),
+        ],),
       body: Column(
         children: [
           Expanded(
@@ -103,7 +102,7 @@ class _GroupDetailsPageState extends State<GroupDetailsPage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                ElevatedButton(
+                CustomElevatedButton(
                   onPressed: () async {
                     final result = await Navigator.push(
                       context,
@@ -130,7 +129,7 @@ class _GroupDetailsPageState extends State<GroupDetailsPage> {
                       });
                     }
                   },
-                  child: Text('Spieler bearbeiten'),
+                  text: 'Spieler bearbeiten',
                 ),
               ],
             ),

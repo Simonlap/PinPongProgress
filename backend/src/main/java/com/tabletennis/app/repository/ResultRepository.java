@@ -9,4 +9,7 @@ import java.util.Set;
 @Repository
 public interface ResultRepository extends JpaRepository<Result, Long> {
     Set<Result> findByUserIdAndRoundId(Long userId, Long roundId);
+
+    Set<Result> findByUserIdAndUniqueGameIdAndRoundId(Long userId, Long uniqueGameId, Long roundId);
+
 }

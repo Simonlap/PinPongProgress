@@ -46,4 +46,11 @@ public class MinigameService {
         Result savedResult = resultRepository.save(result);
         return modelMapper.map(savedResult, ResultDTO.class);
     }
+
+    public List<ResultDTO> getResultsForUniqueGameAndRoundId(Long userId, Long uniqueGameId, Long roundId) {
+        Set<Result> results = resultRepository.findByUserIdAndUniqueGameIdAndRoundId(userId, uniqueGameId, roundId);
+        return results.stream()
+                .map(result -> modelMapper.map(result, ResultDTO.class))
+                .collect(java.util.stream.Collectors.toList());
+    }
 }

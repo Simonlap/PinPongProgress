@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_application/elements/customAppBar.dart';
+import 'package:mobile_application/elements/customElevatedButton.dart';
 import 'package:mobile_application/entities/player.dart';
 import 'package:mobile_application/globalVariables.dart' as globalVariables;
 
@@ -38,24 +40,24 @@ class _PlayerSelectionUpdateGroupState extends State<PlayerSelectionUpdateGroupP
         }
       }
       widget.onUpdate(true, selectedPlayerIds);
-      Navigator.pop(context); // 
+      Navigator.pop(context);
     }
   
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Spieler Hinzufügen'),
+      appBar: CustomAppBar (
+        title: 'Spieler bearbeiten',
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           SelectablePlayers(globalVariables.player, selectedPlayers),
           SizedBox(height: 20),
-          ElevatedButton(
+          CustomElevatedButton(
             onPressed: _updateGroup,
-            child: Text('Speichern'),
+            text: 'Speichern',
           ),
         ],
       ),

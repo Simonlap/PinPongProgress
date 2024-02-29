@@ -12,5 +12,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface EloRatingRepository extends JpaRepository<EloRating, Long> {
 
-    List<EloRating> findByPlayerId(Long playerId);
+    List<EloRating> findByPlayerId(Long playerId); 
 }
