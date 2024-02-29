@@ -13,6 +13,7 @@ import 'package:mobile_application/pages/profile_page.dart';
 import 'package:mobile_application/pages/register_page.dart';
 import 'package:mobile_application/pages/runningUniqueGames_page.dart';
 import 'package:mobile_application/pages/start_page.dart';
+import 'package:mobile_application/pages/statisticsLeaderBoard_page.dart';
 import 'package:mobile_application/pages/statisticsOverview_page.dart';
 import 'package:mobile_application/pages/tools_page.dart';
 
@@ -44,6 +45,7 @@ class MyApp extends StatelessWidget {
         '/statisticsoverviewpage' :(context) => StatisticsOverviewPage(),
         '/statisticselogainpage' :(context) => StatisticsEloGainPage(),
         '/runninguniquegamespage':(context) => RunningUniqueGamesPage(),
+        '/statisticsleaderboardpage' :(context) => StatisticsLeaderBoardPage(),
       }
     );
   }
