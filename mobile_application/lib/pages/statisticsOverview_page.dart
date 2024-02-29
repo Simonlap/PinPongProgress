@@ -44,6 +44,7 @@ class StatisticsOverviewPage extends StatelessWidget {
                       ),
                       onPressed: () {
                         // Your code here
+                        Navigator.pushNamed(context, '/statisticselogainpage');
                       },
                       child: Text('Top Elo Zuwachs',
                           style: TextStyle(fontSize: 24)),

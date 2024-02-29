@@ -5,12 +5,12 @@ import 'package:mobile_application/entities/eloRating.dart'; // Adjust the impor
 import 'package:mobile_application/entities/player.dart';
 import 'package:mobile_application/globalVariables.dart'; // Adjust the import path as necessary
 
-class PlayerEloRatingPage extends StatefulWidget {
+class StatisticsEloRatingPage extends StatefulWidget {
   @override
-  _PlayerEloRatingPageState createState() => _PlayerEloRatingPageState();
+  _StatisticsEloRatingPageState createState() => _StatisticsEloRatingPageState();
 }
 
-class _PlayerEloRatingPageState extends State<PlayerEloRatingPage> {
+class _StatisticsEloRatingPageState extends State<StatisticsEloRatingPage> {
   Player? _selectedPlayer;
 
   @override
