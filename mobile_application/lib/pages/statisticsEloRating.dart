@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:mobile_application/elements/customAppBar.dart';
 import 'dart:math' as Math;
 import 'package:mobile_application/entities/eloRating.dart'; // Adjust the import path as necessary
 import 'package:mobile_application/entities/player.dart';
@@ -16,8 +17,8 @@ class _StatisticsEloRatingPageState extends State<StatisticsEloRatingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Player's Elo Rating"),
+      appBar: CustomAppBar(
+        title: "Player's Elo Rating",
       ),
       body: Column(
         children: [

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:mobile_application/elements/customAppBar.dart';
 import 'package:mobile_application/entities/player.dart';
 import 'package:mobile_application/entities/playerEloIncrease.dart';
 import 'package:mobile_application/globalVariables.dart';
@@ -40,8 +41,8 @@ class _StatisticsEloGainPageState extends State<StatisticsEloGainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Player ELO Increases'),
+      appBar: CustomAppBar(
+        title: 'Player ELO Increases',
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),

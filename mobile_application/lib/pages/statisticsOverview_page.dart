@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_application/elements/customAppBar.dart';
+import 'package:mobile_application/elements/customElevatedButton.dart';
 import 'package:mobile_application/entities/minigamesEnum.dart';
 import 'package:mobile_application/pages/playerSelection_page.dart';
 
@@ -8,68 +10,18 @@ class StatisticsOverviewPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Stistiken'),
+      appBar: CustomAppBar(
+        title: 'Statistiken',
       ),
       body: Stack(
         children: [
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Row(
-                children: <Widget>[
-                  Expanded(
-                    child: ElevatedButton(
-                      style: ButtonStyle(
-                        minimumSize: MaterialStateProperty.all(
-                            const Size(0, 100)), // Set the button's height
-                      ),
-                      onPressed: () {
-                             Navigator.pushNamed(context, "/playerelochartpage");          
-                      },
-                      child: Text('Elo Rating Verlauf',
-                          style: TextStyle(fontSize: 24)),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20), // Gap between the buttons
-              Row(
-                children: <Widget>[
-                  Expanded(
-                    child: ElevatedButton(
-                      style: ButtonStyle(
-                        minimumSize: MaterialStateProperty.all(
-                            const Size(0, 100)), // Set the button's height
-                      ),
-                      onPressed: () {
-                        // Your code here
-                        Navigator.pushNamed(context, '/statisticselogainpage');
-                      },
-                      child: Text('Top Elo Zuwachs',
-                          style: TextStyle(fontSize: 24)),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20), // Gap between the buttons
-              Row(
-                children: <Widget>[
-                  Expanded(
-                    child: ElevatedButton(
-                      style: ButtonStyle(
-                        minimumSize: MaterialStateProperty.all(
-                            const Size(0, 100)), // Set the button's height
-                      ),
-                      onPressed: () {
-                        // Your code here
-                      },
-                      child: Text('TBD',
-                          style: TextStyle(fontSize: 24)),
-                    ),
-                  ),
-                ],
-              ),
+              CustomElevatedButton.customButton('Elo Rating Verlauf', context: context, route: '/playerelochartpage'),
+              SizedBox(height: 20), 
+              CustomElevatedButton.customButton('Top Elo Zuwachs', context: context, route: '/statisticselogainpage'),
+              SizedBox(height: 20), 
             ],
           ),
         ],
