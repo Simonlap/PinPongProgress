@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_application/elements/customAppBar.dart';
 import 'package:mobile_application/elements/customElevatedButton.dart';
-import 'package:mobile_application/pages/groupSelection_page.dart';
+import 'package:mobile_application/pages/playerSelection_page.dart';
 
 class ToolsPage extends StatelessWidget {
   const ToolsPage({super.key});
@@ -47,20 +47,12 @@ class ToolsPage extends StatelessWidget {
               SizedBox(height: 20),
               _buildToolButton(
                 context: context,
-                title: 'Anwesenheitsliste',
-                onPressed: () {
-                  // TODO:
-                },
-              ),
-              SizedBox(height: 20),
-              _buildToolButton(
-                context: context,
                 title: 'Zufälligen Spieler auswählen',
                 onPressed: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => GroupSelectionPage(option: 1),
+                      builder: (context) => PlayersSelectionPage(actionChoice: ActionChoice.randomPlayer),
                     ),
                   );
                 },
@@ -68,12 +60,12 @@ class ToolsPage extends StatelessWidget {
               SizedBox(height: 20),
               _buildToolButton(
                 context: context,
-                title: 'Zufällige Gruppe generieren',
+                title: 'Zufällige Gruppen generieren',
                 onPressed: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => GroupSelectionPage(option: 2),
+                      builder: (context) => PlayersSelectionPage(actionChoice: ActionChoice.randomGroups),
                     ),
                   );
                 },
@@ -86,7 +78,7 @@ class ToolsPage extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => GroupSelectionPage(option: 3),
+                      builder: (context) => PlayersSelectionPage(actionChoice: ActionChoice.randomMatches),
                     ),
                   );
                 },

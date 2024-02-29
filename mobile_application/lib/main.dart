@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_application/pages/addPlayer_page.dart';
-import 'package:mobile_application/pages/alleGegenAlle_page.dart';
-import 'package:mobile_application/pages/groupDetails_page.dart';
-import 'package:mobile_application/pages/groupSelection_page.dart';
 import 'package:mobile_application/pages/home_page.dart';
 import 'package:mobile_application/pages/login_page.dart';
 import 'package:mobile_application/pages/managePlayers_page.dart';

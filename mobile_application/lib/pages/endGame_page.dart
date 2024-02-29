@@ -51,7 +51,6 @@ class EndGamePage extends StatelessWidget {
                 );
               } else if (actionChoice == ActionChoice.nextRound) {
                 Navigator.pop(context);
-                Navigator.pop(context);
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => AlleGegenAllePage(players: players)),

@@ -195,6 +195,7 @@ class _AlleGegenAlleState extends State<AlleGegenAllePage> {
       await updateEloScores(matches);
 
       print('Next round successfully');
+      Navigator.pop(context);
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -227,6 +228,7 @@ class _AlleGegenAlleState extends State<AlleGegenAllePage> {
       List<Match> matches = await futureMatches;
       await updateEloScores(matches);
       print('Game finished successfully');
+      Navigator.pop(context);
       Navigator.push(
         context,
         MaterialPageRoute(

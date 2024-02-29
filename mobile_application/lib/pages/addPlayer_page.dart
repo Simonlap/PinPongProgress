@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile_application/elements/customAppBar.dart';
 import 'package:mobile_application/elements/customElevatedButton.dart';
+import 'package:mobile_application/entities/eloRating.dart';
 import 'package:mobile_application/entities/player.dart';
 import 'package:mobile_application/globalVariables.dart';
 import 'package:flutter/services.dart';
@@ -22,6 +23,10 @@ class _AddPlayerState extends State<AddPlayerPage> {
   TextEditingController _eloController = TextEditingController();
 
   Future<void> addPlayer() async {
+  EloRating eloRating = EloRating(date: DateTime.now(), elo: int.parse(_eloController.text));
+
+  print(eloRating.toJson());
+
     final url = Uri.parse(apiUrl + '/api/userdata/players');
     final response = await http.post(
       url,
@@ -31,7 +36,7 @@ class _AddPlayerState extends State<AddPlayerPage> {
       },
       body: jsonEncode({
         'playerName': _nameController.text,
-        'elo': int.parse(_eloController.text),
+        'eloRatings': [eloRating.toJson()],
       }),
     );
     
