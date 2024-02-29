@@ -58,10 +58,10 @@ class Player {
       if (eloRating.date.isBefore(dateTime) || eloRating.date.isAtSameMomentAs(dateTime)) {
         relevantEloRating = eloRating; 
       } else {
+        relevantEloRating ??= eloRating;
         break;
       }
     }
-
     // Return the found Elo rating, or a default value if none is found
     return relevantEloRating?.elo ?? 1000;
   }
