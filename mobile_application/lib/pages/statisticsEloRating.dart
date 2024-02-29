@@ -18,7 +18,7 @@ class _StatisticsEloRatingPageState extends State<StatisticsEloRatingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        title: "Player's Elo Rating",
+        title: "Elo Verlauf",
       ),
       body: Column(
         children: [
@@ -27,7 +27,7 @@ class _StatisticsEloRatingPageState extends State<StatisticsEloRatingPage> {
             child: DropdownButton<Player>(
               isExpanded: true,
               value: _selectedPlayer,
-              hint: Text('Select a Player'),
+              hint: Text('Spieler auswählen'),
               items: player.map((Player player) { // Ensure you have a list of players named `players`
                 return DropdownMenuItem<Player>(
                   value: player,
@@ -44,7 +44,7 @@ class _StatisticsEloRatingPageState extends State<StatisticsEloRatingPage> {
           Expanded(
             child: _selectedPlayer != null
                 ? _buildEloRatingChart(_selectedPlayer!)
-                : Center(child: Text('Please select a player')),
+                : Center(child: Text('Bite zuerst Spieler auswählen')),
           ),
         ],
       ),

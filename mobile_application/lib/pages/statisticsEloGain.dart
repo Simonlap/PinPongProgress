@@ -42,7 +42,7 @@ class _StatisticsEloGainPageState extends State<StatisticsEloGainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        title: 'Player ELO Increases',
+        title: 'Elogewinne (1 Monat)',
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -65,9 +65,8 @@ class _StatisticsEloGainPageState extends State<StatisticsEloGainPage> {
     return charts.BarChart(
       series,
       animate: true,
-      barRendererDecorator: charts.BarLabelDecorator<String>(), // Add labels to bars
-      domainAxis: new charts.OrdinalAxisSpec(), // Use a string axis for the x-axis (domain)
-      // Customize the appearance as needed
+      barRendererDecorator: charts.BarLabelDecorator<String>(),
+      domainAxis: new charts.OrdinalAxisSpec(),
     );
   }
 }
