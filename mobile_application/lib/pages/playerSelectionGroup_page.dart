@@ -83,7 +83,7 @@ Widget build(BuildContext context) {
             ),
           ),
         ),
-        Expanded( // Wrap SelectablePlayers with Expanded
+        Expanded( 
           child: SelectablePlayers(globalVariables.player, selectedPlayers),
         ),
         SizedBox(height: 20),

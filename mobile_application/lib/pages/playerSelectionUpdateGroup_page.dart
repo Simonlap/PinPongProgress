@@ -53,7 +53,17 @@ class _PlayerSelectionUpdateGroupState extends State<PlayerSelectionUpdateGroupP
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          SelectablePlayers(globalVariables.player, selectedPlayers),
+          SizedBox(height: 20),
+          Center(
+            child: Text(
+              'Wer ist in der Gruppe?',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+            ),
+          ),
+          SizedBox(height: 20),
+          Expanded( 
+            child: SelectablePlayers(globalVariables.player, selectedPlayers),
+          ),
           SizedBox(height: 20),
           CustomElevatedButton(
             onPressed: _updateGroup,
@@ -78,25 +88,21 @@ class SelectablePlayers extends StatefulWidget {
 class _SelectablePlayersState extends State<SelectablePlayers> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Text(
-          'Spieler:',
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
-        ),
-        for (int i = 0; i < widget.players.length; i++)
-          ListTile(
-            title: Text(widget.players[i].name),
-            leading: Checkbox(
-              value: widget.selectedPlayers[i],
-              onChanged: (bool? value) {
-                setState(() {
-                  widget.selectedPlayers[i] = value!;
-                });
-              },
-            ),
+    return ListView.builder(
+      itemCount: widget.players.length,
+      itemBuilder: (context, i) {
+        return ListTile(
+          title: Text(widget.players[i].name),
+          leading: Checkbox(
+            value: widget.selectedPlayers[i],
+            onChanged: (bool? value) {
+              setState(() {
+                widget.selectedPlayers[i] = value!;
+              });
+            },
           ),
-      ],
+        );
+      },
     );
   }
 }
