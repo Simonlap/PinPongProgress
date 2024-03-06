@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile_application/elements/customAppBar.dart';
 import 'package:mobile_application/elements/customElevatedButton.dart';
+import 'package:mobile_application/elements/customToast.dart';
 import 'package:mobile_application/globalVariables.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -61,52 +62,20 @@ class _RegisterState extends State<RegisterPage> {
     Map<String, dynamic> accessableResponse = json.decode(response.body);
 
     if (response.statusCode == 200) {
-      //TODO:
-      // Fluttertoast.showToast(
-      //   msg: "Die Registrierung war erfolgreich",
-      //   toastLength: Toast.LENGTH_SHORT,
-      //   gravity: ToastGravity.BOTTOM,
-      //   timeInSecForIosWeb: 1,
-      //   backgroundColor: Colors.red,
-      //   textColor: Colors.white,
-      //   fontSize: 16.0
-      // );
+
+      CustomToast.show(context, "Registrierung erfolgreich!");
       Navigator.popAndPushNamed(context, '/loginpage');
+
     } else if (response.statusCode == 400) {
+
       if (accessableResponse['code'] == "USERNAMEEXISTS") {
-        // TODO:
-        // Fluttertoast.showToast(
-        //   msg: "Dieser Benutzername existiert leider bereits!",
-        //   toastLength: Toast.LENGTH_SHORT,
-        //   gravity: ToastGravity.BOTTOM,
-        //   timeInSecForIosWeb: 1,
-        //   backgroundColor: Colors.red,
-        //   textColor: Colors.white,
-        //   fontSize: 16.0
-        // );
+        CustomToast.show(context, "Benutzername existiert bereits!");
       } else if (accessableResponse['code'] == "EMAILEXISTS") {
-        // TODO:
-        // Fluttertoast.showToast(
-        //   msg: "Diese Email existiert leider bereits!",
-        //   toastLength: Toast.LENGTH_SHORT,
-        //   gravity: ToastGravity.BOTTOM,
-        //   timeInSecForIosWeb: 1,
-        //   backgroundColor: Colors.red,
-        //   textColor: Colors.white,
-        //   fontSize: 16.0
-        // );
+        CustomToast.show(context, "Email existiert bereits!");
       }
+      
     } else {
-      // TODO:
-      // Fluttertoast.showToast(
-      //     msg: "Leider ist ein unbekannter Fehler aufgetreten. Bitte probieren sie es erneut!",
-      //     toastLength: Toast.LENGTH_SHORT,
-      //     gravity: ToastGravity.BOTTOM,
-      //     timeInSecForIosWeb: 1,
-      //     backgroundColor: Colors.red,
-      //     textColor: Colors.white,
-      //     fontSize: 16.0
-      //   );
+      CustomToast.show(context, "Unbekannter Fehler");
     }
 
     setState(() {

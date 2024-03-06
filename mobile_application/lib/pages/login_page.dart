@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_application/elements/customAppBar.dart';
 import 'package:mobile_application/elements/customElevatedButton.dart';
+import 'package:mobile_application/elements/customToast.dart';
 import 'package:mobile_application/globalVariables.dart' as globalVariables;
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -49,6 +50,8 @@ class _LoginPageState extends State<LoginPage> {
     );
 
     if (response.statusCode == 200) {
+      CustomToast.show(context, 'Login erfolgreich!');
+
       Map<String, dynamic> accessableResponse = json.decode(response.body);
       globalVariables.username = accessableResponse['username'];
       globalVariables.useremail = accessableResponse['email'];
@@ -70,17 +73,7 @@ class _LoginPageState extends State<LoginPage> {
 
       print("Success");
     } else {
-      //TODO:
-      // Handle the error or show a message to the user.
-      //   Fluttertoast.showToast(
-      //     msg: "Login failed. Please try again.",
-      //     toastLength: Toast.LENGTH_SHORT,
-      //     gravity: ToastGravity.BOTTOM,
-      //     timeInSecForIosWeb: 1,
-      //     backgroundColor: Colors.red,
-      //     textColor: Colors.white,
-      //     fontSize: 16.0
-      // );
+      CustomToast.show(context, 'Login fehlgeschlagen!');
     }
   }
 

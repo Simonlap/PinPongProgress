@@ -6,6 +6,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:mobile_application/elements/customAppBar.dart';
 import 'package:mobile_application/elements/customElevatedButton.dart';
+import 'package:mobile_application/elements/customToast.dart';
 import 'package:mobile_application/entities/minigamesEnum.dart';
 import 'package:mobile_application/entities/player.dart';
 import 'package:mobile_application/entities/match.dart';
@@ -112,6 +113,7 @@ class _AlleGegenAlleState extends State<AlleGegenAllePage> {
       match.id = Result.fromJson(json.decode(response.body)).id;
       print('Minigame entry created successfully');
     } else {
+      CustomToast.show(context, "Spieleintrag wurde nicht erstellt!");
       print('Failed to create minigame entry. Status code: ${response.statusCode}');
     }
   }
@@ -209,6 +211,8 @@ class _AlleGegenAlleState extends State<AlleGegenAllePage> {
       }),
     );
     if (response.statusCode == 200) {
+      CustomToast.show(context, "Runde wurde erhöht!");
+
       UniqueGame newCurrentUniqueGame = UniqueGame.fromJson(json.decode(response.body));
       updateUniqueGameInList(runningGames, newCurrentUniqueGame);
       
@@ -224,6 +228,7 @@ class _AlleGegenAlleState extends State<AlleGegenAllePage> {
         ),
       );
     } else {
+      CustomToast.show(context, "Runde nicht erhöht!");
       print('Failed to next round. Status code: ${response.statusCode}');
     }
   }
@@ -241,6 +246,7 @@ class _AlleGegenAlleState extends State<AlleGegenAllePage> {
       }),
     );
     if (response.statusCode == 200) {
+      CustomToast.show(context, "Spiel beendet!");
 
       UniqueGame newCurrentUniqueGame = UniqueGame.fromJson(json.decode(response.body));
       updateUniqueGameInList(runningGames, newCurrentUniqueGame);
@@ -257,6 +263,7 @@ class _AlleGegenAlleState extends State<AlleGegenAllePage> {
       );
     }
     else {
+      CustomToast.show(context, "Spiel beenden fehlgeschlagen!");
       print('Failed to finish the game. Status code: ${response.statusCode}');
     }
   }

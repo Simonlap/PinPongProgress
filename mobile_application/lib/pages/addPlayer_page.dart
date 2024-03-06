@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile_application/elements/customAppBar.dart';
 import 'package:mobile_application/elements/customElevatedButton.dart';
+import 'package:mobile_application/elements/customToast.dart';
 import 'package:mobile_application/entities/eloRating.dart';
 import 'package:mobile_application/entities/player.dart';
 import 'package:mobile_application/globalVariables.dart';
@@ -39,12 +40,14 @@ class _AddPlayerState extends State<AddPlayerPage> {
     );
     
     if (response.statusCode == 201) {
-      // TODO: Hier noch Toast
+      CustomToast.show(context, 'Spieler erfolgreich hinzugefügt!');
       print('Player added successfully');
+
       widget.onUserAdded?.call();
       player.add(Player.fromJson(json.decode(response.body)));
       Navigator.pop(context); 
     } else {
+      CustomToast.show(context, "Spieler nicht hinzugefügt!");
       print('Failed to add player. Status code: ${response.statusCode}');
     }
   }

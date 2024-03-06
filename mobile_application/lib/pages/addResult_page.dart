@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:mobile_application/elements/customAppBar.dart';
 import 'package:mobile_application/elements/customElevatedButton.dart';
+import 'package:mobile_application/elements/customToast.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:mobile_application/entities/match.dart';
 import 'package:http/http.dart' as http;
@@ -105,6 +106,7 @@ class _AddResultState extends State<AddResultPage> {
       );
 
       if (response.statusCode == 200) {
+        CustomToast.show(context, "Erfolgreich geändert!");
         print('Minigame entry edited successfully');
 
         match.pointsPlayer1 = player1Points;
@@ -113,16 +115,7 @@ class _AddResultState extends State<AddResultPage> {
         Navigator.pop(context);
       } else {
         print('Failed to edit minigame entry. Status code: ${response.statusCode}');
-        //TODO:
-        // Fluttertoast.showToast(
-        //   msg: "Minigame Ergebnis konnte nicht hinzugefügt werden!",
-        //   toastLength: Toast.LENGTH_SHORT,
-        //   gravity: ToastGravity.BOTTOM,
-        //   timeInSecForIosWeb: 1,
-        //   backgroundColor: Colors.red,
-        //   textColor: Colors.white,
-        //   fontSize: 16.0
-        // );
+        CustomToast.show(context, 'Minigame Ergebnis konnte nicht gespeichert werden!');
       }
     } else {
       Navigator.pop(context);

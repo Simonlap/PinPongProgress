@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile_application/elements/customAppBar.dart';
 import 'package:mobile_application/elements/customElevatedButton.dart';
+import 'package:mobile_application/elements/customToast.dart';
 import 'package:mobile_application/entities/player.dart';
 import 'package:mobile_application/globalVariables.dart';
 import 'dart:convert';
@@ -37,8 +38,11 @@ class _ManagePlayersState extends State<ManagePlayersPage> {
       setState(() {
         player[index] = Player.fromJson(json.decode(response.body));
       });
+
+      CustomToast.show(context, "Spielername geändert!");
       print('Player name changed successfully');
     } else {
+      CustomToast.show(context, "Spielername ändern fehlgeschlagen!");
       print('Failed to change player name. Status code: ${response.statusCode}');
     }
   }
@@ -54,8 +58,11 @@ class _ManagePlayersState extends State<ManagePlayersPage> {
       setState(() {
         player.removeAt(index);
       });
+
+      CustomToast.show(context, "Spieler gelöscht!");
       print('Player deleted successfully');
     } else {
+      CustomToast.show(context, "Spieler löschen fehlgeschlagen!");
       print('Failed to delete player. Status code: ${response.statusCode}');
     }
   }

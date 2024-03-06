@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile_application/elements/customAppBar.dart';
 import 'package:mobile_application/elements/customElevatedButton.dart';
+import 'package:mobile_application/elements/customToast.dart';
 import 'package:mobile_application/entities/group.dart';
 import 'package:mobile_application/entities/player.dart';
 import 'package:mobile_application/globalVariables.dart';
@@ -40,10 +41,11 @@ class _ManageGroupsState extends State<ManageGroupsPage> {
       setState(() {
       });
       
+      CustomToast.show(context, "Gruppe gelöscht!");
       print('Group deleted successfully');
   
     } else {
-
+      CustomToast.show(context, "Gruppe löschen fehlgeschlagen!");
       print('Failed to delete group. Status code: ${response.statusCode}');
     }
   }
@@ -68,9 +70,11 @@ class _ManageGroupsState extends State<ManageGroupsPage> {
         groups[index] = Group.fromJson(json.decode(response.body));
       });
 
+      CustomToast.show(context, "Gruppe geupdated!");
       print('Group updated successfully');
   
     } else {
+      CustomToast.show(context, "Gruppe updaten fehlgeschlagen!");
       print('Failed to update group. Status code: ${response.statusCode}');
     }
   }

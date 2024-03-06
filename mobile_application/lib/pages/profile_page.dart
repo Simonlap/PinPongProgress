@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_application/elements/customElevatedButton.dart';
+import 'package:mobile_application/elements/customToast.dart';
 import 'package:mobile_application/globalVariables.dart';
 import 'package:mobile_application/pages/start_page.dart';
 import 'package:http/http.dart' as http;
@@ -31,22 +32,31 @@ class ProfilePage extends StatelessWidget {
                 const SizedBox(height: 20),
                 CustomElevatedButton(
                   onPressed: () {
-                    // TODO:
+                    CustomToast.show(context, "Noch nicht implementiert!");
                   },
                   text: 'Passwort zurücksetzen',
                 ),
                 CustomElevatedButton(
                   onPressed: () async {
                     final url = Uri.parse('$apiUrl/api/auth/signout');
-                    http.post(
+                    final response = await http.post(
                       url,
                       headers: {'Content-Type': 'application/json'},
                     );
-                    Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(builder: (context) => StartPage()),
-                      (Route<dynamic> route) => false, 
-                    );
+
+                    if (response.statusCode == 200) {
+                      CustomToast.show(context, "Logout erfolgreich!");
+                      print("Logged out");
+
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(builder: (context) => StartPage()),
+                        (Route<dynamic> route) => false, 
+                      );
+                    } else {
+                      CustomToast.show(context, "Logout fehlgeschlagen!");
+                      print("Failed to log out!");
+                    }
                   },
                   text: 'Ausloggen',
                 ),
