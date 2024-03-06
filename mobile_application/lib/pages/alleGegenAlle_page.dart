@@ -142,7 +142,7 @@ class _AlleGegenAlleState extends State<AlleGegenAllePage> {
               } else if (snapshot.hasError) {
                 return Center(child: Text('An error occurred'));
               } else if (snapshot.hasData) {
-                // No call updateEloScores here --> handled in initState
+                // updateEloScores handled in initState
                 return MatchListPage(
                   matches: snapshot.data!,
                   onResultConfirmed: () {
@@ -224,7 +224,6 @@ class _AlleGegenAlleState extends State<AlleGegenAllePage> {
         ),
       );
     } else {
-      // Handle error
       print('Failed to next round. Status code: ${response.statusCode}');
     }
   }
@@ -258,7 +257,6 @@ class _AlleGegenAlleState extends State<AlleGegenAllePage> {
       );
     }
     else {
-      // Handle error
       print('Failed to finish the game. Status code: ${response.statusCode}');
     }
   }

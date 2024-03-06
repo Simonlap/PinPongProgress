@@ -25,7 +25,7 @@ class MatchListPage extends StatelessWidget {
                   builder: (context) => AddResultPage(match: match),
                 ),
               );
-              onResultConfirmed();  // Callback after adding result
+              onResultConfirmed();
             },
             subtitle: 'Result: ${match.pointsPlayer1} - ${match.pointsPlayer2}',
           ),

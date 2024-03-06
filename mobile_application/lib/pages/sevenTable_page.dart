@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:intl/intl.dart'; // For date formatting
+import 'package:intl/intl.dart'; 
 import 'package:mobile_application/elements/customAppBar.dart';
 import 'package:mobile_application/elements/customElevatedButton.dart';
 import 'package:mobile_application/entities/eloCalculator.dart';
@@ -38,7 +38,7 @@ class _SevenTablePageState extends State<SevenTablePage> {
         for (Player player in widget.players) {
           await _createInitialEntry(player.id);
         }
-        return _fetchInitialPoints(); // Fetch again after creating initial entries
+        return _fetchInitialPoints();
       } else {
         for (var result in resultData) {
           playerPoints[result['playerId']] = ValueNotifier<int>(result['pointsPlayer']);
@@ -150,7 +150,7 @@ class _SevenTablePageState extends State<SevenTablePage> {
               future: _fetchInitialPoints(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
+                  return const Center(child: CircularProgressIndicator());
                 }
 
                 return ListView.builder(
@@ -165,7 +165,7 @@ class _SevenTablePageState extends State<SevenTablePage> {
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 IconButton(
-                                  icon: Icon(Icons.remove),
+                                  icon: const Icon(Icons.remove),
                                   onPressed: () => _decreasePoints(player),
                                 ),
                                 ValueListenableBuilder<int>(
@@ -175,12 +175,12 @@ class _SevenTablePageState extends State<SevenTablePage> {
                                   },
                                 ),
                                 IconButton(
-                                  icon: Icon(Icons.add),
+                                  icon: const Icon(Icons.add),
                                   onPressed: () => _increasePoints(player),
                                 ),
                               ],
                             )
-                          : SizedBox.shrink(), // Placeholder for null values in playerPoints
+                          : const SizedBox.shrink(),
                     );
                   },
                 );

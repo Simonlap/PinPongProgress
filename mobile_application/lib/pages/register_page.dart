@@ -27,28 +27,6 @@ class _RegisterState extends State<RegisterPage> {
     'repeatPassword': false,
   };
 
-  // @override
-  // void initState() {
-  //   super.initState();
-
-  //   // Add listeners to text controllers to validate inputs dynamically
-  //   usernameController.addListener(validateInputs);
-  //   emailController.addListener(validateInputs);
-  //   passwordController.addListener(validateInputs);
-  //   repeatPasswordController.addListener(validateInputs);
-  // }
-
-  // @override
-  // void dispose() {
-  //   // Dispose of the controllers to avoid memory leaks
-  //   usernameController.dispose();
-  //   emailController.dispose();
-  //   passwordController.dispose();
-  //   repeatPasswordController.dispose();
-
-  //   super.dispose();
-  // }
-
   performRegistration() async {
     setState(() {
       isRegistering = true;
@@ -83,6 +61,7 @@ class _RegisterState extends State<RegisterPage> {
     Map<String, dynamic> accessableResponse = json.decode(response.body);
 
     if (response.statusCode == 200) {
+      //TODO:
       // Fluttertoast.showToast(
       //   msg: "Die Registrierung war erfolgreich",
       //   toastLength: Toast.LENGTH_SHORT,
@@ -95,7 +74,7 @@ class _RegisterState extends State<RegisterPage> {
       Navigator.popAndPushNamed(context, '/loginpage');
     } else if (response.statusCode == 400) {
       if (accessableResponse['code'] == "USERNAMEEXISTS") {
-        // Handle the error or show a message to the user.
+        // TODO:
         // Fluttertoast.showToast(
         //   msg: "Dieser Benutzername existiert leider bereits!",
         //   toastLength: Toast.LENGTH_SHORT,
@@ -106,7 +85,7 @@ class _RegisterState extends State<RegisterPage> {
         //   fontSize: 16.0
         // );
       } else if (accessableResponse['code'] == "EMAILEXISTS") {
-        // Handle the error or show a message to the user.
+        // TODO:
         // Fluttertoast.showToast(
         //   msg: "Diese Email existiert leider bereits!",
         //   toastLength: Toast.LENGTH_SHORT,
@@ -118,6 +97,7 @@ class _RegisterState extends State<RegisterPage> {
         // );
       }
     } else {
+      // TODO:
       // Fluttertoast.showToast(
       //     msg: "Leider ist ein unbekannter Fehler aufgetreten. Bitte probieren sie es erneut!",
       //     toastLength: Toast.LENGTH_SHORT,
@@ -135,7 +115,6 @@ class _RegisterState extends State<RegisterPage> {
   }
 
   bool validateInputs() {
-    // Reset error flags for all fields
     fieldErrors = {
       'username': false,
       'email': false,
@@ -235,7 +214,7 @@ class _RegisterState extends State<RegisterPage> {
                   text: 'Registrieren',
                 ),
                 if (isRegistering)
-                  Positioned.fill(
+                  const Positioned.fill(
                     child: Center(
                       child: CircularProgressIndicator(),
                     ),

@@ -37,7 +37,6 @@ class _PlayerDetailsState extends State<PlayerDetailsPage> {
   }
 
   void _acceptChanges() {
-    // Save changes and notify parent
     if (widget.player.name != _nameController.text) {
       widget.player.name = _nameController.text;
       widget.onNameChanged(_nameController.text);

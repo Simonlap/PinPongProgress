@@ -49,39 +49,31 @@ class EloCalculator {
   }
 
   static Future<List<Player>> calculateElosForSevenTable(List<Player> players, Map<int, int> playerPoints) async {
-    // Calculate the average ELO rating of all players
+
     double averageElo = players.fold(0, (prev, player) => prev + player.currentElo) / players.length;
-
-    // Calculate total points scored in the game
     int totalPoints = playerPoints.values.fold(0, (prev, points) => prev + points);
-
-    // Map to store the ELO change for each player
-    Map<int, int> eloChanges = {};
+    Map<int, int> eloChanges = {}; // playerId, eloChange
 
     // Calculate ELO changes
     playerPoints.forEach((playerId, points) {
       Player player = players.firstWhere((p) => p.id == playerId);
       double playerElo = player.currentElo.toDouble();
 
-      // Calculate player's performance ratio
       double performanceRatio = totalPoints > 0 ? points / totalPoints : 0;
-
-      // Expected score based on ELO
       double expectedScore = 1 / (1 + pow(10, (averageElo - playerElo) / 400));
-
-      // ELO change based on performance compared to expected score
       int eloChange = (k * 3 * (performanceRatio - expectedScore)).round();
 
-      // Store the ELO change
       eloChanges[playerId] = eloChange;
     });
-    // Adjust ELO changes to ensure the sum is zero
+
+    // the sum of elo changes is zero
     int totalEloChange = eloChanges.values.fold(0, (prev, change) => prev + change);
     if (totalEloChange != 0) {
       int adjustment = (totalEloChange / eloChanges.length).round();
       eloChanges = eloChanges.map((playerId, change) => MapEntry(playerId, change - adjustment));
     }
-    // Apply ELO changes to players
+
+    // Apply elo changes
     for (var entry in eloChanges.entries) {
       int playerId = entry.key;
       int eloChange = entry.value;
@@ -89,7 +81,6 @@ class EloCalculator {
       Player currentPlayer = players.firstWhere((p) => p.id == playerId);
       int newElo = currentPlayer.currentElo + eloChange;
 
-      // Update the player's ELO ratings
       currentPlayer.eloRatings.add(EloRating(elo: newElo, date: DateTime.now()));
       await _updatePlayerElo(currentPlayer.id, newElo);
     }
@@ -103,7 +94,7 @@ class EloCalculator {
       url,
       headers: {
         'Content-Type': 'application/json',
-         'Cookie': jwtToken!, //'Authorization': 'Bearer $jwtToken',
+         'Cookie': jwtToken!,
       },
       body: jsonEncode({
         "elo": newElo,

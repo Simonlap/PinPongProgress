@@ -4,12 +4,9 @@ import 'package:mobile_application/elements/customElevatedButton.dart';
 import 'package:mobile_application/entities/player.dart';
 import 'package:mobile_application/globalVariables.dart' as globalVariables;
 
-// Assuming you have a way to update the group, import necessary files
-// import 'path_to_your_backend_service_or_state_management_solution';
-
 class PlayerSelectionUpdateGroupPage extends StatefulWidget {
   final List<int> initialSelectedPlayers;
-  final int groupId; // Assuming you need an identifier to update the group
+  final int groupId; 
   final Function(bool updated, List<int> playerIds) onUpdate;
 
   PlayerSelectionUpdateGroupPage({

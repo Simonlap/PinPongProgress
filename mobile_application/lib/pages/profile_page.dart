@@ -17,20 +17,18 @@ class ProfilePage extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment:
-                  CrossAxisAlignment.stretch, // Stretch horizontally
+                  CrossAxisAlignment.stretch, 
               children: <Widget>[
                 Text(
                   'Herzlich Willkommen, $username',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 10),
-                // Display Email Address
                 Text(
                   'Email: $useremail',
                   style: TextStyle(fontSize: 16),
                 ),
                 const SizedBox(height: 20),
-                // Button to Reset Password
                 CustomElevatedButton(
                   onPressed: () {
                     // TODO:
@@ -47,7 +45,7 @@ class ProfilePage extends StatelessWidget {
                     Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(builder: (context) => StartPage()),
-                      (Route<dynamic> route) => false, // This condition prevents any route from being retained.
+                      (Route<dynamic> route) => false, 
                     );
                   },
                   text: 'Ausloggen',

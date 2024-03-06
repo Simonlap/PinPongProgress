@@ -51,14 +51,13 @@ public class UserdataService {
         player.setUserId(userId);
         player.setPlayerName(playerDTO.getPlayerName());
 
-        // Handle EloRatings
         if (playerDTO.getEloRatings() != null) {
             player.setEloRatings(
                 playerDTO.getEloRatings().stream().map(eloRatingDTO -> {
                     EloRating eloRating = new EloRating();
                     eloRating.setElo(eloRatingDTO.getElo());
                     eloRating.setDate(eloRatingDTO.getDate());
-                    eloRating.setPlayer(player); // Set the relationship
+                    eloRating.setPlayer(player);
                     return eloRating;
                 }).collect(Collectors.toSet())
             );
@@ -66,9 +65,7 @@ public class UserdataService {
 
         Player savedPlayer = playerRepository.save(player);
 
-        // After saving, map the saved entity back to DTO
         PlayerDTO savedPlayerDTO = modelMapper.map(savedPlayer, PlayerDTO.class);
-        // You might need to manually map the EloRatings if ModelMapper doesn't handle it automatically
         return savedPlayerDTO;
     }
 
@@ -102,7 +99,7 @@ public class UserdataService {
     
         eloRatingRepository.save(eloRating);
         
-        // Reload the player to ensure we have the latest state, including the new Elo rating
+        // Reload the player to ensure to have the latest state
         return playerRepository.findById(playerId).orElseThrow(() -> new RuntimeException("Player not found with id: " + playerId));
     }
 

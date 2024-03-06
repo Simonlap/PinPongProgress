@@ -19,7 +19,6 @@ class Result {
     this._uniqueGameId,
   );
 
-  // Factory constructor to create a Result instance from a JSON map
   factory Result.fromJson(Map<String, dynamic> json) {
     return Result(
       json['id'] ?? 0,
@@ -33,7 +32,6 @@ class Result {
     );
   }
 
-  // Getters and Setters
   int get id => _id;
   set id(int value) => _id = value;
 

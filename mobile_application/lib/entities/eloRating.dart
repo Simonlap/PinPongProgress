@@ -17,7 +17,7 @@ class EloRating {
   Map<String, dynamic> toJson() {
     return {
       'elo': elo,
-      'date': date.toIso8601String(), // Convert DateTime to ISO-8601 string
+      'date': date.toIso8601String(),
     };
   }
 }

@@ -43,21 +43,9 @@ class _AddResultState extends State<AddResultPage> {
                 value: player1Points,
                 minValue: 0,
                 maxValue: 99,
-                onChanged: (value) {
-                  setState(() {
-                    player1Points = value;
-                    // Ensure a 2-point difference when the selected value is higher than 11
-                    if (player1Points > 11) {
-                      player2Points = value - 2;
-                    } else if (player1Points == 10 && player2Points > 10) {
-                      player2Points = 12;
-                    } else if (player1Points >= 10 && player2Points >= 10) {
-                      player2Points = value - 2;
-                    } else if (player1Points < 10 && player2Points >= 10) {
-                      player2Points = 11;
-                    }
-                  });
-                },
+                onChanged: (newValue) => _updatePlayerPoints(newValue, player1Points, player2Points, 
+                  (newPoints) => player1Points = newPoints, 
+                  (newPoints) => player2Points = newPoints),
               ),
             ],
           ),
@@ -69,21 +57,9 @@ class _AddResultState extends State<AddResultPage> {
                 value: player2Points,
                 minValue: 0,
                 maxValue: 99,
-                onChanged: (value) {
-                  setState(() {
-                    player2Points = value;
-                    // Ensure a 2-point difference when the selected value is higher than 11
-                    if (player2Points > 11) {
-                      player1Points = value - 2;
-                    } else if (player2Points == 10 && player1Points > 10) {
-                      player1Points = 12;
-                    } else if (player2Points >= 10 && player1Points >= 10) {
-                      player1Points = value - 2;
-                    } else if (player2Points < 10 && player1Points >= 10) {
-                      player1Points = 11;
-                    }
-                  });
-                },
+                onChanged: (newValue) => _updatePlayerPoints(newValue, player2Points, player1Points, 
+                  (newPoints) => player2Points = newPoints, 
+                  (newPoints) => player1Points = newPoints),
               ),
             ],
           ),
@@ -95,6 +71,22 @@ class _AddResultState extends State<AddResultPage> {
       ),
     );
   }
+
+  void _updatePlayerPoints(int newValue, int currentPlayerPoints, int otherPlayerPoints, Function(int) setCurrentPlayerPoints, Function(int) setOtherPlayerPoints) {
+  setState(() {
+    setCurrentPlayerPoints(newValue);
+    
+    if (newValue > 11) {
+      setOtherPlayerPoints(newValue - 2);
+    } else if (currentPlayerPoints == 10 && otherPlayerPoints > 10) {
+      setOtherPlayerPoints(12);
+    } else if (currentPlayerPoints >= 10 && otherPlayerPoints >= 10) {
+      setOtherPlayerPoints(newValue - 2);
+    } else if (currentPlayerPoints < 10 && otherPlayerPoints >= 10) {
+      setOtherPlayerPoints(11);
+    }
+  });
+}
 
   Future<void> _confirmResult(Match match) async {
     if (!(player1Points == match.pointsPlayer1 && player2Points == match.pointsPlayer2)) {
@@ -120,9 +112,8 @@ class _AddResultState extends State<AddResultPage> {
 
         Navigator.pop(context);
       } else {
-        // Handle error
         print('Failed to edit minigame entry. Status code: ${response.statusCode}');
-
+        //TODO:
         // Fluttertoast.showToast(
         //   msg: "Minigame Ergebnis konnte nicht hinzugefügt werden!",
         //   toastLength: Toast.LENGTH_SHORT,

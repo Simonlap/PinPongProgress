@@ -15,7 +15,6 @@ class ResultSevenTable {
     this._editTime,
   );
 
-  // Factory constructor to create a ResultSevenTable instance from a JSON map
   factory ResultSevenTable.fromJson(Map<String, dynamic> json) {
     return ResultSevenTable(
       json['id'] ?? 0,
@@ -27,7 +26,6 @@ class ResultSevenTable {
     );
   }
 
-  // Getters and Setters
   int get id => _id;
   set id(int value) => _id = value;
 

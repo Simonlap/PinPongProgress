@@ -78,14 +78,11 @@ class _RunningUniqueGamesPageState extends State<RunningUniqueGamesPage> {
           Player player1 = globalVariables.player.firstWhere((player) => player.id == result.player1Id, orElse: () => Player(id: -1, name: 'Unknown', eloRatings: []));
           Player player2 = globalVariables.player.firstWhere((player) => player.id == result.player2Id, orElse: () => Player(id: -1, name: 'Unknown', eloRatings: []));
           
-          // Creating a match from each result
           return Match(
             player1: player1,
             player2: player2,
             onResultConfirmed: () {
-              setState(() {
-                // This will trigger a rebuild when points are updated
-              });
+              setState(() {});
             },
           )..id = result.id
           ..pointsPlayer1 = result.pointsPlayer1
@@ -94,7 +91,7 @@ class _RunningUniqueGamesPageState extends State<RunningUniqueGamesPage> {
 
         List<Player> mappedPlayers = runningGames[index].players.map((playerId) {
           return player.firstWhere((player) => player.id == playerId, orElse: () => Player(id: -1, name: 'Unknown', eloRatings: []));
-        }).where((player) => player != null).toList(); // This will filter out any null values in case a playerId doesn't match
+        }).where((player) => player != null).toList();
 
         Navigator.push(
           context,
@@ -102,7 +99,6 @@ class _RunningUniqueGamesPageState extends State<RunningUniqueGamesPage> {
             builder: (context) => AlleGegenAllePage(players: mappedPlayers, matches: matches),
           ),
         ).then((_) {
-          // This code will be executed when coming back to this page from AlleGegenAllePage, call setState to refresh the UI
           setState(() {});
         });
       } else { print('Failed to fetch. Status code: ${response.statusCode}');}
@@ -112,7 +108,7 @@ class _RunningUniqueGamesPageState extends State<RunningUniqueGamesPage> {
 
       List<Player> mappedPlayers = runningGames[index].players.map((playerId) {
           return player.firstWhere((player) => player.id == playerId, orElse: () => Player(id: -1, name: 'Unknown', eloRatings: []));
-        }).where((player) => player != null).toList(); // This will filter out any null values in case a playerId doesn't match
+        }).where((player) => player != null).toList(); // filter out any null values in case a playerId doesn't match
 
       Navigator.push(
         context,
@@ -120,7 +116,6 @@ class _RunningUniqueGamesPageState extends State<RunningUniqueGamesPage> {
           builder: (context) => SevenTablePage(players: mappedPlayers),
         ),
       ).then((_) {
-        // This code will be executed when coming back to this page from AlleGegenAllePage, call setState to refresh the UI
         setState(() {});
       });
     }

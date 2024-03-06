@@ -5,7 +5,7 @@ import 'dart:math';
 import 'package:mobile_application/entities/player.dart';
 
 class RandomGroupsFromGroup extends StatefulWidget {
-  //final Group group;
+
   final List<Player> players;
   final int option; // 1 for fixed group size and number, 2 for as many groups as possible with size 2
 
@@ -53,7 +53,7 @@ class _RandomGroupsFromGroupState extends State<RandomGroupsFromGroup> {
                   ),
                 ],
                 SizedBox(height: 20),
-                Center( // Wrap the button with Center
+                Center( 
                   child: CustomElevatedButton(
                     onPressed: _generateSubGroups,
                     text: widget.option == 1 ? 'Generiere Gruppen' : 'Generiere Paarungen',
@@ -70,10 +70,10 @@ class _RandomGroupsFromGroupState extends State<RandomGroupsFromGroup> {
   }
 
  void _generateSubGroups() {
-  List<List<Player>> newSubGroups = []; // Use a new local list to prepare the new groups
+  List<List<Player>> newSubGroups = []; 
   final random = Random();
 
-  // Make a copy of the widget's players list so we can modify it
+  // copy of the widget's players list to further modify it
   List<Player> playersToDistribute = List.from(widget.players);
 
   if (widget.option == 1) {
@@ -100,15 +100,10 @@ class _RandomGroupsFromGroupState extends State<RandomGroupsFromGroup> {
     }
   }
 
-  // Update the state's subGroups list with the new groups
   setState(() {
     subGroups = newSubGroups;
   });
 }
-
-
-
-
 
   List<Widget> _buildGroupCards() {
     return subGroups.asMap().entries.map((entry) {

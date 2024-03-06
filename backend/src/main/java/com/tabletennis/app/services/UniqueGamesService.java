@@ -6,7 +6,6 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 
 import org.modelmapper.ModelMapper;
-import org.modelmapper.PropertyMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +17,6 @@ import com.tabletennis.app.repository.UniqueGamesRepository;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -34,18 +32,17 @@ public class UniqueGamesService {
     private PlayerRepository playerRepository;
 
     public UniqueGameDTO createEntry(UniqueGameDTO uniqueGameDTO, Long userId) {
-        UniqueGame game = new UniqueGame(); // Create a new UniqueGame entity
-        modelMapper.map(uniqueGameDTO, game); // Map the fields from DTO to entity
+        UniqueGame game = new UniqueGame(); 
+        modelMapper.map(uniqueGameDTO, game); 
         game.setUserId(userId);
     
-        // Fetch existing players from the database using their IDs
         if (uniqueGameDTO.getPlayers() != null && !uniqueGameDTO.getPlayers().isEmpty()) {
             List<Player> playerList = playerRepository.findAllById(uniqueGameDTO.getPlayers());
-            Set<Player> players = new HashSet<>(playerList); // Convert List to Set
+            Set<Player> players = new HashSet<>(playerList); 
             game.setPlayers(players);
         }
     
-        UniqueGame savedGame = uniqueGamesRepository.save(game); // Save the game entity
+        UniqueGame savedGame = uniqueGamesRepository.save(game);
 
         UniqueGameDTO resultDTO = modelMapper.map(savedGame, UniqueGameDTO.class);
         return resultDTO;

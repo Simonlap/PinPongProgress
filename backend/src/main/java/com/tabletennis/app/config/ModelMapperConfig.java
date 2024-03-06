@@ -17,11 +17,9 @@ public class ModelMapperConfig {
     public ModelMapper modelMapper() {
         ModelMapper modelMapper = new ModelMapper();
 
-        // Configure your custom mappings here
         modelMapper.addMappings(new PropertyMap<UniqueGame, UniqueGameDTO>() {
             @Override
             protected void configure() {
-                // Use the converter for the specific mapping
                 using(context -> ((Set<Player>) context.getSource()).stream()
                         .map(Player::getId)
                         .collect(Collectors.toSet()))

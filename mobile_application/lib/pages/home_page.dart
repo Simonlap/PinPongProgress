@@ -77,7 +77,7 @@ class _HomePageState extends State<HomePage> {
       List<dynamic> gamesJson = json.decode(response.body);
       List<UniqueGame> fetchedGames = gamesJson.map((gameJson) => UniqueGame.fromJson(gameJson)).toList();
 
-      // Sort the games list by the start time in descending order (newest first)
+      // Sort the games (newest first)
       fetchedGames.sort((a, b) => b.startTime.compareTo(a.startTime));
       runningGames = fetchedGames;
 

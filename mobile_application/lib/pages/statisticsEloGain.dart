@@ -59,7 +59,7 @@ class _StatisticsEloGainPageState extends State<StatisticsEloGainPage> {
         measureFn: (PlayerEloIncrease increases, _) => increases.eloIncrease,
         data: eloIncreases,
         labelAccessorFn: (PlayerEloIncrease row, _) {
-        // Check if the value is positive and prepend a "+" sign
+        
         return row.eloIncrease > 0 ? '+${row.eloIncrease}' : '${row.eloIncrease}';
       },
       )

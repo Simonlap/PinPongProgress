@@ -53,7 +53,6 @@ public class UserdataController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
-        // Assuming your userdataService.createPlayer method is updated to handle PlayerDTO with EloRatingDTO set
         PlayerDTO createdPlayer = userdataService.createPlayer(playerDTO, userDetails.getId());
 
         return new ResponseEntity<>(createdPlayer, HttpStatus.CREATED);

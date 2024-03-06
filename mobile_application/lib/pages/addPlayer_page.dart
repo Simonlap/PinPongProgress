@@ -39,14 +39,12 @@ class _AddPlayerState extends State<AddPlayerPage> {
     );
     
     if (response.statusCode == 201) {
-      // Player added successfully
-      // todo: Hier noch Toast
+      // TODO: Hier noch Toast
       print('Player added successfully');
       widget.onUserAdded?.call();
       player.add(Player.fromJson(json.decode(response.body)));
-      Navigator.pop(context); // Close the screen after adding the player
+      Navigator.pop(context); 
     } else {
-      // Handle error
       print('Failed to add player. Status code: ${response.statusCode}');
     }
   }

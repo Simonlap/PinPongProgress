@@ -3,11 +3,9 @@ import 'package:mobile_application/elements/customAppBar.dart';
 import 'package:mobile_application/elements/customElevatedButton.dart';
 import 'dart:math';
 import 'package:mobile_application/entities/player.dart';
-import 'package:mobile_application/entities/group.dart';
 import 'package:mobile_application/globalVariables.dart';
 
 class RandomPlayerFromGroup extends StatefulWidget {
-  //final Group group;
   final List<Player> players;
 
   const RandomPlayerFromGroup({Key? key, required this.players}) : super(key: key);
@@ -45,7 +43,7 @@ class _RandomPlayerFromGroupState extends State<RandomPlayerFromGroup> {
             children: <Widget>[
               if (selectedPlayer != null)
                 Card(
-                  elevation: 4.0, // Adds shadow under the card
+                  elevation: 4.0,
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Column(
@@ -54,16 +52,16 @@ class _RandomPlayerFromGroupState extends State<RandomPlayerFromGroup> {
                           selectedPlayer!.name,
                           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                         ),
-                        SizedBox(height: 8), // Adds space between text and bottom of the card
+                        SizedBox(height: 8),
                         Text(
-                          'ELO: ${selectedPlayer!.currentElo}', // Assuming you have a method to get current ELO
+                          'ELO: ${selectedPlayer!.currentElo}',
                           style: TextStyle(fontSize: 16, color: Colors.grey[700]),
                         ),
                       ],
                     ),
                   ),
                 ),
-              SizedBox(height: 24), // Adds space between card and button
+              SizedBox(height: 20), 
               CustomElevatedButton(
                 onPressed: _selectRandomPlayer,
                 text: 'Zufälligen Spieler auswählen',

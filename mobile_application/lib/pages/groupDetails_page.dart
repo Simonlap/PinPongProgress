@@ -7,9 +7,8 @@ import 'package:mobile_application/elements/customAlertDialog.dart';
 import 'package:mobile_application/globalVariables.dart';
 import 'package:mobile_application/pages/playerSelectionUpdateGroup_page.dart';
 
-// Global lists
-List<Group> allGroups = groups; // Your list of groups
-List<Player> allPlayers = player; // Your list of all players
+List<Group> allGroups = groups; 
+List<Player> allPlayers = player;
 
 class GroupDetailsPage extends StatefulWidget {
   final int groupIndex;
@@ -82,12 +81,10 @@ class _GroupDetailsPageState extends State<GroupDetailsPage> {
             child: ListView.builder(
               itemCount: _playerIds.length,
               itemBuilder: (context, index) {
-                // Find the player by ID or use a default 'Unknown' player
                 Player player = allPlayers.firstWhere(
                   (p) => p.id == _playerIds[index], 
                   orElse: () => Player(id: -1, name: 'Unknown', eloRatings: [])
                 );
-                // Use the currentElo method to get the player's current Elo rating
                 int currentElo = player.currentElo;
 
                 return ListTile(

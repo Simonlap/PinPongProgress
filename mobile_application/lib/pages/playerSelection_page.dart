@@ -45,6 +45,7 @@ class _PlayersSelectionState extends State<PlayersSelectionPage> {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       if (globalVariables.player.length < minimumPlayerNumber) {
         int playersLeft = minimumPlayerNumber - globalVariables.player.length;
+        // TODO:
         // await Fluttertoast.showToast(
         //   msg: "Zu wenig Spieler. Du wirst nun ${playersLeft}x aufgefordert, zunächst Spieler hinzuzufügen.",
         //   toastLength: Toast.LENGTH_SHORT,
@@ -54,7 +55,6 @@ class _PlayersSelectionState extends State<PlayersSelectionPage> {
         //   textColor: Colors.white,
         //   fontSize: 16.0
         // );
-        //TODO:
       }
       checkPlayerCount();
       });
@@ -67,15 +67,12 @@ class _PlayersSelectionState extends State<PlayersSelectionPage> {
       MaterialPageRoute(
         builder: (context) => AddPlayerPage(
           onUserAdded: () {
-            // Callback function to fetch user names when a user is added
-            setState(() {
-
-            });
+            setState(() {});
          },
         ),
       ),
     ); 
-    // Recursive call to check the player count again after returning from AddPlayer screen
+    // check the player count again after returning from AddPlayer screen
     checkPlayerCount();
   }
 }
@@ -136,12 +133,11 @@ class _PlayersSelectionState extends State<PlayersSelectionPage> {
     if (selectedPlayersList.isNotEmpty) {
       if(widget.actionChoice == ActionChoice.minigame && widget.selectedMinigame != null) {
 
-        // Navigate to the AlleGegenAllePage with the selected players
         Navigator.pop(context); 
         Navigator.pop(context); 
 
         final String currentDateAndTime = DateTime.now().toIso8601String();
-        final List<int> selectedPlayerIds = selectedPlayersList.map((player) => player.id).toList(); // Collect selected player IDs
+        final List<int> selectedPlayerIds = selectedPlayersList.map((player) => player.id).toList();
         final url = Uri.parse(apiUrl + '/api/uniqueGames/entry');
         final response = await http.post(
           url,

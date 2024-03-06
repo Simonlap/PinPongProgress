@@ -53,8 +53,8 @@ public class Group {
         return players;
     }
 
-    public void setPlayers(List<Long> newPlayers) {// Clear the existing collection
-        this.players = newPlayers; // Add all from the new collection
+    public void setPlayers(List<Long> newPlayers) {
+        this.players = newPlayers;
     }
     public void updatePlayers(List<Long> newPlayers) {
         this.players.clear();

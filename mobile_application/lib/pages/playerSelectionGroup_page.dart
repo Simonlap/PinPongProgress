@@ -48,14 +48,12 @@ class _PlayersSelectionGroupState extends State<PlayersSelectionGroupPage> {
       Navigator.pushNamed(context, '/managegroupspage');
 
     } else {
-      // Handle error
       print('Failed to add Group. Status code: ${response.statusCode}');
     }
   }
   
   @override
   void dispose() {
-    // Dispose the controller when the widget is removed from the widget tree
     _groupNameController.dispose();
     super.dispose();
   }

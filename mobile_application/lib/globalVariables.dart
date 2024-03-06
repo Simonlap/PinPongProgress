@@ -18,7 +18,6 @@ String apiUrl = 'http://10.0.2.2:8080';
 
 void updateUniqueGameInList(List<UniqueGame> uniqueGames, UniqueGame newCurrentUniqueGame) {
   currentUniqueGame = newCurrentUniqueGame;
-  // Find the index of the game in the list that matches the ID of the currentUniqueGame
   int indexToUpdate = uniqueGames.indexWhere((game) => game.id == newCurrentUniqueGame.id);
   if (indexToUpdate != -1) {
     uniqueGames[indexToUpdate] = newCurrentUniqueGame;

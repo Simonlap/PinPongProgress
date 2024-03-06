@@ -4,14 +4,13 @@ import 'package:mobile_application/elements/customElevatedButton.dart';
 import 'package:mobile_application/entities/player.dart';
 import 'package:mobile_application/globalVariables.dart';
 import 'package:mobile_application/pages/alleGegenAlle_page.dart';
-import 'package:mobile_application/pages/home_page.dart';
-import 'package:mobile_application/pages/navigation_page.dart'; // Import your home page file
+import 'package:mobile_application/pages/navigation_page.dart';
 
 class EndGamePage extends StatelessWidget {
   final List<Player> players;
-  final ActionChoice actionChoice; // New parameter to determine if the game should be terminated
+  final ActionChoice actionChoice; 
 
-  EndGamePage({required this.players, required this.actionChoice}); // Updated constructor
+  EndGamePage({required this.players, required this.actionChoice});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +28,6 @@ class EndGamePage extends StatelessWidget {
             child: ListView.builder(
               itemCount: players.length,
               itemBuilder: (context, index) {
-                // Calculate the difference
                 int eloDifference = players[index].currentElo - players[index].eloAtTime(currentUniqueGame!.startTime);
                 String formattedDifference = eloDifference >= 0 ? '+$eloDifference' : eloDifference.toString();
 

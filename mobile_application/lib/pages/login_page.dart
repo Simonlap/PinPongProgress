@@ -62,30 +62,29 @@ class _LoginPageState extends State<LoginPage> {
         String testjwtValue = match.group(0)!;
         globalVariables.jwtToken = testjwtValue;
       }
-      // Login was successful, you can navigate to the next page.
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (context) => NavigationPage()),
-        (Route<dynamic> route) => false, // This condition prevents any route from being retained.
+        (Route<dynamic> route) => false,
       );
 
       print("Success");
     } else {
+      //TODO:
       // Handle the error or show a message to the user.
-    //   Fluttertoast.showToast(
-    //     msg: "Login failed. Please try again.",
-    //     toastLength: Toast.LENGTH_SHORT,
-    //     gravity: ToastGravity.BOTTOM,
-    //     timeInSecForIosWeb: 1,
-    //     backgroundColor: Colors.red,
-    //     textColor: Colors.white,
-    //     fontSize: 16.0
-    // );
+      //   Fluttertoast.showToast(
+      //     msg: "Login failed. Please try again.",
+      //     toastLength: Toast.LENGTH_SHORT,
+      //     gravity: ToastGravity.BOTTOM,
+      //     timeInSecForIosWeb: 1,
+      //     backgroundColor: Colors.red,
+      //     textColor: Colors.white,
+      //     fontSize: 16.0
+      // );
     }
   }
 
   bool validateInputs() {
-    // Reset error flags for all fields
     fieldErrors = {
       'username': false,
       'password': false,

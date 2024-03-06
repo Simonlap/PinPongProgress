@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:mobile_application/elements/customAppBar.dart';
 import 'dart:math' as Math;
-import 'package:mobile_application/entities/eloRating.dart'; // Adjust the import path as necessary
+import 'package:mobile_application/entities/eloRating.dart'; 
 import 'package:mobile_application/entities/player.dart';
-import 'package:mobile_application/globalVariables.dart'; // Adjust the import path as necessary
+import 'package:mobile_application/globalVariables.dart';
 
 class StatisticsEloRatingPage extends StatefulWidget {
   @override
@@ -28,7 +28,7 @@ class _StatisticsEloRatingPageState extends State<StatisticsEloRatingPage> {
               isExpanded: true,
               value: _selectedPlayer,
               hint: Text('Spieler auswählen'),
-              items: player.map((Player player) { // Ensure you have a list of players named `players`
+              items: player.map((Player player) { 
                 return DropdownMenuItem<Player>(
                   value: player,
                   child: Text(player.name),
@@ -58,23 +58,19 @@ class _StatisticsEloRatingPageState extends State<StatisticsEloRatingPage> {
     final minElo = sortedRatings.map<double>((rating) => rating.elo.toDouble()).fold(double.infinity, (double previousValue, double elo) => Math.min(previousValue, elo));
     final maxElo = sortedRatings.map<double>((rating) => rating.elo.toDouble()).fold(-double.infinity, (double previousValue, double elo) => Math.max(previousValue, elo));
 
-    final yAxisStart = minElo - (minElo * 0.05); // Start 5% below the minimum ELO
-    final yAxisEnd = maxElo + (maxElo * 0.05); // End 5% above the maximum ELO
-
-    // Calculate the range of the data
+    final yAxisStart = minElo - (minElo * 0.05); // Start 5% below the minimum elo
+    final yAxisEnd = maxElo + (maxElo * 0.05); // End 5% above the maximum elo
     final range = yAxisEnd - yAxisStart;
 
-    // Determine tick interval based on range
-    // Adjust these intervals and ranges based on what you consider appropriate for your data
     double tickInterval;
     if (range <= 10) {
-      tickInterval = 1; // For very narrow ranges, use small intervals
+      tickInterval = 1; 
     } else if (range <= 50) {
-      tickInterval = 5; // For slightly wider ranges, use larger intervals
+      tickInterval = 5; 
     } else if (range <= 100) {
-      tickInterval = 10; // For ranges within 100, use 10 unit intervals
+      tickInterval = 10; 
     } else {
-      tickInterval = (range / 10).ceilToDouble(); // For larger ranges, scale the interval based on the range
+      tickInterval = (range / 10).ceilToDouble();
     }
 
     List<charts.Series<EloRating, DateTime>> series = [
@@ -92,12 +88,11 @@ class _StatisticsEloRatingPageState extends State<StatisticsEloRatingPage> {
       animate: true,
       dateTimeFactory: const charts.LocalDateTimeFactory(),
       domainAxis: charts.DateTimeAxisSpec(
-        tickProviderSpec: charts.AutoDateTimeTickProviderSpec(), // Default behavior for daily scale
+        tickProviderSpec: charts.AutoDateTimeTickProviderSpec(), 
       ),
       primaryMeasureAxis: charts.NumericAxisSpec(
         viewport: charts.NumericExtents(yAxisStart, yAxisEnd),
         tickProviderSpec: charts.StaticNumericTickProviderSpec(
-          // Generate tick values based on calculated interval
           List.generate((range / tickInterval).ceil(), (index) => charts.TickSpec(index * tickInterval + yAxisStart, label: '${index * tickInterval + yAxisStart}'))
         ),
       ),
