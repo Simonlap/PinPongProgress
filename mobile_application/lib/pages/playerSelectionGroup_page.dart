@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:mobile_application/elements/customAppBar.dart';
 import 'package:mobile_application/elements/customElevatedButton.dart';
+import 'package:mobile_application/elements/customToast.dart';
 import 'package:mobile_application/entities/group.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile_application/globalVariables.dart' as globalVariables;
@@ -47,7 +48,9 @@ class _PlayersSelectionGroupState extends State<PlayersSelectionGroupPage> {
       Navigator.pop(context);
       Navigator.pushNamed(context, '/managegroupspage');
 
+      CustomToast.show(context, "Gruppe hinzugefügt!");
     } else {
+      CustomToast.show(context, "Gruppe hinzufügen fehlgeschlagen!");
       print('Failed to add Group. Status code: ${response.statusCode}');
     }
   }

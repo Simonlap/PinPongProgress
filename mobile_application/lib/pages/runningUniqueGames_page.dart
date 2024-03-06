@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile_application/elements/customAppBar.dart';
 import 'package:mobile_application/elements/customElevatedButton.dart';
+import 'package:mobile_application/elements/customToast.dart';
 import 'package:mobile_application/entities/minigamesEnum.dart';
 import 'package:mobile_application/entities/player.dart';
 import 'package:mobile_application/entities/result.dart';
@@ -101,7 +102,12 @@ class _RunningUniqueGamesPageState extends State<RunningUniqueGamesPage> {
         ).then((_) {
           setState(() {});
         });
-      } else { print('Failed to fetch. Status code: ${response.statusCode}');}
+      } else { 
+
+        CustomToast.show(context, "Spiel laden fehlgeschlagen!");
+        print('Failed to fetch. Status code: ${response.statusCode}');
+        
+      }
 
     } else if(runningGames[index].minigameId == Minigame.siebenerTisch.id) {
       updateUniqueGameInList(runningGames, runningGames[index]);

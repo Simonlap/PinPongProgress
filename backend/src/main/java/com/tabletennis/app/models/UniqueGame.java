@@ -21,7 +21,7 @@ public class UniqueGame {
     @NotNull
     private LocalDateTime startTime;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(
         name = "uniqueGame_players", 
         joinColumns = @JoinColumn(name = "uniqueGame_id"), 

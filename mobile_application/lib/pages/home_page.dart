@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:mobile_application/elements/customElevatedButton.dart';
+import 'package:mobile_application/elements/customToast.dart';
 import 'package:mobile_application/entities/group.dart';
 import 'package:mobile_application/entities/player.dart';
 import 'package:mobile_application/entities/uniqueGame.dart';
@@ -40,7 +41,8 @@ class _HomePageState extends State<HomePage> {
         player = data.map((jsonPlayer) => Player.fromJson(jsonPlayer)).toList();
       });
     } else {
-      throw Exception('Failed to load user data');
+      CustomToast.show(context, "Spieler laden fehlgeschlagen!");
+      throw Exception('Failed to load player data');
     }
   }
 
@@ -59,7 +61,8 @@ class _HomePageState extends State<HomePage> {
         groups = data.map((jsonGroup) => Group.fromJson(jsonGroup)).toList();
       });
     } else {
-      throw Exception('Failed to load user data');
+      CustomToast.show(context, "Gruppen laden fehlgeschlagen!");
+      throw Exception('Failed to load group data');
     }
   }
 
@@ -82,6 +85,7 @@ class _HomePageState extends State<HomePage> {
       runningGames = fetchedGames;
 
     } else {
+      CustomToast.show(context, "Laufende Spiel laden fehlgeschlagen!");
       print('Failed to fetch running unique games. Status code: ${response.statusCode}');
     }
   }

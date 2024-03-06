@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart'; 
 import 'package:mobile_application/elements/customAppBar.dart';
 import 'package:mobile_application/elements/customElevatedButton.dart';
+import 'package:mobile_application/elements/customToast.dart';
 import 'package:mobile_application/entities/eloCalculator.dart';
 import 'package:mobile_application/entities/player.dart';
 import 'package:mobile_application/entities/minigamesEnum.dart';
@@ -46,6 +47,7 @@ class _SevenTablePageState extends State<SevenTablePage> {
         }
       }
     } else {
+      CustomToast.show(context, "Spiel laden fehlgeschlagen!");
       print('Error fetching seven table results: ${response.body}');
     }
   }
@@ -68,6 +70,7 @@ class _SevenTablePageState extends State<SevenTablePage> {
     if (response.statusCode == 201) {
       print('Initial seven table entry created for player ID $playerId');
     } else {
+      CustomToast.show(context, "Spiel erstellen fehlgeschlagen!");
       print('Error creating initial seven table entry: ${response.body}');
     }
   }
@@ -84,6 +87,7 @@ class _SevenTablePageState extends State<SevenTablePage> {
       playerPoints[playerId]?.value = resultData['pointsPlayer']; 
       lastEdited[playerId] = DateTime.parse(resultData['editTime']);
     } else {
+      CustomToast.show(context, "Punkte updaten fehlgeschlagen!");
       print('Error updating points: ${response.body}');
     }
   }
@@ -117,6 +121,7 @@ class _SevenTablePageState extends State<SevenTablePage> {
         ),
       );
     } else {
+      CustomToast.show(context, "Spiel beenden fehlgeschlagen!");
       print('Failed to exit game: ${response.body}');
     }
   }

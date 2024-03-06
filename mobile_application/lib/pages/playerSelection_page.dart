@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:mobile_application/elements/customAppBar.dart';
 import 'package:mobile_application/elements/customElevatedButton.dart';
+import 'package:mobile_application/elements/customToast.dart';
 import 'package:mobile_application/entities/group.dart';
 import 'package:mobile_application/entities/minigamesEnum.dart';
 import 'package:mobile_application/entities/uniqueGame.dart';
@@ -45,16 +46,7 @@ class _PlayersSelectionState extends State<PlayersSelectionPage> {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       if (globalVariables.player.length < minimumPlayerNumber) {
         int playersLeft = minimumPlayerNumber - globalVariables.player.length;
-        // TODO:
-        // await Fluttertoast.showToast(
-        //   msg: "Zu wenig Spieler. Du wirst nun ${playersLeft}x aufgefordert, zunächst Spieler hinzuzufügen.",
-        //   toastLength: Toast.LENGTH_SHORT,
-        //   gravity: ToastGravity.BOTTOM,
-        //   timeInSecForIosWeb: 1,
-        //   backgroundColor: Colors.red,
-        //   textColor: Colors.white,
-        //   fontSize: 16.0
-        // );
+        CustomToast.show(context, "Zu wenig Spieler. Du wirst nun ${playersLeft}x aufgefordert, zunächst Spieler hinzuzufügen.");
       }
       checkPlayerCount();
       });
@@ -123,7 +115,6 @@ class _PlayersSelectionState extends State<PlayersSelectionPage> {
 
     List<Player> selectedPlayersList = [];
 
-
     for (int i = 0; i < globalVariables.player.length; i++) {
       if (selectedPlayers[i]) {  
         selectedPlayersList.add(globalVariables.player[i]);
@@ -159,6 +150,7 @@ class _PlayersSelectionState extends State<PlayersSelectionPage> {
           
           print('UniqueGame added successfully');
         } else {
+          CustomToast.show(context, "Spiele erstellen fehlgeschlagen!");
           print('Failed to create uniqueGame entry. Status code: ${response.statusCode}');
         }
 
@@ -201,6 +193,7 @@ class _PlayersSelectionState extends State<PlayersSelectionPage> {
         );
       }
     } else {
+      CustomToast.show(context, "Keine Spieler ausgewählt!");
       print('No players selected');
     }
   }
