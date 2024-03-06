@@ -182,7 +182,7 @@ class _PlayersSelectionState extends State<PlayersSelectionPage> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => RandomGroupsFromGroup(players: selectedPlayersList, option: 1),
+            builder: (context) => RandomGroupsFromGroup(players: selectedPlayersList, option: RandomGroupAction.customGroup),
           ),
         );
       } else if (widget.actionChoice == ActionChoice.randomPlayer) {
@@ -196,7 +196,7 @@ class _PlayersSelectionState extends State<PlayersSelectionPage> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => RandomGroupsFromGroup(players: selectedPlayersList, option: 2),
+            builder: (context) => RandomGroupsFromGroup(players: selectedPlayersList, option: RandomGroupAction.fixedGroup),
           ),
         );
       }

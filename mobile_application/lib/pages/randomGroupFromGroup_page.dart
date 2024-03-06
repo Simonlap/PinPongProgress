@@ -7,7 +7,7 @@ import 'package:mobile_application/entities/player.dart';
 class RandomGroupsFromGroup extends StatefulWidget {
 
   final List<Player> players;
-  final int option; // 1 for fixed group size and number, 2 for as many groups as possible with size 2
+  final RandomGroupAction option; // 1 for fixed group size and number, 2 for as many groups as possible with size 2
 
   const RandomGroupsFromGroup({Key? key, required this.players, required this.option}) : super(key: key);
 
@@ -25,7 +25,7 @@ class _RandomGroupsFromGroupState extends State<RandomGroupsFromGroup> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        title: widget.option == 1 ? 'Zufällige Gruppen generieren' : 'Zufällige Paarungen generieren',
+        title: widget.option == RandomGroupAction.customGroup ? 'Zufällige Gruppen generieren' : 'Zufällige Paarungen generieren',
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -34,7 +34,7 @@ class _RandomGroupsFromGroupState extends State<RandomGroupsFromGroup> {
             key: _formKey,
             child: Column(
               children: [
-                if (widget.option == 1) ...[
+                if (widget.option == RandomGroupAction.customGroup) ...[
                   TextFormField(
                     decoration: InputDecoration(labelText: 'Anzahl der Gruppen'),
                     initialValue: _numberOfGroups.toString(),
@@ -56,7 +56,7 @@ class _RandomGroupsFromGroupState extends State<RandomGroupsFromGroup> {
                 Center( 
                   child: CustomElevatedButton(
                     onPressed: _generateSubGroups,
-                    text: widget.option == 1 ? 'Generiere Gruppen' : 'Generiere Paarungen',
+                    text: widget.option == RandomGroupAction.customGroup ? 'Generiere Gruppen' : 'Generiere Paarungen',
                   ),
                 ),
                 SizedBox(height: 20),
@@ -76,7 +76,7 @@ class _RandomGroupsFromGroupState extends State<RandomGroupsFromGroup> {
   // copy of the widget's players list to further modify it
   List<Player> playersToDistribute = List.from(widget.players);
 
-  if (widget.option == 1) {
+  if (widget.option == RandomGroupAction.customGroup) {
     // Option 1: Fixed number of groups with specified size
     while (playersToDistribute.isNotEmpty) {
       List<Player> group = [];
@@ -88,7 +88,7 @@ class _RandomGroupsFromGroupState extends State<RandomGroupsFromGroup> {
         newSubGroups.add(group);
       }
     }
-  } else if (widget.option == 2) {
+  } else if (widget.option == RandomGroupAction.fixedGroup) {
     // Option 2: As many groups as possible with 2 players each
     while (playersToDistribute.length >= 2) {
       List<Player> pair = [];
@@ -117,7 +117,7 @@ class _RandomGroupsFromGroupState extends State<RandomGroupsFromGroup> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                widget.option == 1 ? 'Gruppe ${groupIndex + 1}' : 'Paarung ${groupIndex + 1}',
+                widget.option == RandomGroupAction.customGroup ? 'Gruppe ${groupIndex + 1}' : 'Paarung ${groupIndex + 1}',
                 style: Theme.of(context).textTheme.headline6,
               ),
               Divider(),
@@ -131,4 +131,9 @@ class _RandomGroupsFromGroupState extends State<RandomGroupsFromGroup> {
       );
     }).toList();
   }
+}
+
+enum RandomGroupAction{
+  customGroup,
+  fixedGroup
 }
