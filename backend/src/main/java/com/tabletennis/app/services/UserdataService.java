@@ -10,6 +10,7 @@ import com.tabletennis.app.repository.GroupRepository;
 import com.tabletennis.app.models.Player;
 import com.tabletennis.app.payload.request.AddEloRatingRequest;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,8 +86,22 @@ public class UserdataService {
     }
 
     public void deletePlayer(Long playerId) {
-        playerRepository.deleteById(playerId);
+        Optional<Player> playerOptional = playerRepository.findById(playerId);
+
+        if (playerOptional.isPresent()) {
+            Player player = playerOptional.get();
+
+            player.getEloRatings().forEach(eloRating -> eloRatingRepository.delete(eloRating));
+            player.getEloRatings().clear();
+            player.getUniqueGames().forEach(uniqueGame -> uniqueGame.getPlayers().remove(player));
+
+            playerRepository.delete(player);
+        } else {
+            throw new EntityNotFoundException("Player not found with ID: " + playerId);
+        }
     }
+
+
 
     public Player addEloRatingToPlayer(Long playerId, AddEloRatingRequest addEloRatingRequest) {
         Player player = playerRepository.findById(playerId)

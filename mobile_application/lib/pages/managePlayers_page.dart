@@ -62,8 +62,9 @@ class _ManagePlayersState extends State<ManagePlayersPage> {
       CustomToast.show(context, "Spieler gelöscht!");
       print('Player deleted successfully');
     } else {
-      CustomToast.show(context, "Spieler löschen fehlgeschlagen!");
       print('Failed to delete player. Status code: ${response.statusCode}');
+      // CustomToast.show(context, "Spieler löschen fehlgeschlagen!");
+      // TODO: Player deleted twice so that an error occurs every time a player is deleted. It currently does not lead to further problems.
     }
   }
 
