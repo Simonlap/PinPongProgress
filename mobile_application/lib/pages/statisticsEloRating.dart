@@ -90,10 +90,11 @@ class _StatisticsEloRatingPageState extends State<StatisticsEloRatingPage> {
       domainAxis: charts.DateTimeAxisSpec(
         tickProviderSpec: charts.AutoDateTimeTickProviderSpec(), 
       ),
-      primaryMeasureAxis: charts.NumericAxisSpec(
+        primaryMeasureAxis: charts.NumericAxisSpec(
         viewport: charts.NumericExtents(yAxisStart, yAxisEnd),
-        tickProviderSpec: charts.StaticNumericTickProviderSpec(
-          List.generate((range / tickInterval).ceil(), (index) => charts.TickSpec(index * tickInterval + yAxisStart, label: '${index * tickInterval + yAxisStart}'))
+        tickProviderSpec: charts.BasicNumericTickProviderSpec(
+          desiredTickCount: (range / tickInterval).ceil(),
+          dataIsInWholeNumbers: true,
         ),
       ),
     );
