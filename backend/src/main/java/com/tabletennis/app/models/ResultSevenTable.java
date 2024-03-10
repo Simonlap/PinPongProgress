@@ -17,8 +17,6 @@ public class ResultSevenTable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotNull
-    private Long userId;
-    @NotNull
     private Long playerId;
     @NotNull
     private int pointsPlayer;
@@ -33,14 +31,6 @@ public class ResultSevenTable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
     }
 
     public Long getPlayerId() {

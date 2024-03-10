@@ -12,8 +12,6 @@ public class Result {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotNull
-    private Long userId;
-    @NotNull
     private Long player1Id;
     @NotNull
     private Long player2Id;
@@ -32,14 +30,6 @@ public class Result {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
     }
 
     public Long getPlayer1Id() {

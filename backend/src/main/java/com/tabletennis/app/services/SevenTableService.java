@@ -26,21 +26,20 @@ public class SevenTableService {
     ResultSevenTableRepository resultRepository;
 
     public List<ResultSevenTableDTO> getResultsForUniqueGame(Long userId, Long uniqueGameId) {
-        Set<ResultSevenTable> results = resultRepository.findByUserIdAndUniqueGameId(userId, uniqueGameId);
+        Set<ResultSevenTable> results = resultRepository.findByUniqueGameId(uniqueGameId);
         return results.stream()
                 .map(result -> modelMapper.map(result, ResultSevenTableDTO.class))
                 .collect(java.util.stream.Collectors.toList());
     }
 
-    public ResultSevenTableDTO createResultEntry(@Valid ResultSevenTableDTO resultSevenTableDTO, Long userId) {
+    public ResultSevenTableDTO createResultEntry(@Valid ResultSevenTableDTO resultSevenTableDTO) {
         ResultSevenTable result = modelMapper.map(resultSevenTableDTO, ResultSevenTable.class);
-        result.setUserId(userId);
         ResultSevenTable savedResult = resultRepository.save(result);
         return modelMapper.map(savedResult, ResultSevenTableDTO.class);
     }
 
-    public ResultSevenTableDTO increaseResult(Long uniqueGamesId, Long playerId, Long userId) {
-        ResultSevenTable result = resultRepository.findByUniqueGameIdAndPlayerIdAndUserId(uniqueGamesId, playerId, userId);
+    public ResultSevenTableDTO increaseResult(Long uniqueGamesId, Long playerId) {
+        ResultSevenTable result = resultRepository.findByUniqueGameIdAndPlayerId(uniqueGamesId, playerId);
         if (result != null) {
             result.setPointsPlayer(result.getPointsPlayer() + 1);
             result.setEditTime(LocalDateTime.now());
@@ -50,8 +49,8 @@ public class SevenTableService {
         return null;
     }
 
-    public ResultSevenTableDTO decreaseResult(Long uniqueGamesId, Long playerId, Long userId) {
-        ResultSevenTable result = resultRepository.findByUniqueGameIdAndPlayerIdAndUserId(uniqueGamesId, playerId, userId);
+    public ResultSevenTableDTO decreaseResult(Long uniqueGamesId, Long playerId) {
+        ResultSevenTable result = resultRepository.findByUniqueGameIdAndPlayerId(uniqueGamesId, playerId);
         if (result != null) {
             int newPoints = Math.max(0, result.getPointsPlayer() - 1);
             result.setPointsPlayer(newPoints);
