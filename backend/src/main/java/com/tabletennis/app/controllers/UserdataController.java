@@ -78,7 +78,7 @@ public class UserdataController {
 
         userdataService.deletePlayer(playerId);
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @PostMapping("/player/{playerId}/eloRatings")
@@ -119,7 +119,7 @@ public class UserdataController {
 
         userdataService.deleteGroup(groupId);
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @PutMapping("/group/{groupId}/update")

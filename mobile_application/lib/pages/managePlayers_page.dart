@@ -54,10 +54,14 @@ class _ManagePlayersState extends State<ManagePlayersPage> {
       headers: {'Content-Type': 'application/json', 'Cookie': jwtToken!},
     );
 
-    if (response.statusCode == 200) {
-      setState(() {
-        player.removeAt(index);
-      });
+    if (response.statusCode == 204) {
+      try{
+        setState(() {
+          player.removeAt(index);
+        });
+      } catch(exception) {
+        print('Failed to delete player: setState failed.');
+      }
 
       CustomToast.show(context, "Spieler gelöscht!");
       print('Player deleted successfully');

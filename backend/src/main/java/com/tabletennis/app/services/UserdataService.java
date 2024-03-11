@@ -101,8 +101,6 @@ public class UserdataService {
         }
     }
 
-
-
     public Player addEloRatingToPlayer(Long playerId, AddEloRatingRequest addEloRatingRequest) {
         Player player = playerRepository.findById(playerId)
                             .orElseThrow(() -> new RuntimeException("Player not found with id: " + playerId));

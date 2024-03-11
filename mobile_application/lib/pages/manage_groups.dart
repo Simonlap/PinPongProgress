@@ -36,7 +36,7 @@ class _ManageGroupsState extends State<ManageGroupsPage> {
       }
     );
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == 204) {
       groups.removeAt(index);
       setState(() {
       });
