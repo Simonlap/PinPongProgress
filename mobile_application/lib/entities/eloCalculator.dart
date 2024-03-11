@@ -12,7 +12,6 @@ class EloCalculator {
   static Future<List<Player>> calculateElos(List<Match> matches, List<Player> players) async {
     Map<int, Player> playerMap = {};
 
-    // Initialize player map with existing players
     for (Player player in players) {
       playerMap[player.id] = player;
     }
@@ -27,53 +26,54 @@ class EloCalculator {
         continue;
       }
 
-      int rating1 = player1.currentElo;
-      int rating2 = player2.currentElo;
-      double expectedScore1 = _expectedScore(rating1, rating2);
-      double expectedScore2 = _expectedScore(rating2, rating1);
+      double pA = 1 / (1 + pow(10, (player2.currentElo - player1.currentElo) / 150));
+      double pB = 1 - pA; 
 
-      double result1 = match.pointsPlayer1 > match.pointsPlayer2 ? 1 : 0;
+      double scoreMargin = (match.pointsPlayer1 - match.pointsPlayer2).abs() / 100.0; 
+      scoreMargin = max(1, scoreMargin); 
+
+      // 1 if player 1 won, or has more elo and played draw
+      double result1 = (match.pointsPlayer1 > match.pointsPlayer2) || 
+          (match.pointsPlayer1 == match.pointsPlayer2 && match.player1.currentElo > match.player2.currentElo) ? 1 : 0;
       double result2 = 1 - result1;
 
-      int newRating1 = (rating1 + k * (result1 - expectedScore1)).round();
-      int newRating2 = (rating2 + k * (result2 - expectedScore2)).round();
+      int newRating1 = (player1.currentElo + k * scoreMargin * (result1 - pA)).round();
+      int newRating2 = (player2.currentElo + k * scoreMargin * (result2 - pB)).round();
 
-      playerMap[player1.id]!.eloRatings.add(EloRating(elo: newRating1, date: DateTime.now()));
-      playerMap[player2.id]!.eloRatings.add(EloRating(elo: newRating2, date: DateTime.now()));
-
-      await _updatePlayerElo(player1.id, newRating1);
-      await _updatePlayerElo(player2.id, newRating2);
+      await _updatePlayerElo(player1, newRating1);
+      await _updatePlayerElo(player2, newRating2);
     }
 
     return playerMap.values.toList();
   }
 
   static Future<List<Player>> calculateElosForSevenTable(List<Player> players, Map<int, int> playerPoints) async {
-
     double averageElo = players.fold(0, (prev, player) => prev + player.currentElo) / players.length;
     int totalPoints = playerPoints.values.fold(0, (prev, points) => prev + points);
+    double averagePoints = totalPoints / players.length;
     Map<int, int> eloChanges = {}; // playerId, eloChange
 
-    // Calculate ELO changes
     playerPoints.forEach((playerId, points) {
       Player player = players.firstWhere((p) => p.id == playerId);
       double playerElo = player.currentElo.toDouble();
 
-      double performanceRatio = totalPoints > 0 ? points / totalPoints : 0;
-      double expectedScore = 1 / (1 + pow(10, (averageElo - playerElo) / 400));
-      int eloChange = (k * 3 * (performanceRatio - expectedScore)).round();
+      double winProbability = 1 / (1 + pow(10, (averageElo - playerElo) / 150));
+      double performanceRatio = points > averagePoints ? 1 : 0;
+      double scoreMargin = max(1, (points - averagePoints).abs() / 100.0);
+      int eloChange = (k * scoreMargin * (performanceRatio - winProbability)).round();
 
       eloChanges[playerId] = eloChange;
     });
 
-    // the sum of elo changes is zero
     int totalEloChange = eloChanges.values.fold(0, (prev, change) => prev + change);
     if (totalEloChange != 0) {
-      int adjustment = (totalEloChange / eloChanges.length).round();
-      eloChanges = eloChanges.map((playerId, change) => MapEntry(playerId, change - adjustment));
+      double adjustmentPerPlayer = totalEloChange / eloChanges.length;
+      eloChanges = eloChanges.map((playerId, change) {
+        int adjustedChange = (change - adjustmentPerPlayer).round();
+        return MapEntry(playerId, adjustedChange);
+      }).cast<int, int>(); 
     }
 
-    // Apply elo changes
     for (var entry in eloChanges.entries) {
       int playerId = entry.key;
       int eloChange = entry.value;
@@ -81,15 +81,16 @@ class EloCalculator {
       Player currentPlayer = players.firstWhere((p) => p.id == playerId);
       int newElo = currentPlayer.currentElo + eloChange;
 
-      currentPlayer.eloRatings.add(EloRating(elo: newElo, date: DateTime.now()));
-      await _updatePlayerElo(currentPlayer.id, newElo);
+      await _updatePlayerElo(currentPlayer, newElo);
     }
+
     return players;
   }
 
-  static Future<void> _updatePlayerElo(int playerId, int newElo) async {
-    String currentDateAndTime = DateTime.now().toIso8601String();
-    final url = Uri.parse(apiUrl + '/api/userdata/player/$playerId/eloRatings');
+  static Future<void> _updatePlayerElo(Player player, int newElo) async {
+    DateTime currentDateAndTime = DateTime.now();
+    String formattedDate = currentDateAndTime.toIso8601String();
+    final url = Uri.parse(apiUrl + '/api/userdata/player/${player.id}/eloRatings');
     final response = await http.post(
       url,
       headers: {
@@ -98,16 +99,14 @@ class EloCalculator {
       },
       body: jsonEncode({
         "elo": newElo,
-        "date": currentDateAndTime,
+        "date": formattedDate,
       }),
     );
 
-    if (response.statusCode != 200) {
-      print('Failed to update Elo rating for player $playerId');
+    if (response.statusCode == 201) { 
+      player.eloRatings.add(EloRating(elo: newElo, date: currentDateAndTime));
+    } else {
+      print('Failed to update Elo rating for player ${player.id}');
     }
-  }
-
-  static double _expectedScore(int rating1, int rating2) {
-    return 1 / (1 + pow(10, ((rating2 - rating1) / 400)));
   }
 }
