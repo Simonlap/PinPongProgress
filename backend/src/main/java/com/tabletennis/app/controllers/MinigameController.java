@@ -32,7 +32,7 @@ public class MinigameController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
-        List<ResultDTO> results = minigameService.getResultsForUniqueGameAndRoundId(userDetails.getId(), uniqueGameId, roundId);
+        List<ResultDTO> results = minigameService.getResultsForUniqueGameAndRoundId(uniqueGameId, roundId);
 
         return new ResponseEntity<>(results, HttpStatus.OK);
     }
@@ -43,7 +43,7 @@ public class MinigameController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
-        ResultDTO createdResult = minigameService.createResultEntry(resultDTO, userDetails.getId());
+        ResultDTO createdResult = minigameService.createResultEntry(resultDTO);
 
         return new ResponseEntity<>(createdResult, HttpStatus.CREATED);
     }
@@ -54,7 +54,7 @@ public class MinigameController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
-        ResultDTO createdResult = minigameService.editResultEntry(editResultEntryRequest, userDetails.getId());
+        ResultDTO createdResult = minigameService.editResultEntry(editResultEntryRequest);
 
         return new ResponseEntity<>(createdResult, HttpStatus.OK);
     }

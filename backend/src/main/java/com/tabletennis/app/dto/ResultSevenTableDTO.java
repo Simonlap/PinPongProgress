@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 public class ResultSevenTableDTO {
     
     private Long id;
-    private Long userId;
     private Long playerId;
     private int pointsPlayer;
     private int uniqueGameId;
@@ -24,14 +23,6 @@ public class ResultSevenTableDTO {
 
     public Long getId() {
         return id;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
     }
 
     public Long getPlayerId() {

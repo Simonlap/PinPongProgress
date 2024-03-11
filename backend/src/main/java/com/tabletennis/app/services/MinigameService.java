@@ -25,21 +25,13 @@ public class MinigameService {
     @Autowired
     ResultRepository resultRepository;
 
-    public ResultDTO createResultEntry(ResultDTO resultDTO, Long userId) {
+    public ResultDTO createResultEntry(ResultDTO resultDTO) {
         Result result = modelMapper.map(resultDTO, Result.class);
-        result.setUserId(userId);
         Result savedResult = resultRepository.save(result);
         return modelMapper.map(savedResult, ResultDTO.class);
     }
 
-    public List<ResultDTO> getResultsForUserIdAndRoundId(Long userId, Long roundId) {
-        Set<Result> results = resultRepository.findByUserIdAndRoundId(userId, roundId);
-        return results.stream()
-                .map(result -> modelMapper.map(result, ResultDTO.class))
-                .collect(java.util.stream.Collectors.toList());
-    }
-
-    public ResultDTO editResultEntry(@Valid EditResultEntryRequest editResultEntryRequest, Long id) {
+    public ResultDTO editResultEntry(@Valid EditResultEntryRequest editResultEntryRequest) {
         Result result = resultRepository.findById(editResultEntryRequest.getId()).get();
         result.setPointsPlayer1(editResultEntryRequest.getPointsPlayer1());
         result.setPointsPlayer2(editResultEntryRequest.getPointsPlayer2());
@@ -47,8 +39,8 @@ public class MinigameService {
         return modelMapper.map(savedResult, ResultDTO.class);
     }
 
-    public List<ResultDTO> getResultsForUniqueGameAndRoundId(Long userId, Long uniqueGameId, Long roundId) {
-        Set<Result> results = resultRepository.findByUserIdAndUniqueGameIdAndRoundId(userId, uniqueGameId, roundId);
+    public List<ResultDTO> getResultsForUniqueGameAndRoundId(Long uniqueGameId, Long roundId) {
+        Set<Result> results = resultRepository.findByUniqueGameIdAndRoundId(uniqueGameId, roundId);
         return results.stream()
                 .map(result -> modelMapper.map(result, ResultDTO.class))
                 .collect(java.util.stream.Collectors.toList());

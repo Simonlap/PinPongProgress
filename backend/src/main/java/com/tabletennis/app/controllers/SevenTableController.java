@@ -48,7 +48,7 @@ public class SevenTableController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
-        ResultSevenTableDTO createdResult = sevenTableService.createResultEntry(resultSevenTableDTO, userDetails.getId());
+        ResultSevenTableDTO createdResult = sevenTableService.createResultEntry(resultSevenTableDTO);
 
         return new ResponseEntity<>(createdResult, HttpStatus.CREATED);
     }
@@ -59,7 +59,7 @@ public class SevenTableController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
-        ResultSevenTableDTO createdResult = sevenTableService.increaseResult(uniqueGamesId, playerId, userDetails.getId());
+        ResultSevenTableDTO createdResult = sevenTableService.increaseResult(uniqueGamesId, playerId);
 
         return new ResponseEntity<>(createdResult, HttpStatus.OK);
     }
@@ -70,7 +70,7 @@ public class SevenTableController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
-        ResultSevenTableDTO createdResult = sevenTableService.decreaseResult(uniqueGamesId, playerId, userDetails.getId());
+        ResultSevenTableDTO createdResult = sevenTableService.decreaseResult(uniqueGamesId, playerId);
 
         return new ResponseEntity<>(createdResult, HttpStatus.OK);
     }

@@ -1,6 +1,5 @@
 class Result {
   int _id;
-  int _userId;
   int _player1Id;
   int _player2Id;
   int _pointsPlayer1;
@@ -10,7 +9,6 @@ class Result {
 
   Result(
     this._id,
-    this._userId,
     this._player1Id,
     this._player2Id,
     this._pointsPlayer1,
@@ -22,7 +20,6 @@ class Result {
   factory Result.fromJson(Map<String, dynamic> json) {
     return Result(
       json['id'] ?? 0,
-      json['userId'] ?? 0,
       json['player1Id'] ?? 0,
       json['player2Id'] ?? 0,
       json['pointsPlayer1'] ?? 0,
@@ -34,9 +31,6 @@ class Result {
 
   int get id => _id;
   set id(int value) => _id = value;
-
-  int get userId => _userId;
-  set userId(int value) => _userId = value;
 
   int get player1Id => _player1Id;
   set player1Id(int value) => _player1Id = value;
