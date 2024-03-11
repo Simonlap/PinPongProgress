@@ -4,6 +4,7 @@ enum Minigame {
   siebenerTisch,
   achtZuAcht,
   tikTakToe,
+  menschAergereDichNicht,
 }
 
 extension MiniGameExtension on Minigame {
@@ -19,6 +20,8 @@ extension MiniGameExtension on Minigame {
         return 'Acht zu Acht';
       case Minigame.tikTakToe:
         return 'Tik Tak Toe';
+      case Minigame.menschAergereDichNicht:
+        return 'Mensch Ärgere Dich Nicht!';
       default:
         return 'Unknown Game';
     }
@@ -79,6 +82,21 @@ extension MiniGameExtension on Minigame {
             "Gespielt wird nun mit normalen TikTokToe regeln, 3 in einer Reihe gewinnt! "
             "\n\nTipp: Teams gerne durchwechseln, denn die Runden gehen schnell vorbei!"
             "Viel Spaß!"
+        ;
+      case Minigame.menschAergereDichNicht:
+        return "Hierzu wird ein klassisches Mensch-Ärgere-Dich-Nicht-Spiel benötigt. "
+            "Alle Tischtennisteilnehmer werden nun in vier verschiedene Teams aufgeteilt. "
+            "Zusätzlich gibt es sechs verschiedene Übungen, die nummeriert werden. "
+            "Würfelt ein Team nun eine Augenzahl, so muss dieses Team vorher die Übung mit der Nummer erledigen. \n\n"
+            "Übungen könnten beispielsweise sein: \n"
+            "Auf einer Bank mit dem Ball und Schläger balancieren. \n"
+            "Balleimer: Jedes Teammitglied muss 10 Topspin Bälle spielen. \n"
+            "Bierpong Becher als Pyramide aufbauen, und diese müssen mit dem TT-Ball abgeworfen werden. \n"
+            "Angabenübung: Seil auf dem Tisch plazieren, und die Teams müssen hinter dieses Seil 5 Aufschläge machen. \n"
+            "3 Runden durch die Halle laufen. \n"
+            "... \n\n"
+            "Tipp: nur eine Spielfigur, und dass Rauswerfen verbieten lassen. Außerdem muss keine sechs am Anfang geworfen werden. \n"
+            "\nViel Spaß und ... ärgert euch nicht! :-)"
         ;
       default:
         return "Das hier ist ein super tolles Minigame. Mach dich bereit!";

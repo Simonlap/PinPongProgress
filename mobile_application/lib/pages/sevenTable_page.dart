@@ -24,7 +24,7 @@ class SevenTablePage extends StatefulWidget {
 
 class _SevenTablePageState extends State<SevenTablePage> {
   Map<int, ValueNotifier<int>> playerPoints = {};
-  Map<int, DateTime> lastEdited = {};
+  Map<int, ValueNotifier<DateTime>> lastEdited = {};
 
   Future<void> _fetchInitialPoints() async {
     final url = Uri.parse('${apiUrl}/api/sevenTable/results/${currentUniqueGame!.id}');
@@ -43,7 +43,7 @@ class _SevenTablePageState extends State<SevenTablePage> {
       } else {
         for (var result in resultData) {
           playerPoints[result['playerId']] = ValueNotifier<int>(result['pointsPlayer']);
-          lastEdited[result['playerId']] = DateTime.parse(result['editTime']);
+          lastEdited[result['playerId']] = ValueNotifier<DateTime>(DateTime.parse(result['editTime']));
         }
       }
     } else {
@@ -85,7 +85,7 @@ class _SevenTablePageState extends State<SevenTablePage> {
     if (response.statusCode == 200) {
       final resultData = jsonDecode(response.body);
       playerPoints[playerId]?.value = resultData['pointsPlayer']; 
-      lastEdited[playerId] = DateTime.parse(resultData['editTime']);
+      lastEdited[playerId]?.value = DateTime.parse(resultData['editTime']);
     } else {
       CustomToast.show(context, "Punkte updaten fehlgeschlagen!");
       print('Error updating points: ${response.body}');
@@ -164,7 +164,12 @@ class _SevenTablePageState extends State<SevenTablePage> {
                     final player = widget.players[index];
                     return ListTile(
                       title: Text(player.name),
-                      subtitle: Text('Zuletzt geändert: ${DateFormat('hh:mm:ss').format(lastEdited[player.id]!)} Uhr'),
+                      subtitle: ValueListenableBuilder<DateTime>(
+                        valueListenable: lastEdited[player.id]!,
+                        builder: (_, lastEditTime, __) {
+                          return Text('Zuletzt geändert: ${DateFormat('hh:mm:ss').format(lastEditTime)} Uhr');
+                        },
+                      ),
                       trailing: playerPoints[player.id] != null
                           ? Row(
                               mainAxisSize: MainAxisSize.min,
@@ -197,7 +202,6 @@ class _SevenTablePageState extends State<SevenTablePage> {
             child: CustomElevatedButton(
               onPressed: _exitUniqueGame,
               text: 'Spiel beenden',
-              
             ),
           ),
         ],
