@@ -27,7 +27,7 @@ class MatchListPage extends StatelessWidget {
               );
               onResultConfirmed();
             },
-            subtitle: 'Result: ${match.pointsPlayer1} - ${match.pointsPlayer2}',
+            subtitle: 'Ergebnis: ${match.pointsPlayer1} - ${match.pointsPlayer2}',
           ),
         );
       },

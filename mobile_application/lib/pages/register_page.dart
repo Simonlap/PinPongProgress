@@ -138,9 +138,9 @@ class _RegisterState extends State<RegisterPage> {
             TextFormField(
               controller: usernameController,
               decoration: InputDecoration(
-                labelText: 'Username',
+                labelText: 'Nutzername',
                 errorText: fieldErrors['username'] == true
-                    ? 'Username must be between 3 and 20 characters'
+                    ? 'Nutzername muss zwischen 3 und 20 Zeichen haben.'
                     : null,
               ),
             ),
@@ -149,7 +149,7 @@ class _RegisterState extends State<RegisterPage> {
               decoration: InputDecoration(
                 labelText: 'E-Mail',
                 errorText: fieldErrors['email'] == true
-                    ? 'Invalid email format (max 50 characters)'
+                    ? 'Bitte korrektes E-Mail Format eingeben und maximal 50 Zeichen.'
                     : null,
               ),
             ),
@@ -160,7 +160,7 @@ class _RegisterState extends State<RegisterPage> {
               decoration: InputDecoration(
                 labelText: 'Password',
                 errorText: fieldErrors['password'] == true
-                    ? 'Password must be between 8 and 40 characters'
+                    ? 'Passwort muss zwischen 8 und 40 Zeichen haben.'
                     : null,
               ),
             ),
@@ -171,7 +171,7 @@ class _RegisterState extends State<RegisterPage> {
               decoration: InputDecoration(
                 labelText: 'Repeat Password',
                 errorText: fieldErrors['repeatPassword'] == true
-                    ? 'Passwords do not match'
+                    ? 'Passworter sind leider nicht gleich.'
                     : null,
               ),
             ),
