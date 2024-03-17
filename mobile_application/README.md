@@ -1,6 +1,7 @@
 ## Getting Started
 - Install Android / IOS Simulator
 - Install Android Studio
+- Start the simulator
 - Run the main.dart file in VS-Code or Android Studio
 
 A few resources to get you started if this is your first Flutter project:
