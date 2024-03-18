@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:mobile_application/globalVariables.dart';
 
 class EloCalculator {
-  static const int k = 32; 
+  static const int k = 20; 
 
   static Future<List<Player>> calculateElos(List<Match> matches, List<Player> players) async {
     Map<int, Player> playerMap = {};
@@ -29,13 +29,13 @@ class EloCalculator {
       double pA = 1 / (1 + pow(10, (player2.currentElo - player1.currentElo) / 150));
       double pB = 1 - pA; 
 
-      double scoreMargin = (match.pointsPlayer1 - match.pointsPlayer2).abs() / 100.0; 
-      scoreMargin = max(1, scoreMargin); 
+      double scoreMargin = (match.pointsPlayer1 - match.pointsPlayer2).abs() / 5.0; 
+      scoreMargin = max(0.7, scoreMargin); 
 
       // 1 if player 1 won, or has more elo and played draw
       double result1 = (match.pointsPlayer1 > match.pointsPlayer2) || 
           (match.pointsPlayer1 == match.pointsPlayer2 && match.player1.currentElo > match.player2.currentElo) ? 1 : 0;
-      double result2 = 1 - result1;
+      double result2 = (match.pointsPlayer1 == match.pointsPlayer2 && match.player2.currentElo > match.player1.currentElo) ? 1 : 1 - result1;
 
       int newRating1 = (player1.currentElo + k * scoreMargin * (result1 - pA)).round();
       int newRating2 = (player2.currentElo + k * scoreMargin * (result2 - pB)).round();
@@ -58,21 +58,12 @@ class EloCalculator {
       double playerElo = player.currentElo.toDouble();
 
       double winProbability = 1 / (1 + pow(10, (averageElo - playerElo) / 150));
-      double performanceRatio = points > averagePoints ? 1 : 0;
-      double scoreMargin = max(1, (points - averagePoints).abs() / 100.0);
-      int eloChange = (k * scoreMargin * (performanceRatio - winProbability)).round();
+      double result = points > averagePoints ? 1 : 0;
+      double scoreMargin = max(0.7, (points - averagePoints).abs() / 5.0);
+      int eloChange = (k * scoreMargin * (result - winProbability)).round();
 
       eloChanges[playerId] = eloChange;
     });
-
-    int totalEloChange = eloChanges.values.fold(0, (prev, change) => prev + change);
-    if (totalEloChange != 0) {
-      double adjustmentPerPlayer = totalEloChange / eloChanges.length;
-      eloChanges = eloChanges.map((playerId, change) {
-        int adjustedChange = (change - adjustmentPerPlayer).round();
-        return MapEntry(playerId, adjustedChange);
-      }).cast<int, int>(); 
-    }
 
     for (var entry in eloChanges.entries) {
       int playerId = entry.key;
