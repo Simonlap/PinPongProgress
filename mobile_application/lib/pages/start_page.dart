@@ -77,12 +77,12 @@ class _StartPageState extends State<StartPage> with SingleTickerProviderStateMix
                 ),
               ),
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 70.0, vertical: 20.0),
+                padding: EdgeInsets.symmetric(horizontal: 50.0, vertical: 20.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     CustomElevatedButton(
-                      text: 'Register',
+                      text: 'Registrieren',
                       onPressed: () {
                         Navigator.pushNamed(context, '/registerpage');
                       },

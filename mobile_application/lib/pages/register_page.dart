@@ -158,7 +158,7 @@ class _RegisterState extends State<RegisterPage> {
               controller: passwordController,
               obscureText: true,
               decoration: InputDecoration(
-                labelText: 'Password',
+                labelText: 'Passwort',
                 errorText: fieldErrors['password'] == true
                     ? 'Passwort muss zwischen 8 und 40 Zeichen haben.'
                     : null,
@@ -169,7 +169,7 @@ class _RegisterState extends State<RegisterPage> {
               controller: repeatPasswordController,
               obscureText: true,
               decoration: InputDecoration(
-                labelText: 'Repeat Password',
+                labelText: 'Passwort wiederholen',
                 errorText: fieldErrors['repeatPassword'] == true
                     ? 'Passworter sind leider nicht gleich.'
                     : null,

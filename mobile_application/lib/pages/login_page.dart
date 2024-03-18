@@ -116,9 +116,9 @@ class _LoginPageState extends State<LoginPage> {
             TextFormField(
               controller: emailController,
               decoration: InputDecoration(
-                labelText: 'Username',
+                labelText: 'Nutzername',
                 errorText: fieldErrors['username'] == true
-                    ? 'Username must be between 3 and 20 characters'
+                    ? 'Nutzername muss zwischen 3 und 20 Zeichen sein.'
                     : null,
               ),
             ),
@@ -129,7 +129,7 @@ class _LoginPageState extends State<LoginPage> {
               decoration: InputDecoration(
                 labelText: 'Passwort',
                 errorText: fieldErrors['password'] == true
-                    ? 'Password must be between 8 and 40 characters'
+                    ? 'Passwort muss zwischen 8 und 40 Zeichen haben.'
                     : null,
               ),
             ),
